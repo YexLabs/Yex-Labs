@@ -3,8 +3,10 @@ import {
   SITE_DESCRIPTION,
   SITE_NAME,
   SITE_URL,
-  SOCIAL_TWITTER
+  SOCIAL_TWITTER,
+  OG_IAMGE
 } from "@/config/constant"
+
 import { DefaultSeo } from "next-seo"
 
 export default function Seo() {
@@ -27,7 +29,7 @@ export default function Seo() {
         url: origin,
         images: [
           {
-            url: `${origin}/og.png`,
+            url: OG_IAMGE,
             alt: `${SITE_NAME} Open Graph Image`
           }
         ]
