@@ -2,25 +2,11 @@ import { useEffect, useState } from "react"
 import "@rainbow-me/rainbowkit/styles.css"
 import { configureChains, createConfig, WagmiConfig } from "wagmi"
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit"
-import {
-  arbitrum,
-  goerli,
-  mainnet,
-  optimism,
-  polygon,
-  zora
-} from "wagmi/chains"
 import { publicProvider } from "wagmi/providers/public"
+import { ETH_CHAINS } from "@/config/constant"
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [
-    mainnet,
-    polygon,
-    optimism,
-    arbitrum,
-    zora,
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true" ? [goerli] : [])
-  ],
+  ETH_CHAINS,
   [publicProvider()]
 )
 
