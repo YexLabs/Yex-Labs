@@ -1,6 +1,7 @@
 import React from "react"
 import { default as NextHead } from "next/head"
 import { SITE_DESCRIPTION, SITE_NAME } from "@/config/constant"
+import logo from "@/assets/images/yexlab.png"
 
 export default function Head(props) {
   return (
@@ -11,6 +12,7 @@ export default function Head(props) {
         content={props.description ?? SITE_DESCRIPTION}
       />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="icon" href={logo.src} />
     </NextHead>
   )
 }
