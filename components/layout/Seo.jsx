@@ -32,11 +32,11 @@ export default function Seo() {
           }
         ]
       }}
-      //   twitter={{
-      //     handle: `@${SOCIAL_TWITTER}`,
-      //     site: `@${SOCIAL_TWITTER}`,
-      //     cardType: "summary_large_image"
-      //   }}
+      twitter={{
+        handle: `@${SOCIAL_TWITTER}`,
+        site: `@${SOCIAL_TWITTER}`,
+        cardType: "summary_large_image"
+      }}
     />
   )
 }
