@@ -182,18 +182,13 @@ const WithdrawCard_Content = ({ poolSelected }) => {
           <div className="flex justify-between">
             <div className="text-2xl">
               <input
-                type="number"
+                type="text"
                 step="0.0000001"
                 placeholder="0.0"
                 className="bg-transparent border-none text-3xl outline-none   w-full "
                 ref={inputAmountLPRef}
                 onChange={handleInputChange}
                 pattern="[0-9]*"
-                onKeyPress={(event) => {
-                  if (!/[0-9.]/.test(event.key)) {
-                    event.preventDefault()
-                  }
-                }}
               />
             </div>
             <div>
@@ -263,20 +258,13 @@ const WithdrawCard_Content = ({ poolSelected }) => {
       </div>
       <div className=" bg-white  bg-opacity-50 rounded-xl p-4 relative mt-4">
         <div className="flex-col">
-          <div className="flex flex-row justify-between">
-            {/* <button className=" text-center w-full py-2 border border-indigo-500 rounded-xl ripple-btn text-indigo-400">
-                            Single
-                        </button> */}
-            {/* <button className=" text-center w-full py-2 border border-indigo-500 rounded-xl ripple-btn text-indigo-400">
-                            Balanced
-                        </button> */}
-          </div>
+          <div className="flex flex-row justify-between"></div>
           <div className="flex flex-col">
             <p className="text-sm font-normal mt-4">Expected to receive</p>
             <div className="flex flex-row justify-between mt-4">
               <div className="flex flex-row">
                 <div className="w-10 h-10 p-2">
-                  <Image src={eth_icon} />
+                  <Image src={eth_icon} alt="ETH" />
                 </div>
                 <p className="p-2">TokenA</p>
               </div>
@@ -287,7 +275,7 @@ const WithdrawCard_Content = ({ poolSelected }) => {
             <div className="flex flex-row justify-between">
               <div className="flex flex-row">
                 <div className="w-10 h-10 p-2">
-                  <Image src={eth_icon} />
+                  <Image src={eth_icon} alt="ETH" />
                 </div>
                 <p className="p-2">TokenB</p>
               </div>

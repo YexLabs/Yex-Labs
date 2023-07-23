@@ -7,8 +7,8 @@ export const vault_address = "0xe7C6a9D88f68b96a9697129Ed3E5BD8F7274fAD8";
 export const pools_address = "0x191Da4faDc59BfAc88406e2b4CE9B87890D93FB4";
 export const panel_adress = "0xe95A7847fe13BB6b69cc299Ad057A4D6C28aEC46";
 export const purchase_address = "0xb16d3Eaa4dD2eC8684569bB0aC601E713dD7787E";
-export const ILO_ADDRESS = "0x24962CA7aD8ae97F8ec0eE9EF069364B3Fa0b9f2";
 
+// Batch Swap demo
 export const Mumbai_yexExample_address =
   "0x9a9F998257858ec809921116925B4ceCf884665e";
 export const Mumbai_yexExample_pool2_address =
@@ -17,7 +17,10 @@ export const Mumbai_tokenA_address =
   "0xFB6BaA810EF82c25CD36c6A33D3D230d86809a58";
 export const Mumbai_tokenB_address =
   "0x6354bDE6ac074520B95B95c9a36FE0cCF0F1d6fC";
+
+// ILO demo
+export const ILO_ADDRESS = "0xa5885ef4c6F8E14e9d97d7243C3481718E63Fd9E";
 export const MUMBAI_ILO_TOKENA_ADDRESS =
-  "0x3Ad5C1AA793A2b2F4289186E1Dd4B4f9E8Ed8069";
+  "0xA5333596adf9075e0f639a64e7366243E8838808";
 export const MUMBAI_ILO_TOKENB_ADDRESS =
-  "0x939547960536FB4230Ab60bcD773EB19293E4d7A";
+  "0x08142440ACBA29e82E24f80ef6267df6CA59e631";

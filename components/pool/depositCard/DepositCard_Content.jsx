@@ -257,17 +257,12 @@ const DepositCard_Content = ({ poolSelected }) => {
           <div className="flex justify-between">
             <div className="text-2xl w-[calc(100%-130px)]">
               <input
-                type="number"
+                type="text"
                 step="0.0000001"
                 placeholder="0.0"
                 className="bg-transparent border-none text-3xl outline-none w-full "
                 ref={inputAmountRef}
                 pattern="[0-9]*"
-                onKeyPress={(event) => {
-                  if (!/[0-9.]/.test(event.key)) {
-                    event.preventDefault()
-                  }
-                }}
               />
             </div>
             {/* coinlist */}
@@ -301,14 +296,7 @@ const DepositCard_Content = ({ poolSelected }) => {
           </div>
           {/* Balance */}
           <div className="flex justify-between mt-3 text-gray-600 text-sm">
-            <div>
-              {/* {"$" +
-                                inputValue.toLocaleString("en-US", {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                    useGrouping: true,
-                                })} */}
-            </div>
+            <div></div>
             <div className="">{`Balance: ${
               tokenABalance
                 ? Number(tokenABalance?.formatted).toFixed(6)
@@ -358,17 +346,12 @@ const DepositCard_Content = ({ poolSelected }) => {
           <div className="flex justify-between">
             <div className="text-2xl w-[calc(100%-130px)]">
               <input
-                type="number"
+                type="text"
                 step="0.0000001"
                 placeholder="0.0"
                 className="bg-transparent border-none text-3xl outline-none w-full "
                 ref={inputBmountRef}
                 pattern="[0-9]*"
-                onKeyPress={(event) => {
-                  if (!/[0-9.]/.test(event.key)) {
-                    event.preventDefault()
-                  }
-                }}
               />
             </div>
             {/* coinlist */}
@@ -402,14 +385,7 @@ const DepositCard_Content = ({ poolSelected }) => {
           </div>
           {/* Balance */}
           <div className="flex justify-between mt-3 text-gray-600 text-sm">
-            <div>
-              {/* {"$" +
-                                inputValue.toLocaleString("en-US", {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                    useGrouping: true,
-                                })} */}
-            </div>
+            <div></div>
             <div className="">{`Balance: ${
               tokenBBalance
                 ? Number(tokenBBalance?.formatted).toFixed(6)

@@ -42,7 +42,11 @@ export default function Header() {
                     }}
                   >
                     <div className="cursor-pointer">
-                      <Image src={logo} className="h-[32px] w-[32px] z-1" />
+                      <Image
+                        src={logo}
+                        alt="logo"
+                        className="h-[32px] w-[32px] z-1"
+                      />
                     </div>
                   </div>
                 </div>

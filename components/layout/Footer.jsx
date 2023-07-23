@@ -21,7 +21,7 @@ export default function Footer() {
     <footer>
       <div className="px-32 mt-16 h-[180px] text-center">
         <div className="grid grid-cols-5 gap-8">
-          <Image src={logo} className="w-14 h-14" />
+          <Image src={logo} className="w-14 h-14" alt="logo" />
           <div className="flex flex-col gap-4">
             <p className=" text-gray-500">Community</p>
 
