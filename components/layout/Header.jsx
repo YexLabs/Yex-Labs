@@ -42,7 +42,11 @@ export default function Header() {
                     }}
                   >
                     <div className="cursor-pointer">
-                      <Image src={logo} className="h-[32px] w-[32px] z-1" />
+                      <Image
+                        src={logo}
+                        alt="logo"
+                        className="h-[32px] w-[32px] z-1"
+                      />
                     </div>
                   </div>
                 </div>
@@ -58,6 +62,45 @@ export default function Header() {
                     <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
                       <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
                         Main
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="relative">
+                  <div
+                    onClick={() => {
+                      handleHackathonClick("/swap")
+                    }}
+                  >
+                    <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
+                      <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
+                        Swap
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="relative">
+                  <div
+                    onClick={() => {
+                      handleHackathonClick("/pool")
+                    }}
+                  >
+                    <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
+                      <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
+                        Pool
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="relative">
+                  <div
+                    onClick={() => {
+                      handleHackathonClick("/ilo")
+                    }}
+                  >
+                    <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
+                      <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
+                        ILO
                       </p>
                     </div>
                   </div>

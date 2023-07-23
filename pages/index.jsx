@@ -1,7 +1,3 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit"
-
-import styles from "../styles/Home.module.css"
-import { Button } from "@/components/ui/button"
 import Head from "@/components/layout/Head"
 import Image from "next/image"
 
@@ -14,10 +10,9 @@ import chainlink_banner from "@/assets/images/intro/chainlink.svg"
 
 const Home = () => {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Head />
-
-      <main className={styles.main}>
+      <main>
         <div className="box-border mx-auto mb-7 min-h-screen md:min-h-auto md:h-auto md:pt-7">
           <div className="mb-[100px] relative">
             <div className="flex flex-col box-border mx-auto w-full max-w-screen-lg pt-40">
@@ -56,7 +51,7 @@ const Home = () => {
 
               <div className="flex flex-col items-center mt-2 mx-2">
                 <div className="px-12">
-                  <Image src={yexbanner} />
+                  <Image src={yexbanner} alt="yexbanner" />
                 </div>
               </div>
 
@@ -71,19 +66,27 @@ const Home = () => {
                     <div className=" grid grid-cols-5 gap-6 grid-flow-row mt-8">
                       <Image
                         src={chainlink_banner}
+                        alt="chainlink_banner"
                         className=" mx-4 w-52 h-16"
                       />
                       <Image
                         src={berachain_banner}
+                        alt="berachain_banner"
                         className=" mx-4 w-52 h-16"
                       />
-                      <Image src={scroll_banner} className=" mx-4 w-52 h-16" />
+                      <Image
+                        src={scroll_banner}
+                        alt="scroll_banner"
+                        className=" mx-4 w-52 h-16"
+                      />
                       <Image
                         src={honeypot_banner}
+                        alt="honeypot_banner"
                         className=" mx-4 w-52 h-16"
                       />
                       <Image
                         src={splatter_banner}
+                        alt="splatter_banner"
                         className=" mx-4 w-52 h-16"
                       />{" "}
                     </div>
