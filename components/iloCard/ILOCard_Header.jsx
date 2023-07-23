@@ -1,10 +1,11 @@
 import React from "react"
-import ethicon from "@/assets/images/pools/eth.png"
+import eth_icon from "@/assets/images/pools/eth.png"
 import { ILO_ADDRESS } from "../../contracts/addresses"
 import { truncateAddress } from "../../utils"
 import { toast } from "react-toastify"
 import useILOContract from "@/hooks/useILOContract"
 import Image from "next/image"
+import ILO_Faucet from "./ILO_Faucet"
 
 const ILOCard_Header = () => {
   const { performUpKeepWrite } = useILOContract()
@@ -17,10 +18,11 @@ const ILOCard_Header = () => {
   }
   return (
     <div>
+      <ILO_Faucet />
       <div className="flex justify-between mt-4 items-center">
         <div className="flex">
           <div className="w-14 h-14">
-            <Image src={ethicon} className=" mx-4 w-14 h-14" />
+            <Image src={eth_icon} className=" mx-4 w-14 h-14" />
           </div>
           <div className="flex-col ml-2">
             <div className="text-2xl font-semibold">
@@ -55,7 +57,7 @@ const ILOCard_Header = () => {
           <div className="flex justify-center items-center">
             <div>1.0M</div>
             <div className="w-4 h-4 ml-1">
-              {/* <img alt="" src={ethicon} /> */}
+              <Image src={eth_icon} className=" mx-4 w-4 h-4" />
             </div>
           </div>
         </div>
@@ -64,7 +66,7 @@ const ILOCard_Header = () => {
           <div className="flex justify-center items-center">
             <div>100.0</div>
             <div className="w-4 h-4 ml-1">
-              {/* <img alt="" src={ethicon} /> */}
+              <Image src={eth_icon} className=" mx-4 w-4 h-4" />
             </div>
           </div>
         </div>
