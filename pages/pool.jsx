@@ -2,16 +2,15 @@ import React, { useState, useEffect } from "react"
 import ethicon from "../assets/images/pools/eth.png"
 import Sidebar from "@/components/pool/Sidebar"
 import PoolList from "@/components/pool/PoolList"
-
 import {
   Mumbai_yexExample_address,
   Mumbai_yexExample_pool2_address
 } from "../contracts/addresses"
 import { useContractRead } from "wagmi"
 import { Mumbai_yexExample_abi } from "../contracts/abis"
-import { ethers } from "ethers"
 import DepositCard from "@/components/pool/depositCard/DepositCard"
 import WithdrawCard from "@/components/pool/withdrawCard/WithdrawCard"
+import { ethers } from "ethers"
 
 const pool = () => {
   const [currentComponent, setCurrentComponent] = useState("PoolList")

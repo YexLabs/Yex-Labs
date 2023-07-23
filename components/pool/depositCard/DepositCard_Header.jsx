@@ -9,7 +9,7 @@ const DepositCard_Header = () => {
       <div>
         <div className="dropdown dropdown-bottom dropdown-end">
           <div
-            className="p-1 rotate-on-hover hover:cursor-pointer rounded-xl "
+            className="p-1 rotate-on-hover hover:cursor-pointer rounded-xl"
             tabIndex={0}
           >
             <svg
@@ -29,33 +29,6 @@ const DepositCard_Header = () => {
                 fill="#333333"
               ></path>
             </svg>
-          </div>
-
-          <div
-            tabIndex={0}
-            className="dropdown-content card card-compact w-64 p-2 shadow bg-indigo-600 text-primary-content"
-          >
-            <div className="card-body">
-              <h3 className="card-title">Transaction Settings</h3>
-              <div>
-                <label>Slippage tolerance</label>
-                <div className="flex gap-2 mt-2">
-                  <div className="flex p-2 border-gray-300 border w-2/3  rounded-3xl">
-                    <input
-                      type="text"
-                      name="searchText"
-                      id="searchText"
-                      className="px-1 w-full outline-none  bg-indigo-600"
-                      placeholder="0.20"
-                    />
-                    <p>%</p>
-                  </div>
-                  <div className="flex p-2 border-gray-300 border w-1/3 rounded-3xl items-center justify-center hover:cursor-pointer">
-                    Auto
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

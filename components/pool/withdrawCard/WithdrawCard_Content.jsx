@@ -215,15 +215,8 @@ const WithdrawCard_Content = ({ poolSelected }) => {
           </div>
           {/* Available */}
           <div className="flex justify-between mt-3 text-gray-600 text-sm">
+            <div></div>
             <div>
-              {/* {"$" +
-                                inputValue.toLocaleString("en-US", {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                    useGrouping: true,
-                                })} */}
-            </div>
-            <div className="">
               {`Balance: ${
                 LPBalance.data
                   ? Number(LPBalance?.data?.formatted).toFixed(6)
@@ -278,13 +271,12 @@ const WithdrawCard_Content = ({ poolSelected }) => {
                             Balanced
                         </button> */}
           </div>
-          <hr className="mt-4" />
           <div className="flex flex-col">
             <p className="text-sm font-normal mt-4">Expected to receive</p>
             <div className="flex flex-row justify-between mt-4">
               <div className="flex flex-row">
                 <div className="w-10 h-10 p-2">
-                  <Image src={eth_icon} className="w-10 h-10" />
+                  <Image src={eth_icon} />
                 </div>
                 <p className="p-2">TokenA</p>
               </div>
@@ -295,7 +287,7 @@ const WithdrawCard_Content = ({ poolSelected }) => {
             <div className="flex flex-row justify-between">
               <div className="flex flex-row">
                 <div className="w-10 h-10 p-2">
-                  <Image src={eth_icon} className="w-10 h-10" />
+                  <Image src={eth_icon} />
                 </div>
                 <p className="p-2">TokenB</p>
               </div>
