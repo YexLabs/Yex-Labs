@@ -22,7 +22,7 @@ const ILOCard_Header = () => {
       <div className="flex justify-between mt-4 items-center">
         <div className="flex">
           <div className="w-14 h-14">
-            <Image src={eth_icon} className=" mx-4 w-14 h-14" />
+            <Image src={eth_icon} className="mx-4 w-14 h-14" />
           </div>
           <div className="flex-col ml-2">
             <div className="text-2xl font-semibold">
