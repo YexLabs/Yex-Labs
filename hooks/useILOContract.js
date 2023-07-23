@@ -1,26 +1,24 @@
+import React, { useState } from "react"
 import {
   MUMBAI_ILO_TOKENA_ADDRESS,
   MUMBAI_ILO_TOKENB_ADDRESS,
   ILO_ADDRESS
 } from "../contracts/addresses"
 import { MUMBAI_YEX_ILO_EXAMPLE_ABI } from "../contracts/abis"
+import YEX_ILO_ABI from "../contracts/abis/YexILOExample.json"
 import { useAccount, useContractRead, useContractWrite } from "wagmi"
 import { ethers } from "ethers"
+import { toast } from "react-toastify"
 
 export default function useILOContract() {
   const address = useAccount()
+  const [amountA, setAmountA] = useState("0")
+  const [depositLoading, setDepositLoading] = useState(false)
   const { data: totalSupply, isLoading: isTotalSupplyLoading } =
     useContractRead({
       address: ILO_ADDRESS,
       abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
       functionName: "totalSupply"
-    })
-  const { data: checkUpKeep, isLoading: isCheckUpKeepLoading } =
-    useContractRead({
-      address: ILO_ADDRESS,
-      abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
-      functionName: "checkUpkeep",
-      args: ["0x"]
     })
 
   const { writeAsync: addLiquidityWrite } = useContractWrite({
@@ -37,7 +35,11 @@ export default function useILOContract() {
     functionName: "approve",
     args: [ILO_ADDRESS, ethers.utils.parseEther("100")],
     onError(error) {
+      setDepositLoading(false)
       console.log("Error", error)
+    },
+    onSuccess() {
+      toast.success("Approve TTA Success!")
     }
   })
 
@@ -56,9 +58,14 @@ export default function useILOContract() {
     abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
     functionName: "deposit",
     account: address,
-    args: [ethers.utils.parseEther("0.1"), ethers.utils.parseEther("1")],
+    args: [ethers.utils.parseEther(amountA), ethers.utils.parseEther("0")],
     onError(error) {
+      setDepositLoading(false)
       console.log("Error", error)
+    },
+    onSuccess() {
+      setDepositLoading(false)
+      toast.success("Deposit Success!")
     }
   })
 
@@ -73,14 +80,50 @@ export default function useILOContract() {
     }
   })
 
+  const { writeAsync: setRasingPaused } = useContractWrite({
+    address: ILO_ADDRESS,
+    abi: YEX_ILO_ABI,
+    functionName: "setRasingPaused",
+    onError(error) {
+      console.log("Error", error)
+    },
+    onSuccess() {
+      setDepositLoading(false)
+      toast.success("LP allocated Success!")
+    }
+  })
+
+  const { data: lockedTokenB } = useContractRead({
+    address: ILO_ADDRESS,
+    abi: YEX_ILO_ABI,
+    functionName: "deposited_TokenB"
+  })
+
+  const { data: depositedTokenA } = useContractRead({
+    address: ILO_ADDRESS,
+    abi: YEX_ILO_ABI,
+    functionName: "deposited_TokenA"
+  })
+
+  const { data: isPaused } = useContractRead({
+    address: ILO_ADDRESS,
+    abi: YEX_ILO_ABI,
+    functionName: "rasing_paused"
+  })
+
   return {
     approveTokenAWrite,
     approveTokenBWrite,
+    setAmountA,
     depositWrite,
     addLiquidityWrite,
     performUpKeepWrite,
-    totalSupply,
-    checkUpKeep,
-    isLoading: isTotalSupplyLoading || isCheckUpKeepLoading
+    setRasingPaused,
+    setDepositLoading,
+    depositLoading,
+    isPaused,
+    lockedTokenB,
+    depositedTokenA,
+    totalSupply
   }
 }

@@ -5,6 +5,7 @@ import { truncateAddress } from "../../utils"
 import { toast } from "react-toastify"
 import useILOContract from "@/hooks/useILOContract"
 import Image from "next/image"
+import { ethers } from "ethers"
 import ILO_Faucet from "./ILO_Faucet"
 
 export default function ILOCard_Header() {
@@ -20,7 +21,7 @@ export default function ILOCard_Header() {
   }
   return (
     <div>
-      <ILO_Faucet />
+      {/* <ILO_Faucet /> */}
       <div className="flex justify-between mt-4 items-center">
         <div className="flex">
           <div className="w-14 h-14">
@@ -70,7 +71,7 @@ export default function ILOCard_Header() {
                 : "0.0"}
             </div>
             <div className="w-4 h-4 ml-1">
-              <Image src={eth_icon} alt="ETH"/>
+              <Image src={eth_icon} alt="ETH" />
             </div>
           </div>
         </div>
@@ -83,7 +84,7 @@ export default function ILOCard_Header() {
                 : "0.0"}
             </div>
             <div className="w-4 h-4 ml-1">
-              <Image src={eth_icon} alt="ETH"/>
+              <Image src={eth_icon} alt="ETH" />
             </div>
           </div>
         </div>

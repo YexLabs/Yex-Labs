@@ -9,10 +9,9 @@ export default function ILOCard_Content() {
   const { address } = useAccount()
 
   const [amount, setAmount] = useState(0)
-  const [inputValue, setInputValue] = useState(1781.84)
   const [tokenAddress, setTokenAddress] = useState(MUMBAI_ILO_TOKENA_ADDRESS)
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedTokenlist, setSelectedTokenlist] = useState(0) // 0 input of tokenlist,1 out of tokenlist
+  const [selectedTokenlist, setSelectedTokenlist] = useState(0)
   const [selectedCoin_input, setSelectedCoin_input] = useState("TTA")
   const [selectedCoin_out, setSelectedCoin_out] = useState("USDC")
 
@@ -23,16 +22,11 @@ export default function ILOCard_Content() {
   const balance = useMemo(() => balanceData?.formatted, [balanceData])
 
   const {
-    addLiquidityWrite,
     approveTokenAWrite,
-    approveTokenBWrite,
     setAmountA,
     depositWrite,
     setDepositLoading,
     depositLoading,
-    setDemoModeWrite,
-    checkUpKeep,
-    totalSupply,
     isPaused
   } = useILOContract()
 
@@ -103,12 +97,10 @@ export default function ILOCard_Content() {
               </div>
             </div>
           </div>
-          {/* Balance */}
           <div className="flex justify-between mt-3 text-gray-600 text-sm">
             <div></div>
             <div className="">Balance: {balance || "0.0"}</div>
           </div>
-          {/* 百分比选择 */}
           <div className="flex justify-start gap-7 mt-2 text-sm">
             <div
               onClick={() => onSetPercent(25)}
@@ -137,7 +129,6 @@ export default function ILOCard_Content() {
           </div>
         </div>
       </div>
-      {/* button */}
       <button
         className={`flex justify-center items-center text-center w-full mt-5 
           ${
@@ -173,7 +164,6 @@ export default function ILOCard_Content() {
         )}
         Deposit
       </button>
-      {/* 代币列表modal */}
       <TokenListModal
         isOpen={isOpen}
         closeModal={closeModal}
