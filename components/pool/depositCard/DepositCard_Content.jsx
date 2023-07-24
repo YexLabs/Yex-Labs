@@ -1,188 +1,75 @@
 import React, { useState, useRef, useEffect } from "react"
+import { useAccount, useBalance } from "wagmi"
 import {
-  useAccount,
-  useBalance,
-  useContractWrite,
-  usePrepareContractWrite,
-  useWaitForTransaction
-} from "wagmi"
-import {
-  Mumbai_yexExample_address,
   Mumbai_tokenA_address,
-  Mumbai_tokenB_address,
-  Mumbai_yexExample_pool2_address
+  Mumbai_tokenB_address
 } from "../../../contracts/addresses"
-import {
-  Mumbai_faucet_abi,
-  Mumbai_yexExample_abi
-} from "../../../contracts/abis"
-import { ethers } from "ethers"
-import { toast } from "react-toastify"
 import TokenListModal from "@/components/iloCard/TokenlistModal"
+import usePoolDepositContract from "@/hooks/usePoolDepositContract"
 
 const DepositCard_Content = ({ poolSelected }) => {
-  const [hash, setHash] = useState("0x")
-  const { address } = useAccount()
-  const [inputValue, setInputValue] = useState(1781.84)
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedTokenlist, setSelectedTokenlist] = useState(0) // 0 input of tokenlist,1 out of tokenlist
+  const [selectedTokenlist, setSelectedTokenlist] = useState(0)
   const [selectedCoin_input, setSelectedCoin_input] = useState("tokenA")
   const [selectedCoin_out, setSelectedCoin_out] = useState("tokenB")
   const inputAmountRef = useRef(null)
   const inputBmountRef = useRef(null)
   const [receiveTokenAmount, setReceiveTokenAmount] = useState("0.0")
-  const [inputTokenPriceForOutToken, setInputTokenPriceForOutToken] =
-    useState("0.0")
-
   const [currentInputTokenContract, setCurrentInputTokenContract] =
     useState("0x")
   const [currentOutTokenContract, setCurrentOutTokenContract] = useState("0x")
-
-  const [isOpen_Alert, setIsOpen_Alert] = useState(false)
   const [isLoading_Btn, setIsLoading_Btn] = useState(false)
+  const { address } = useAccount()
 
-  // const [poolSelected, setPoolSelected] = useState("pool1");
+  const { addLiquidity } = usePoolDepositContract(
+    poolSelected,
+    inputAmountRef,
+    inputBmountRef
+  )
 
-  const confirmation = useWaitForTransaction({
-    hash: hash,
-    onSuccess(data) {
-      setIsLoading_Btn(false)
-      toast.success("Deposit Success!")
-    }
-  })
-
-  const updatePool1Selected = (pool) => {
-    setPool1Selected(pool)
-  }
-
-  //获取tokenA余额
   const { data: tokenABalance } = useBalance({
     address: address,
-    token: selectedCoin_input === "ETH" ? undefined : currentInputTokenContract, // undefined是查询ETH余额
+    token: selectedCoin_input === "ETH" ? undefined : currentInputTokenContract,
     watch: true
   })
 
-  //获取tokenB余额
   const { data: tokenBBalance } = useBalance({
     address: address,
-    token: selectedCoin_out === "ETH" ? undefined : currentOutTokenContract, // undefined是查询ETH余额
+    token: selectedCoin_out === "ETH" ? undefined : currentOutTokenContract,
     watch: true
   })
 
-  // approve tokenA config
-  const { config: approveTokenAConfig } = usePrepareContractWrite({
-    address: currentInputTokenContract,
-    abi: Mumbai_faucet_abi,
-    functionName: "approve",
-    args: [
-      poolSelected === "pool1"
-        ? Mumbai_yexExample_address
-        : Mumbai_yexExample_pool2_address,
-      ethers.utils.parseEther(inputAmountRef.current?.value || "0")
-    ]
-  })
-  // approve tokenA action
-  const { writeAsync: approveTokenAWrite } = useContractWrite({
-    address: currentInputTokenContract,
-    abi: Mumbai_faucet_abi,
-    functionName: "approve",
-    args: [
-      poolSelected === "pool1"
-        ? Mumbai_yexExample_address
-        : Mumbai_yexExample_pool2_address,
-      ethers.utils.parseEther(inputAmountRef.current?.value || "0")
-    ],
-    onError(error) {
-      console.log("Error", error)
+  useEffect(() => {
+    if (Number(inputAmountRef.current?.value) === 0) {
+      setReceiveTokenAmount("0.0")
     }
-  })
+  }, [inputAmountRef.current?.value])
 
-  // approve tokenB config
-  const { config: approveTokenBConfig } = usePrepareContractWrite({
-    address: currentOutTokenContract,
-    abi: Mumbai_faucet_abi,
-    functionName: "approve",
-    args: [
-      poolSelected === "pool1"
-        ? Mumbai_yexExample_address
-        : Mumbai_yexExample_pool2_address,
-      ethers.utils.parseEther(inputBmountRef.current?.value || "0")
-    ]
-  })
-  // approve tokenB action
-  const { writeAsync: approveTokenBWrite } = useContractWrite({
-    address: currentOutTokenContract,
-    abi: Mumbai_faucet_abi,
-    functionName: "approve",
-    args: [
-      poolSelected === "pool1"
-        ? Mumbai_yexExample_address
-        : Mumbai_yexExample_pool2_address,
-      ethers.utils.parseEther(inputBmountRef.current?.value || "0")
-    ],
-    onError(error) {
-      console.log("Error", error)
+  useEffect(() => {
+    if (Number(inputBmountRef.current?.value) === 0) {
+      setReceiveTokenAmount("0.0")
     }
-  })
+  }, [inputBmountRef.current?.value])
 
-  // addLiquidity config
-  const { config: addLiquidityConfig } = usePrepareContractWrite({
-    address:
-      poolSelected === "pool1"
-        ? Mumbai_yexExample_address
-        : Mumbai_yexExample_pool2_address,
-    abi: Mumbai_yexExample_abi,
-    functionName: "addLiquidity",
-    args: [
-      ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
-      ethers.utils.parseEther(inputBmountRef.current?.value || "0")
-    ]
-  })
-
-  // addLiquidity action
-  const { writeAsync: addLiquidityWrite } = useContractWrite({
-    address:
-      poolSelected === "pool1"
-        ? Mumbai_yexExample_address
-        : Mumbai_yexExample_pool2_address,
-    abi: Mumbai_yexExample_abi,
-    functionName: "addLiquidity",
-    account: address,
-    args: [
-      ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
-      ethers.utils.parseEther(inputBmountRef.current?.value || "0")
-    ],
-    onMutate({ args, overrides }) {
-      console.log("Mutate", { args, overrides })
-    },
-    onError(error) {
-      console.log("Error", error)
+  useEffect(() => {
+    if (selectedCoin_input === "tokenA") {
+      setCurrentInputTokenContract(Mumbai_tokenA_address)
+    } else if (selectedCoin_input === "tokenB") {
+      setCurrentInputTokenContract(Mumbai_tokenB_address)
+    } else {
+      setCurrentInputTokenContract("0x")
     }
-  })
+  }, [selectedCoin_input])
 
-  const addLiquidity = async () => {
-    setIsLoading_Btn(true)
-    try {
-      // Approve token A
-      const approveTokenAResult = await approveTokenAWrite()
-      console.log("Approve Token A Result:", approveTokenAResult)
-
-      // Approve token B
-      const approveTokenBResult = await approveTokenBWrite()
-      console.log("Approve Token B Result:", approveTokenBResult)
-
-      // Send addLiquidity transaction
-      const addLiquidityResult = await addLiquidityWrite().then((res) => {
-        setHash(res.hash)
-      })
-      console.log("Add Liquidity Result:", addLiquidityResult)
-
-      setIsLoading_Btn(false)
-    } catch (err) {
-      console.log(err)
-      setIsLoading_Btn(false)
+  useEffect(() => {
+    if (selectedCoin_out === "tokenA") {
+      setCurrentOutTokenContract(Mumbai_tokenA_address)
+    } else if (selectedCoin_out === "tokenB") {
+      setCurrentOutTokenContract(Mumbai_tokenB_address)
+    } else {
+      setCurrentOutTokenContract("0x")
     }
-  }
+  }, [selectedCoin_out])
 
   function openModal_input() {
     setSelectedTokenlist(0)
@@ -197,6 +84,7 @@ const DepositCard_Content = ({ poolSelected }) => {
   function closeModal() {
     setIsOpen(false)
   }
+
   useEffect(() => {
     if (Number(inputAmountRef.current?.value) === 0) {
       setReceiveTokenAmount("0.0")
