@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import ethicon from "../assets/images/pools/eth.png"
 import Sidebar from "@/components/pool/Sidebar"
 import PoolList from "@/components/pool/PoolList"
@@ -6,63 +6,24 @@ import {
   Mumbai_yexExample_address,
   Mumbai_yexExample_pool2_address
 } from "../contracts/addresses"
-import { useContractRead } from "wagmi"
 import { Mumbai_yexExample_abi } from "../contracts/abis"
+
 import DepositCard from "@/components/pool/depositCard/DepositCard"
 import WithdrawCard from "@/components/pool/withdrawCard/WithdrawCard"
-import { ethers } from "ethers"
+import { usePoolContract } from "@/hooks/usePoolContract"
 
-const pool = () => {
+const Pools = () => {
   const [currentComponent, setCurrentComponent] = useState("PoolList")
-  const [pool1Reserve0, setPool1Reserve0] = useState(0)
-  const [pool1Reserve1, setPool1Reserve1] = useState(0)
-
-  const [pool2Reserve0, setPool2Reserve0] = useState(0)
-  const [pool2Reserve1, setPool2Reserve1] = useState(0)
-
   const [poolSelected, setPoolSelected] = useState("")
 
-  // get pool1 Reserves
-  const { data: reservesPool1Data } = useContractRead({
-    address: Mumbai_yexExample_address,
-    abi: Mumbai_yexExample_abi,
-    functionName: "getReserves",
-    args: [],
-    onError: (error) => {
-      console.log("Error", error)
-    }
-  })
-
-  // get pool2 Reserves
-  const { data: reservesPool2Data } = useContractRead({
-    address: Mumbai_yexExample_pool2_address,
-    abi: Mumbai_yexExample_abi,
-    functionName: "getReserves",
-    args: [],
-    onError: (error) => {
-      console.log("Error", error)
-    }
-  })
-
-  useEffect(() => {
-    if (reservesPool1Data) {
-      const reserves = reservesPool1Data.map((reserve) =>
-        ethers.utils.formatUnits(reserve, "ether")
-      )
-      setPool1Reserve0(reserves[0])
-      setPool1Reserve1(reserves[1])
-    }
-  }, [reservesPool1Data])
-
-  useEffect(() => {
-    if (reservesPool2Data) {
-      const reserves = reservesPool2Data.map((reserve) =>
-        ethers.utils.formatUnits(reserve, "ether")
-      )
-      setPool2Reserve0(reserves[0])
-      setPool2Reserve1(reserves[1])
-    }
-  }, [reservesPool2Data])
+  const { reserve0: pool1Reserve0, reserve1: pool1Reserve1 } = usePoolContract(
+    Mumbai_yexExample_address,
+    Mumbai_yexExample_abi
+  )
+  const { reserve0: pool2Reserve0, reserve1: pool2Reserve1 } = usePoolContract(
+    Mumbai_yexExample_pool2_address,
+    Mumbai_yexExample_abi
+  )
 
   return (
     <div className="container">
@@ -131,4 +92,4 @@ const pool = () => {
   )
 }
 
-export default pool
+export default Pools
