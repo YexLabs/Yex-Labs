@@ -18,20 +18,6 @@ const usePoolDepositContract = (
 ) => {
   const [hash, setHash] = useState("0x")
 
-  // approve tokenA config
-  const { config: approveTokenAConfig } = usePrepareContractWrite({
-    address:
-      poolSelected === "pool1" ? Mumbai_tokenA_address : Mumbai_tokenB_address,
-    abi: Mumbai_faucet_abi,
-    functionName: "approve",
-    args: [
-      poolSelected === "pool1"
-        ? Mumbai_yexExample_address
-        : Mumbai_yexExample_pool2_address,
-      ethers.utils.parseEther(inputAmountRef.current?.value || "0")
-    ]
-  })
-
   // approve tokenA action
   const { writeAsync: approveTokenAWrite } = useContractWrite({
     address:
@@ -46,20 +32,6 @@ const usePoolDepositContract = (
     ]
   })
 
-  // approve tokenB config
-  const { config: approveTokenBConfig } = usePrepareContractWrite({
-    address:
-      poolSelected === "pool1" ? Mumbai_tokenA_address : Mumbai_tokenB_address,
-    abi: Mumbai_faucet_abi,
-    functionName: "approve",
-    args: [
-      poolSelected === "pool1"
-        ? Mumbai_yexExample_address
-        : Mumbai_yexExample_pool2_address,
-      ethers.utils.parseEther(inputBmountRef.current?.value || "0")
-    ]
-  })
-
   // approve tokenB action
   const { writeAsync: approveTokenBWrite } = useContractWrite({
     address:
@@ -70,20 +42,6 @@ const usePoolDepositContract = (
       poolSelected === "pool1"
         ? Mumbai_yexExample_address
         : Mumbai_yexExample_pool2_address,
-      ethers.utils.parseEther(inputBmountRef.current?.value || "0")
-    ]
-  })
-
-  // addLiquidity config
-  const { config: addLiquidityConfig } = usePrepareContractWrite({
-    address:
-      poolSelected === "pool1"
-        ? Mumbai_yexExample_address
-        : Mumbai_yexExample_pool2_address,
-    abi: Mumbai_yexExample_abi,
-    functionName: "addLiquidity",
-    args: [
-      ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
       ethers.utils.parseEther(inputBmountRef.current?.value || "0")
     ]
   })
@@ -118,10 +76,7 @@ const usePoolDepositContract = (
 
   return {
     hash,
-    addLiquidity,
-    approveTokenAConfig,
-    approveTokenBConfig,
-    addLiquidityConfig
+    addLiquidity
   }
 }
 
