@@ -76,7 +76,7 @@ const pool = () => {
                     <p>Pool Lists</p>
                   </div>
                   <PoolList
-                    pool={"pool1"}
+                    pool={"AMM1"}
                     tokenAIcon={ethicon}
                     tokenBIcon={ethicon}
                     tokenAName={"TokenA"}
@@ -88,7 +88,7 @@ const pool = () => {
                     setPoolSelected={setPoolSelected}
                   />
                   <PoolList
-                    pool={"pool2"}
+                    pool={"AMM2"}
                     tokenAIcon={ethicon}
                     tokenBIcon={ethicon}
                     tokenAName={"TokenA"}
