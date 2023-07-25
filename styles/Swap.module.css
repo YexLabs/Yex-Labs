@@ -1,0 +1,32 @@
+.rotate-on-hover {
+  transition: transform 1s ease-in-out;
+}
+
+.rotate-on-hover:hover {
+  transform: rotate(360deg);
+}
+
+.ripple-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-btn:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 100%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: width 0.3s ease-out, height 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.ripple-btn:active:after {
+  width: 200%;
+  height: 200%;
+  opacity: 1;
+}
