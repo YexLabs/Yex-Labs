@@ -1,10 +1,10 @@
+import Faucet_Mumbai from "@/components/common/Faucet_Mumbai"
 import React from "react"
-// import Faucet_Mumbai from "../../Faucet_Mumbai";
 
 export default function SwapCard_Header() {
   return (
     <div className="flex justify-between">
-      {/* <Faucet_Mumbai /> */}
+      <Faucet_Mumbai />
       {/* chart_icon */}
       {/* <div className="p-1 hover:cursor-pointer rounded-xl">
         <svg

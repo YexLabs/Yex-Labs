@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import TokenListModal from "./TokenlistModal";
+import React, { useState, useRef, useEffect } from "react"
+import TokenListModal from "./TokenlistModal"
 import {
   useAccount,
   useBalance,
@@ -8,80 +8,80 @@ import {
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
-  useNetwork,
-} from "wagmi";
+  useNetwork
+} from "wagmi"
 import {
   Mumbai_yexExample_address,
   Mumbai_tokenA_address,
-  Mumbai_tokenB_address,
-} from "../../../contracts/addresses";
+  Mumbai_tokenB_address
+} from "../../../contracts/addresses"
 import {
   Mumbai_faucet_abi,
-  Mumbai_yexExample_abi,
-} from "../../../contracts/abis";
-import { ethers } from "ethers";
+  Mumbai_yexExample_abi
+} from "../../../contracts/abis"
+import { ethers } from "ethers"
 
 export default function SwapCard_Content() {
-  const { chain } = useNetwork();
-  const [hash, setHash] = useState();
-  const { address } = useAccount();
-  const [inputValue, setInputValue] = useState(1781.84);
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedTokenlist, setSelectedTokenlist] = useState(0); // 0 input of tokenlist,1 out of tokenlist
-  const [selectedCoin_input, setSelectedCoin_input] = useState("tokenA");
-  const [selectedCoin_out, setSelectedCoin_out] = useState("tokenB");
-  const inputAmountRef = useRef(null);
-  const [receiveTokenAmount, setReceiveTokenAmount] = useState("0.0");
+  const { chain } = useNetwork()
+  const [hash, setHash] = useState()
+  const { address } = useAccount()
+  const [inputValue, setInputValue] = useState(1781.84)
+  const [isOpen, setIsOpen] = useState(false)
+  const [selectedTokenlist, setSelectedTokenlist] = useState(0) // 0 input of tokenlist,1 out of tokenlist
+  const [selectedCoin_input, setSelectedCoin_input] = useState("tokenA")
+  const [selectedCoin_out, setSelectedCoin_out] = useState("tokenB")
+  const inputAmountRef = useRef(null)
+  const [receiveTokenAmount, setReceiveTokenAmount] = useState("0.0")
   const [inputTokenPriceForOutToken, setInputTokenPriceForOutToken] =
-    useState("0.0");
+    useState("0.0")
 
   const [currentInputTokenContract, setCurrentInputTokenContract] =
-    useState("0x");
-  const [currentOutTokenContract, setCurrentOutTokenContract] = useState("0x");
+    useState("0x")
+  const [currentOutTokenContract, setCurrentOutTokenContract] = useState("0x")
 
-  const [isOpen_Alert, setIsOpen_Alert] = useState(false);
-  const [isLoading_Btn, setIsLoading_Btn] = useState(false);
+  const [isOpen_Alert, setIsOpen_Alert] = useState(false)
+  const [isLoading_Btn, setIsLoading_Btn] = useState(false)
 
   const [currentInputTokenAllowance, setCurrentInputTokenAllowance] =
-    useState(0.0);
+    useState(0.0)
 
   const confirmation = useWaitForTransaction({
     hash: hash,
     onSuccess(data) {
-      setIsLoading_Btn(false);
-      setIsOpen_Alert(true);
+      setIsLoading_Btn(false)
+      setIsOpen_Alert(true)
       setTimeout(() => {
-        setIsOpen_Alert(false);
-      }, 5000);
-    },
-  });
+        setIsOpen_Alert(false)
+      }, 5000)
+    }
+  })
 
   const yexSwapContractConfig = {
     address: Mumbai_yexExample_address,
-    abi: Mumbai_yexExample_abi,
-  };
+    abi: Mumbai_yexExample_abi
+  }
   const currentInputTokenContractConfig = {
     address: currentInputTokenContract,
-    abi: Mumbai_faucet_abi,
-  };
+    abi: Mumbai_faucet_abi
+  }
   const currentOutTokenContractConfig = {
     address: currentOutTokenContract,
-    abi: Mumbai_faucet_abi,
-  };
+    abi: Mumbai_faucet_abi
+  }
 
   //获取inputToken余额
   const { data: inputTokenBalance } = useBalance({
     address: address,
     token: selectedCoin_input === "ETH" ? undefined : currentInputTokenContract, // undefined是查询ETH余额
-    watch: true,
-  });
+    watch: true
+  })
 
   //获取outToken余额
   const { data: outTokenBalance } = useBalance({
     address: address,
     token: selectedCoin_out === "ETH" ? undefined : currentOutTokenContract, // undefined是查询ETH余额
-    watch: true,
-  });
+    watch: true
+  })
 
   // 获取已授权的token数量
   // const getTokenApproved = useContractRead({
@@ -102,16 +102,16 @@ export default function SwapCard_Content() {
       {
         ...currentInputTokenContractConfig,
         functionName: "allowance",
-        args: [address, Mumbai_yexExample_address],
+        args: [address, Mumbai_yexExample_address]
       },
       {
         ...yexSwapContractConfig,
         functionName: "getExpectedAmountOut",
         args: [
           currentInputTokenContract,
-          ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
-        ],
-      },
+          ethers.utils.parseEther(inputAmountRef.current?.value || "0")
+        ]
+      }
     ],
     watch: true,
     enabled:
@@ -119,19 +119,19 @@ export default function SwapCard_Content() {
       inputAmountRef.current &&
       Number(inputAmountRef.current.value) !== 0,
     onSuccess(data) {
-      console.log(data);
-      const allowancedAmount = ethers.utils.formatUnits(data[0], "ether");
+      console.log(data)
+      const allowancedAmount = ethers.utils.formatUnits(data[0], "ether")
 
       const receiveAmount = Number(ethers.utils.formatUnits(data[1], "ether"))
         .toFixed(6)
-        .replace(/\.?0+$/, "");
+        .replace(/\.?0+$/, "")
 
       if (Number(receiveAmount) !== 0) {
-        setReceiveTokenAmount(receiveAmount);
-        setCurrentInputTokenAllowance(allowancedAmount);
+        setReceiveTokenAmount(receiveAmount)
+        setCurrentInputTokenAllowance(allowancedAmount)
       }
-    },
-  });
+    }
+  })
 
   // approve token config
   const { config: approveInputTokenConfig } = usePrepareContractWrite({
@@ -140,16 +140,16 @@ export default function SwapCard_Content() {
     functionName: "approve",
     args: [
       Mumbai_yexExample_address,
-      ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
-    ],
-  });
+      ethers.utils.parseEther(inputAmountRef.current?.value || "0")
+    ]
+  })
   // approve token action
   const { writeAsync: approveInputTokenWrite } = useContractWrite({
     ...approveInputTokenConfig,
     onError(error) {
-      console.log("Error", error);
-    },
-  });
+      console.log("Error", error)
+    }
+  })
   // swap config
   // const { config: poolSwapConfig } = usePrepareContractWrite({
   //   address: Mumbai_yexExample_address,
@@ -181,97 +181,97 @@ export default function SwapCard_Content() {
 
       selectedCoin_input === "tokenB"
         ? ethers.utils.parseEther(inputAmountRef.current?.value || "0")
-        : "0",
-    ],
-  });
+        : "0"
+    ]
+  })
 
   const inputTokenPercentSelect = (value) => {
-    inputAmountRef.current.value = (inputTokenBalance?.formatted * value) / 100;
-  };
+    inputAmountRef.current.value = (inputTokenBalance?.formatted * value) / 100
+  }
 
   function openModal_input() {
-    setSelectedTokenlist(0);
-    setIsOpen(true);
+    setSelectedTokenlist(0)
+    setIsOpen(true)
   }
 
   function openModal_out() {
-    setSelectedTokenlist(1);
-    setIsOpen(true);
+    setSelectedTokenlist(1)
+    setIsOpen(true)
   }
 
   function closeModal() {
-    setIsOpen(false);
+    setIsOpen(false)
   }
 
   // 阻止默认事件
   const handleWheel = (event) => {
-    event.preventDefault();
-  };
+    event.preventDefault()
+  }
 
   const swapClick = () => {
     if (Number(receiveTokenAmount) >= 0) {
       if (inputTokenBalance?.formatted >= inputAmountRef.current?.value) {
-        setIsLoading_Btn(true);
+        setIsLoading_Btn(true)
         if (currentInputTokenAllowance >= inputAmountRef.current?.value) {
           // swap
           swapWrite?.()
             .then((res) => {
-              setHash(res.hash);
+              setHash(res.hash)
             })
             .catch((err) => {
-              setIsLoading_Btn(false);
-            });
+              setIsLoading_Btn(false)
+            })
         } else {
           // approve
           approveInputTokenWrite?.()
             .then((res) => {
-              setHash(res.hash);
+              setHash(res.hash)
             })
             .catch((err) => {
-              setIsLoading_Btn(false);
-            });
+              setIsLoading_Btn(false)
+            })
         }
       }
     }
-  };
+  }
   useEffect(() => {
     if (Number(inputAmountRef.current?.value) === 0) {
-      setReceiveTokenAmount("0.0");
+      setReceiveTokenAmount("0.0")
     }
-  }, [inputAmountRef.current?.value]);
+  }, [inputAmountRef.current?.value])
   useEffect(() => {
     if (selectedCoin_input === "tokenA") {
-      setCurrentInputTokenContract(Mumbai_tokenA_address);
+      setCurrentInputTokenContract(Mumbai_tokenA_address)
     }
     if (selectedCoin_input === "tokenB") {
-      setCurrentInputTokenContract(Mumbai_tokenB_address);
+      setCurrentInputTokenContract(Mumbai_tokenB_address)
     }
     if (selectedCoin_input === "USDC") {
-      setCurrentInputTokenContract("0x");
+      setCurrentInputTokenContract("0x")
     }
     if (selectedCoin_input === "WETH") {
-      setCurrentInputTokenContract("0x");
+      setCurrentInputTokenContract("0x")
     }
     // 将 passive 选项设置为 false，以将事件监听器更改为主动事件监听器，保证阻止input框滚动默认事件
     if (inputAmountRef.current)
       inputAmountRef.current.addEventListener("wheel", handleWheel, {
-        passive: false,
-      });
-  }, [selectedCoin_input]);
+        passive: false
+      })
+  }, [selectedCoin_input])
   useEffect(() => {
     if (selectedCoin_out === "tokenA") {
-      setCurrentOutTokenContract(Mumbai_tokenA_address);
+      setCurrentOutTokenContract(Mumbai_tokenA_address)
     }
     if (selectedCoin_out === "tokenB") {
-      setCurrentOutTokenContract(Mumbai_tokenB_address);
+      setCurrentOutTokenContract(Mumbai_tokenB_address)
     }
     if (selectedCoin_out === "USDC") {
-      setCurrentOutTokenContract("0x");
+      setCurrentOutTokenContract("0x")
     }
     if (selectedCoin_out === "WETH") {
-      setCurrentOutTokenContract("0x");
+      setCurrentOutTokenContract("0x")
     }
-  }, [selectedCoin_out]);
+  }, [selectedCoin_out])
   return (
     <div className="flex-col mt-8">
       {/* 提示框 */}
@@ -305,7 +305,7 @@ export default function SwapCard_Content() {
           </div>
           <div className="flex-none">
             <a
-              href={`${chain?.blockExplorers.default.url}/tx/${hash}`}
+              href={`${chain?.blockExplorers?.default.url}/tx/${hash}`}
               target="_blank"
               rel="noreferrer"
             >
@@ -328,7 +328,7 @@ export default function SwapCard_Content() {
                 pattern="[0-9]*"
                 onKeyPress={(event) => {
                   if (!/[0-9.]/.test(event.key)) {
-                    event.preventDefault();
+                    event.preventDefault()
                   }
                 }}
               />
@@ -384,7 +384,7 @@ export default function SwapCard_Content() {
             <div
               className="w-1/5 border-slate-200 border  rounded-xl text-center py-1 hover:cursor-pointer hover:border-slate-400 ripple-btn active:border-slate-600"
               onClick={() => {
-                inputTokenPercentSelect(25);
+                inputTokenPercentSelect(25)
               }}
             >
               25%
@@ -392,7 +392,7 @@ export default function SwapCard_Content() {
             <div
               className="w-1/5 border-slate-200 border  rounded-xl text-center py-1 hover:cursor-pointer hover:border-slate-400 ripple-btn active:border-slate-600"
               onClick={() => {
-                inputTokenPercentSelect(50);
+                inputTokenPercentSelect(50)
               }}
             >
               50%
@@ -400,7 +400,7 @@ export default function SwapCard_Content() {
             <div
               className="w-1/5 border-slate-200 border  rounded-xl text-center py-1 hover:cursor-pointer hover:border-slate-400 ripple-btn active:border-slate-600"
               onClick={() => {
-                inputTokenPercentSelect(75);
+                inputTokenPercentSelect(75)
               }}
             >
               75%
@@ -408,7 +408,7 @@ export default function SwapCard_Content() {
             <div
               className="w-1/5 border-slate-200 border  rounded-xl text-center py-1 hover:cursor-pointer hover:border-slate-400 ripple-btn active:border-slate-600"
               onClick={() => {
-                inputTokenPercentSelect(100);
+                inputTokenPercentSelect(100)
               }}
             >
               100%
@@ -571,5 +571,5 @@ export default function SwapCard_Content() {
         setSelectedCoin_out={setSelectedCoin_out}
       />
     </div>
-  );
+  )
 }
