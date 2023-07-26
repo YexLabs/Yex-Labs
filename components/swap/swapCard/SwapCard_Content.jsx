@@ -120,9 +120,11 @@ export default function SwapCard_Content() {
       Number(inputAmountRef.current.value) !== 0,
     onSuccess(data) {
       console.log(data)
-      const allowancedAmount = ethers.utils.formatUnits(data[0], "ether")
+      const allowancedAmount = ethers.utils.formatUnits(data[0].result, "ether")
 
-      const receiveAmount = Number(ethers.utils.formatUnits(data[1], "ether"))
+      const receiveAmount = Number(
+        ethers.utils.formatUnits(data[1].result, "ether")
+      )
         .toFixed(6)
         .replace(/\.?0+$/, "")
 
