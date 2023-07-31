@@ -1,191 +1,31 @@
 import React, { useState, useRef, useEffect } from "react"
 import TokenListModal from "./TokenlistModal"
-import {
-  useAccount,
-  useBalance,
-  useContractRead,
-  useContractReads,
-  useContractWrite,
-  usePrepareContractWrite,
-  useWaitForTransaction,
-  useNetwork
-} from "wagmi"
-import {
-  Mumbai_yexExample_address,
-  Mumbai_tokenA_address,
-  Mumbai_tokenB_address
-} from "../../../contracts/addresses"
-import {
-  Mumbai_faucet_abi,
-  Mumbai_yexExample_abi
-} from "../../../contracts/abis"
-import { ethers } from "ethers"
+import useSwapContract from "@/hooks/useSwapContract"
 
 export default function SwapCard_Content() {
-  const { chain } = useNetwork()
-  const [hash, setHash] = useState()
-  const { address } = useAccount()
-  const [inputValue, setInputValue] = useState(1781.84)
+  const {
+    chain,
+    hash,
+    setInputValue,
+    selectedTokenlist,
+    setSelectedTokenlist,
+    selectedCoin_input,
+    setSelectedCoin_input,
+    selectedCoin_out,
+    setSelectedCoin_out,
+    receiveTokenAmount,
+    currentInputTokenAllowance,
+    inputTokenBalance,
+    outTokenBalance,
+    isOpen_Alert,
+    isLoading_Btn,
+    swapClick,
+    inputAmountRef,
+    outAmountRef,
+    isGetReceive
+  } = useSwapContract()
+
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedTokenlist, setSelectedTokenlist] = useState(0) // 0 input of tokenlist,1 out of tokenlist
-  const [selectedCoin_input, setSelectedCoin_input] = useState("tokenA")
-  const [selectedCoin_out, setSelectedCoin_out] = useState("tokenB")
-  const inputAmountRef = useRef(null)
-  const [receiveTokenAmount, setReceiveTokenAmount] = useState("0.0")
-  const [inputTokenPriceForOutToken, setInputTokenPriceForOutToken] =
-    useState("0.0")
-
-  const [currentInputTokenContract, setCurrentInputTokenContract] =
-    useState("0x")
-  const [currentOutTokenContract, setCurrentOutTokenContract] = useState("0x")
-
-  const [isOpen_Alert, setIsOpen_Alert] = useState(false)
-  const [isLoading_Btn, setIsLoading_Btn] = useState(false)
-
-  const [currentInputTokenAllowance, setCurrentInputTokenAllowance] =
-    useState(0.0)
-
-  const confirmation = useWaitForTransaction({
-    hash: hash,
-    onSuccess(data) {
-      setIsLoading_Btn(false)
-      setIsOpen_Alert(true)
-      setTimeout(() => {
-        setIsOpen_Alert(false)
-      }, 5000)
-    }
-  })
-
-  const yexSwapContractConfig = {
-    address: Mumbai_yexExample_address,
-    abi: Mumbai_yexExample_abi
-  }
-  const currentInputTokenContractConfig = {
-    address: currentInputTokenContract,
-    abi: Mumbai_faucet_abi
-  }
-  const currentOutTokenContractConfig = {
-    address: currentOutTokenContract,
-    abi: Mumbai_faucet_abi
-  }
-
-  //获取inputToken余额
-  const { data: inputTokenBalance } = useBalance({
-    address: address,
-    token: selectedCoin_input === "ETH" ? undefined : currentInputTokenContract, // undefined是查询ETH余额
-    watch: true
-  })
-
-  //获取outToken余额
-  const { data: outTokenBalance } = useBalance({
-    address: address,
-    token: selectedCoin_out === "ETH" ? undefined : currentOutTokenContract, // undefined是查询ETH余额
-    watch: true
-  })
-
-  // 获取已授权的token数量
-  // const getTokenApproved = useContractRead({
-  //   address: currentInputTokenContract,
-  //   abi: Mumbai_faucet_abi,
-  //   functionName: "allowance",
-  //   args: [address, Mumbai_yexExample_address],
-  //   watch: true,
-  //   onSuccess(data) {
-  //     const amount = ethers.utils.formatUnits(data, "ether");
-  //     console.log(amount);
-  //   },
-  // });
-
-  // 获取input代币授权数量以及查询revive数量 multicall
-  const getRouterInfo = useContractReads({
-    contracts: [
-      {
-        ...currentInputTokenContractConfig,
-        functionName: "allowance",
-        args: [address, Mumbai_yexExample_address]
-      },
-      {
-        ...yexSwapContractConfig,
-        functionName: "getExpectedAmountOut",
-        args: [
-          currentInputTokenContract,
-          ethers.utils.parseEther(inputAmountRef.current?.value || "0")
-        ]
-      }
-    ],
-    watch: true,
-    enabled:
-      address &&
-      inputAmountRef.current &&
-      Number(inputAmountRef.current.value) !== 0,
-    onSuccess(data) {
-      console.log(data)
-      const allowancedAmount = ethers.utils.formatUnits(data[0].result, "ether")
-
-      const receiveAmount = Number(
-        ethers.utils.formatUnits(data[1].result, "ether")
-      )
-        .toFixed(6)
-        .replace(/\.?0+$/, "")
-
-      if (Number(receiveAmount) !== 0) {
-        setReceiveTokenAmount(receiveAmount)
-        setCurrentInputTokenAllowance(allowancedAmount)
-      }
-    }
-  })
-
-  // approve token config
-  const { config: approveInputTokenConfig } = usePrepareContractWrite({
-    address: currentInputTokenContract,
-    abi: Mumbai_faucet_abi,
-    functionName: "approve",
-    args: [
-      Mumbai_yexExample_address,
-      ethers.utils.parseEther(inputAmountRef.current?.value || "0")
-    ]
-  })
-  // approve token action
-  const { writeAsync: approveInputTokenWrite } = useContractWrite({
-    ...approveInputTokenConfig,
-    onError(error) {
-      console.log("Error", error)
-    }
-  })
-  // swap config
-  // const { config: poolSwapConfig } = usePrepareContractWrite({
-  //   address: Mumbai_yexExample_address,
-  //   abi: Mumbai_yexExample_abi,
-  //   functionName: "deposit",
-  //   args: [
-  //     ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
-  //     currentInputTokenAllowance >= inputAmountRef.current?.value
-  //       ? ethers.utils.parseEther("0")
-  //       : ethers.utils.parseEther("0"),
-  //   ],
-  // });
-  // swap action
-  // const { data: swapData, writeAsync: swapWrite } = useContractWrite({
-  //   ...poolSwapConfig,
-  //   onError(error) {
-  //     console.log("Error", error);
-  //   },
-  // });
-  // 强制调用swap action
-  const { writeAsync: swapWrite } = useContractWrite({
-    address: Mumbai_yexExample_address,
-    abi: Mumbai_yexExample_abi,
-    functionName: "deposit",
-    args: [
-      selectedCoin_input === "tokenA"
-        ? ethers.utils.parseEther(inputAmountRef.current?.value || "0")
-        : "0",
-
-      selectedCoin_input === "tokenB"
-        ? ethers.utils.parseEther(inputAmountRef.current?.value || "0")
-        : "0"
-    ]
-  })
 
   const inputTokenPercentSelect = (value) => {
     inputAmountRef.current.value = (inputTokenBalance?.formatted * value) / 100
@@ -205,75 +45,6 @@ export default function SwapCard_Content() {
     setIsOpen(false)
   }
 
-  // 阻止默认事件
-  const handleWheel = (event) => {
-    event.preventDefault()
-  }
-
-  const swapClick = () => {
-    if (Number(receiveTokenAmount) >= 0) {
-      if (inputTokenBalance?.formatted >= inputAmountRef.current?.value) {
-        setIsLoading_Btn(true)
-        if (currentInputTokenAllowance >= inputAmountRef.current?.value) {
-          // swap
-          swapWrite?.()
-            .then((res) => {
-              setHash(res.hash)
-            })
-            .catch((err) => {
-              setIsLoading_Btn(false)
-            })
-        } else {
-          // approve
-          approveInputTokenWrite?.()
-            .then((res) => {
-              setHash(res.hash)
-            })
-            .catch((err) => {
-              setIsLoading_Btn(false)
-            })
-        }
-      }
-    }
-  }
-  useEffect(() => {
-    if (Number(inputAmountRef.current?.value) === 0) {
-      setReceiveTokenAmount("0.0")
-    }
-  }, [inputAmountRef.current?.value])
-  useEffect(() => {
-    if (selectedCoin_input === "tokenA") {
-      setCurrentInputTokenContract(Mumbai_tokenA_address)
-    }
-    if (selectedCoin_input === "tokenB") {
-      setCurrentInputTokenContract(Mumbai_tokenB_address)
-    }
-    if (selectedCoin_input === "USDC") {
-      setCurrentInputTokenContract("0x")
-    }
-    if (selectedCoin_input === "WETH") {
-      setCurrentInputTokenContract("0x")
-    }
-    // 将 passive 选项设置为 false，以将事件监听器更改为主动事件监听器，保证阻止input框滚动默认事件
-    if (inputAmountRef.current)
-      inputAmountRef.current.addEventListener("wheel", handleWheel, {
-        passive: false
-      })
-  }, [selectedCoin_input])
-  useEffect(() => {
-    if (selectedCoin_out === "tokenA") {
-      setCurrentOutTokenContract(Mumbai_tokenA_address)
-    }
-    if (selectedCoin_out === "tokenB") {
-      setCurrentOutTokenContract(Mumbai_tokenB_address)
-    }
-    if (selectedCoin_out === "USDC") {
-      setCurrentOutTokenContract("0x")
-    }
-    if (selectedCoin_out === "WETH") {
-      setCurrentOutTokenContract("0x")
-    }
-  }, [selectedCoin_out])
   return (
     <div className="flex-col mt-8">
       {/* 提示框 */}
@@ -443,8 +214,11 @@ export default function SwapCard_Content() {
             <div className="text-2xl w-[calc(100%-130px)]">
               <input
                 type="text"
-                placeholder={receiveTokenAmount}
-                className="bg-transparent border-none text-3xl outline-none animate-pulse w-full "
+                placeholder={"0.0"}
+                ref={outAmountRef}
+                className={`bg-transparent border-none text-3xl outline-none ${
+                  isGetReceive && "animate-pulse"
+                }   w-full `}
                 disabled
               />
             </div>
