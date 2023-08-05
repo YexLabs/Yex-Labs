@@ -19,6 +19,37 @@ export default function Header() {
   const handleHackathonClick = (demoName) => {
     router.push("/" + demoName)
   }
+
+  const MENU_ITEMS = [
+    {
+      title: "Main",
+      href: "",
+      hasSubMenu: false
+    },
+    {
+      title: "BatchSwap",
+      href: "",
+      hasSubMenu: true,
+      subMenu: [
+        {
+          title: "Swap",
+          href: "/swap",
+          description: "Prototype | Polygon-Testnet"
+        },
+        {
+          title: "Pools",
+          href: "/pool",
+          description: "Prototype | Polygon-Testnet"
+        }
+      ]
+    },
+    {
+      title: "ILO",
+      href: "/ilo",
+      hasSubMenu: false
+    }
+  ]
+
   return (
     <header className="box-border  flex flex-col top-0 left-0 w-full h-[80px] z-30 border-b-0">
       <div className="flex fade-in bg-blue-500 backdrop-blur-md items-center">
@@ -31,16 +62,12 @@ export default function Header() {
       </div>
 
       <div className="relative">
-        <div className="box-border px-3 py-2 pl- absolute w-full backdrop-blur-md ">
+        <div className="box-border px-3 py-2 pl- absolute w-full backdrop-blur-md">
           <div className="row2 flex flex-row justify-between items-center flex-wrap gap-y-10 max-w-full">
             <div className="flex flex-row items-center gap-6">
               <div className="mb-[2px]">
-                <div className=" relative">
-                  <div
-                    onClick={() => {
-                      handleHackathonClick("")
-                    }}
-                  >
+                <div className="relative">
+                  <div onClick={() => handleNavigationClick("")}>
                     <div className="cursor-pointer">
                       <Image
                         src={logo}
@@ -51,173 +78,22 @@ export default function Header() {
                   </div>
                 </div>
               </div>
-              {/* Main */}
-              <div className="flex items-center space-x-4 md:space-x-6 mb-[2px]">
-                <div className="relative">
-                  <div
-                    onClick={() => {
-                      handleHackathonClick("")
-                    }}
-                  >
-                    <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
+
+              {MENU_ITEMS.map((item) => (
+                <div
+                  key={item.title}
+                  className={`relative ${
+                    item.hasSubMenu ? "dropdown dropdown-hover " : ""
+                  }`}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <div onClick={() => handleHackathonClick(item.href)}>
+                    <div className="flex items-center gap-1 md:gap-1 py-2 cursor-pointer">
                       <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
-                        Main
+                        {item.title}
                       </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="relative">
-                  <div
-                    onClick={() => {
-                      handleHackathonClick("/swap")
-                    }}
-                  >
-                    <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
-                      <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
-                        Swap
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="relative">
-                  <div
-                    onClick={() => {
-                      handleHackathonClick("/pool")
-                    }}
-                  >
-                    <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
-                      <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
-                        Pool
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="relative">
-                  <div
-                    onClick={() => {
-                      handleHackathonClick("/ilo")
-                    }}
-                  >
-                    <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
-                      <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
-                        ILO
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                {/* Pool */}
-                {/* <div className="relative">
-                  <div>
-                    <a
-                      href="#"
-                      className="no-underline text-current cursor-default"
-                    >
-                      <div
-                        onMouseEnter={handleMouseEnter}
-                        onMouseLeave={handleMouseLeave}
-                        className="dropdown dropdown-hover"
-                      >
-                        <div
-                          tabindex="0"
-                          className="flex items-center gap-1 md:gap-1 py-2 cursor-pointer flex-row"
-                        >
-                          <div className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
-                            Pool
-                          </div>
-                          <div className="mt-1">
-                            <svg
-                              width="8"
-                              height="8"
-                              viewBox="0 0 8 8"
-                              xmlns="http://www.w3.org/2000/svg"
-                              className={isPoolHovered ? "rotate-180" : "rotate-0"}
-                            >
-                              <path
-                                fill="#5155a6"
-                                fillRule="nonzero"
-                                d="M4.036 6.571.5 3.036l.786-.786L4.037 5l2.748-2.75.786.786z"
-                              ></path>
-                            </svg>
-                          </div>
-                        </div>
-                        <ul
-                          tabindex="0"
-                          className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-80 mt-0"
-                        >
-                          <li>
-                            <a href="PoolLists">
-                              <div className="flex">
-                                <div className="flex items-center">
-                                  <Image
-                                    src={logo}
-                                    className="h-[24px] w-[24px] z-1"
-                                  />
-                                </div>
-                                <div className="flex flex-col ml-3">
-                                  <p>PoolLists</p>
-                                  <p className=" text-xs">
-                                    Explore all pools on yexdex
-                                  </p>
-                                </div>
-                              </div>
-                            </a>
-                          </li>
-                          <li>
-                            <a>
-                              <div className="flex">
-                                <div className="flex items-center">
-                                  <Image
-                                    src={logo}
-                                    className="h-[24px] w-[24px] z-1"
-                                  />
-                                </div>
-                                <div className="flex flex-col ml-3">
-                                  <p>Pool</p>
-                                  <p className=" text-xs">
-                                    Explore all pools on yexdex
-                                  </p>
-                                </div>
-                              </div>
-                            </a>
-                          </li>
-                          <li>
-                            <a>
-                              <div className="flex">
-                                <div className="flex items-center">
-                                  <Image
-                                    src={logo}
-                                    className="h-[24px] w-[24px] z-1"
-                                  />
-                                </div>
-                                <div className="flex flex-col ml-3">
-                                  <p>Pool</p>
-                                  <p className=" text-xs">
-                                    Explore all pools on yexdex
-                                  </p>
-                                </div>
-                              </div>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </a>
-                  </div>
-                </div> */}
-                {/* Hacker Demo */}
-                {/* <div className="relative">
-                  <div>
-                    <div
-                      onMouseEnter={handleMouseEnter}
-                      onMouseLeave={handleMouseLeave}
-                      className="dropdown dropdown-hover"
-                    >
-                      <div
-                        tabIndex="0"
-                        className="flex items-center gap-1 md:gap-1 py-2 cursor-pointer flex-row"
-                      >
-                        <div className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
-                          BatchSwap
-                        </div>
+                      {item.hasSubMenu && (
                         <div className="mt-1">
                           <svg
                             width="8"
@@ -235,17 +111,20 @@ export default function Header() {
                             ></path>
                           </svg>
                         </div>
-                      </div>
-                      <ul
-                        tabIndex="0"
-                        className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-80 mt-0"
-                      >
+                      )}
+                    </div>
+                  </div>
+                  {item.hasSubMenu && (
+                    <ul
+                      tabIndex="0"
+                      className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-80 mt-0"
+                    >
+                      {item.subMenu.map((subItem) => (
                         <li>
                           <div
+                            key={subItem.title}
                             className="flex"
-                            onClick={() => {
-                              handleHackathonClick("demo1_swap")
-                            }}
+                            onClick={() => handleHackathonClick(subItem.href)}
                           >
                             <div className="flex items-center">
                               <Image
@@ -254,113 +133,19 @@ export default function Header() {
                               />
                             </div>
                             <div className="flex flex-col ml-0">
-                              <p>Swap</p>
-                              <p className=" text-xs">
-                                Prototype | Polygon-Testnet
-                              </p>
+                              <p>{subItem.title}</p>
+                              <p className="text-xs">{subItem.description}</p>
                             </div>
                           </div>
                         </li>
-                        <li>
-                          <div
-                            className="flex"
-                            onClick={() => {
-                              handleHackathonClick("demo1_pool")
-                            }}
-                          >
-                            <div className="flex items-center">
-                              <Image
-                                src={logo}
-                                className="h-[24px] w-[24px] z-1"
-                              />
-                            </div>
-                            <div className="flex flex-col ml-0">
-                              <p>Pools</p>
-                              <p className=" text-xs">
-                                Prototype | Polygon-Testnet
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div> */}
-                {/* <div className="relative">
-                  <div
-                    onClick={() => {
-                      handleHackathonClick("ilo")
-                    }}
-                  >
-                    <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
-                      <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
-                        ILO
-                      </p>
-                    </div>
-                  </div>
-                </div> */}
-                {/* <div className="relative">
-                  <div>
-                    <a
-                      href="#"
-                      className="no-underline text-current cursor-default"
-                    >
-                      <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
-                        <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
-                          Pool
-                        </p>
-                      </div>
-                    </a>
-                  </div>
+                      ))}
+                    </ul>
+                  )}
                 </div>
-                <div className="relative">
-                  <div>
-                    <a
-                      href="#"
-                      className="no-underline text-current cursor-default"
-                    >
-                      <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
-                        <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
-                          Launch
-                        </p>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div className="relative">
-                  <div>
-                    <a
-                      href="#"
-                      className="no-underline text-current cursor-default"
-                    >
-                      <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
-                        <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
-                          Protfolio
-                        </p>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div className="relative">
-                  <div>
-                    <a
-                      href="https://scroll.io/alpha/bridge"
-                      className="no-underline text-current cursor-default"
-                      target="_blank"
-                    >
-                      <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
-                        <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
-                          Bridge
-                        </p>
-                      </div>
-                    </a>
-                  </div>
-                </div> */}
-              </div>
+              ))}
             </div>
             <div className="flex flex-row items-center gap-3">
-              {/* {chain?.id !== 80001 ? "" : <Faucet_Mumbai />} */}
-              <div className=" relative">
+              <div className="relative">
                 <div className="">
                   <ConnectButton />
                 </div>
