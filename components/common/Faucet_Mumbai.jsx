@@ -247,14 +247,15 @@ export default function Faucet_Mumbai() {
   })
 
   return (
-    <div>
+    <div className=" z-20">
       <Button
         className={`btn btn-outline btn-ghost btn-sm fade-in ${
           address ? "" : "hidden"
         } ${isLoading_A ? " loading text-black " : ""} ${
-          isFaucted_A ? " bg-slate-300" : ""
+          isFaucted_A ? "disabled:bg-slate-300 disabled:text-gray-500" : ""
         }`}
         onClick={faucetClick_A}
+        disabled={isFaucted_A}
       >
         {isLoading_A ? "loading" : "Faucet $A"}
         {/* {"Faucet" + " : " + tokenA_balance + " " + "$A"} */}
@@ -263,9 +264,10 @@ export default function Faucet_Mumbai() {
         className={`btn btn-outline ml-2 btn-ghost btn-sm fade-in ${
           address ? "" : "hidden"
         } ${isLoading_B ? " loading  text-black" : ""} ${
-          isFaucted_B ? " bg-slate-300" : ""
+          isFaucted_B ? "disabled:bg-slate-300 disabled:text-gray-500" : ""
         } `}
         onClick={faucetClick_B}
+        disabled={isFaucted_B}
       >
         {isLoading_B ? "loading" : "Faucet $B"}
         {/* {"Faucet" + " : " + tokenB_balance + " " + "$B"} */}
