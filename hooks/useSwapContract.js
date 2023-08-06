@@ -171,11 +171,12 @@ export default function useSwapContract() {
       }
 
       if (Number(currentInputTokenAllowance) < Number(inputValue)) {
-        await approve()
+        const hash = await approve()
+        setHash(hash)
+      } else {
+        const hash = await swap()
+        setHash(hash)
       }
-
-      const hash = await swap()
-      setHash(hash)
     } catch (error) {
       console.error(error)
     } finally {

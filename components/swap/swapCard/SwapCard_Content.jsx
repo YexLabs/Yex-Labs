@@ -46,18 +46,14 @@ export default function SwapCard_Content() {
   }
 
   return (
-    <div className="flex-col mt-8">
-      {/* 提示框 */}
+    <div className="flex-col mt-8 w-full">
       <div
-        className={`absolute w-1/2 top-20 pr-8 transform transition duration-500 ease-in-out ${
-          isOpen_Alert
-            ? "-translate-y-0 opacity-100"
-            : "-translate-y-full opacity-0"
+        className={`absolute top-20 left-1/3 w-1/3 flex items-start transition duration-500 ease-in-out ${
+          isOpen_Alert ? "opacity-100 z-50" : "opacity-0 z-0"
         }`}
       >
-        <div className="alert shadow-lg w-full">
+        <div className="alert shadow-lg justify-between">
           <div>
-            {/* 加载指示器 */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="stroke-current flex-shrink-0 h-6 w-6"
@@ -76,7 +72,7 @@ export default function SwapCard_Content() {
               <div className="text-xs">You have 1 confirmed transaction</div>
             </div>
           </div>
-          <div className="flex-none">
+          <div className="flex justify-center w-full h-full items-center">
             <a
               href={`${chain?.blockExplorers?.default.url}/tx/${hash}`}
               target="_blank"
@@ -87,58 +83,175 @@ export default function SwapCard_Content() {
           </div>
         </div>
       </div>
-      {/* inputcoin */}
-      <div className=" bg-white  bg-opacity-50 rounded-xl p-4 relative">
-        <div className="flex-col">
-          <div className="flex justify-between">
-            <div className="text-2xl w-[calc(100%-130px)]">
-              <input
-                type="number"
-                step="0.0000001"
-                placeholder="0.0"
-                className="bg-transparent border-none text-3xl outline-none  w-full"
-                ref={inputAmountRef}
-                pattern="[0-9]*"
-                onKeyPress={(event) => {
-                  if (!/[0-9.]/.test(event.key)) {
-                    event.preventDefault()
-                  }
+      <div className="z-10">
+        {/* inputcoin */}
+        <div className=" bg-white  bg-opacity-50 rounded-xl p-4 relative">
+          <div className="flex-col">
+            <div className="flex justify-between">
+              <div className="text-2xl w-[calc(100%-130px)]">
+                <input
+                  type="number"
+                  step="0.0000001"
+                  placeholder="0.0"
+                  className="bg-transparent border-none text-3xl outline-none  w-full"
+                  ref={inputAmountRef}
+                  pattern="[0-9]*"
+                  onKeyPress={(event) => {
+                    if (!/[0-9.]/.test(event.key)) {
+                      event.preventDefault()
+                    }
+                  }}
+                />
+              </div>
+              {/* coinlist */}
+              <div
+                className="flex bg-white rounded-full shadow-lg items-center px-3 hover:cursor-pointer hover:bg-opacity-0"
+                onClick={openModal_input}
+              >
+                <div className="w-[24px] h-[24px]">
+                  <img
+                    alt=""
+                    src="data:image/png;base64,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"
+                  />
+                </div>
+                <div className="ml-2">{selectedCoin_input}</div>
+                <div className="ml-2">
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 8 8"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="rotate-0"
+                  >
+                    <path
+                      fill="#5155a6"
+                      fillRule="nonzero"
+                      d="M4.036 6.571.5 3.036l.786-.786L4.037 5l2.748-2.75.786.786z"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            {/* Balance */}
+            <div className="flex justify-end mt-3 text-gray-600 text-sm">
+              {/* input value */}
+              {/* <div>
+              {"$" +
+                inputValue.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                  useGrouping: true,
+                })}
+            </div> */}
+              <div className="">{`Balance: ${
+                inputTokenBalance
+                  ? Number(inputTokenBalance?.formatted).toFixed(6)
+                  : "0.0"
+              } `}</div>
+            </div>
+            {/* 百分比选择 */}
+            <div className="flex justify-start gap-7 mt-2 text-sm">
+              <div
+                className="w-1/5 border-slate-200 border  rounded-xl text-center py-1 hover:cursor-pointer hover:border-slate-400 ripple-btn active:border-slate-600"
+                onClick={() => {
+                  inputTokenPercentSelect(25)
                 }}
-              />
-            </div>
-            {/* coinlist */}
-            <div
-              className="flex bg-white rounded-full shadow-lg items-center px-3 hover:cursor-pointer hover:bg-opacity-0"
-              onClick={openModal_input}
-            >
-              <div className="w-[24px] h-[24px]">
-                <img
-                  alt=""
-                  src="data:image/png;base64,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"
-                />
+              >
+                25%
               </div>
-              <div className="ml-2">{selectedCoin_input}</div>
-              <div className="ml-2">
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 8 8"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="rotate-0"
-                >
-                  <path
-                    fill="#5155a6"
-                    fillRule="nonzero"
-                    d="M4.036 6.571.5 3.036l.786-.786L4.037 5l2.748-2.75.786.786z"
-                  ></path>
-                </svg>
+              <div
+                className="w-1/5 border-slate-200 border  rounded-xl text-center py-1 hover:cursor-pointer hover:border-slate-400 ripple-btn active:border-slate-600"
+                onClick={() => {
+                  inputTokenPercentSelect(50)
+                }}
+              >
+                50%
+              </div>
+              <div
+                className="w-1/5 border-slate-200 border  rounded-xl text-center py-1 hover:cursor-pointer hover:border-slate-400 ripple-btn active:border-slate-600"
+                onClick={() => {
+                  inputTokenPercentSelect(75)
+                }}
+              >
+                75%
+              </div>
+              <div
+                className="w-1/5 border-slate-200 border  rounded-xl text-center py-1 hover:cursor-pointer hover:border-slate-400 ripple-btn active:border-slate-600"
+                onClick={() => {
+                  inputTokenPercentSelect(100)
+                }}
+              >
+                100%
               </div>
             </div>
           </div>
-          {/* Balance */}
-          <div className="flex justify-end mt-3 text-gray-600 text-sm">
-            {/* input value */}
-            {/* <div>
+        </div>
+        {/* icon */}
+        <div className=" inset-x-0 mx-auto top-1/2  w-8 h-8 bg-white flex justify-center items-center rounded-full">
+          <div className="p-0 bg-gray-500 bg-opacity-0 rounded-full">
+            <svg
+              className="swap_icon"
+              viewBox="0 0 1024 1024"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+            >
+              <path
+                d="M554.666667 712.533333V106.666667h-85.333334v601.6l-132.266666-132.266667L277.333333 640l234.666667 234.666667 234.666667-234.666667-59.733334-59.733333-132.266666 132.266666z"
+                fill="#bfbfbf"
+              ></path>
+            </svg>
+          </div>
+        </div>
+        {/* outcoin */}
+        <div className=" bg-white  bg-opacity-50 rounded-xl p-4 relative mt-0">
+          <div className="flex-col">
+            <div className="flex justify-between">
+              <div className="text-2xl w-[calc(100%-130px)]">
+                <input
+                  type="text"
+                  placeholder={"0.0"}
+                  ref={outAmountRef}
+                  className={`bg-transparent border-none text-3xl outline-none ${
+                    isGetReceive && "animate-pulse"
+                  }   w-full `}
+                  disabled
+                />
+              </div>
+              {/* coinlist */}
+              <div
+                className="flex bg-white rounded-full shadow-lg items-center px-3 hover:cursor-pointer hover:bg-opacity-0"
+                onClick={openModal_out}
+              >
+                <div className="w-[24px] h-[24px]">
+                  <img
+                    alt=""
+                    src="data:image/png;base64,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"
+                  />
+                </div>
+                <div className="ml-2">{selectedCoin_out}</div>
+                <div className="ml-2">
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 8 8"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="rotate-0"
+                  >
+                    <path
+                      fill="#5155a6"
+                      fillRule="nonzero"
+                      d="M4.036 6.571.5 3.036l.786-.786L4.037 5l2.748-2.75.786.786z"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            {/* Balance */}
+            <div className="flex justify-end mt-3 text-gray-600 text-sm">
+              {/* input value */}
+              {/* <div>
               {"$" +
                 inputValue.toLocaleString("en-US", {
                   minimumFractionDigits: 2,
@@ -146,132 +259,16 @@ export default function SwapCard_Content() {
                   useGrouping: true,
                 })}
             </div> */}
-            <div className="">{`Balance: ${
-              inputTokenBalance
-                ? Number(inputTokenBalance?.formatted).toFixed(6)
-                : "0.0"
-            } `}</div>
-          </div>
-          {/* 百分比选择 */}
-          <div className="flex justify-start gap-7 mt-2 text-sm">
-            <div
-              className="w-1/5 border-slate-200 border  rounded-xl text-center py-1 hover:cursor-pointer hover:border-slate-400 ripple-btn active:border-slate-600"
-              onClick={() => {
-                inputTokenPercentSelect(25)
-              }}
-            >
-              25%
-            </div>
-            <div
-              className="w-1/5 border-slate-200 border  rounded-xl text-center py-1 hover:cursor-pointer hover:border-slate-400 ripple-btn active:border-slate-600"
-              onClick={() => {
-                inputTokenPercentSelect(50)
-              }}
-            >
-              50%
-            </div>
-            <div
-              className="w-1/5 border-slate-200 border  rounded-xl text-center py-1 hover:cursor-pointer hover:border-slate-400 ripple-btn active:border-slate-600"
-              onClick={() => {
-                inputTokenPercentSelect(75)
-              }}
-            >
-              75%
-            </div>
-            <div
-              className="w-1/5 border-slate-200 border  rounded-xl text-center py-1 hover:cursor-pointer hover:border-slate-400 ripple-btn active:border-slate-600"
-              onClick={() => {
-                inputTokenPercentSelect(100)
-              }}
-            >
-              100%
+              <div className="">{`Balance: ${
+                outTokenBalance
+                  ? Number(outTokenBalance?.formatted).toFixed(6)
+                  : "0.0"
+              } `}</div>
             </div>
           </div>
         </div>
-      </div>
-      {/* icon */}
-      <div className=" inset-x-0 mx-auto top-1/2  w-8 h-8 bg-white flex justify-center items-center rounded-full">
-        <div className="p-0 bg-gray-500 bg-opacity-0 rounded-full">
-          <svg
-            className="swap_icon"
-            viewBox="0 0 1024 1024"
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-          >
-            <path
-              d="M554.666667 712.533333V106.666667h-85.333334v601.6l-132.266666-132.266667L277.333333 640l234.666667 234.666667 234.666667-234.666667-59.733334-59.733333-132.266666 132.266666z"
-              fill="#bfbfbf"
-            ></path>
-          </svg>
-        </div>
-      </div>
-      {/* outcoin */}
-      <div className=" bg-white  bg-opacity-50 rounded-xl p-4 relative mt-0">
-        <div className="flex-col">
-          <div className="flex justify-between">
-            <div className="text-2xl w-[calc(100%-130px)]">
-              <input
-                type="text"
-                placeholder={"0.0"}
-                ref={outAmountRef}
-                className={`bg-transparent border-none text-3xl outline-none ${
-                  isGetReceive && "animate-pulse"
-                }   w-full `}
-                disabled
-              />
-            </div>
-            {/* coinlist */}
-            <div
-              className="flex bg-white rounded-full shadow-lg items-center px-3 hover:cursor-pointer hover:bg-opacity-0"
-              onClick={openModal_out}
-            >
-              <div className="w-[24px] h-[24px]">
-                <img
-                  alt=""
-                  src="data:image/png;base64,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"
-                />
-              </div>
-              <div className="ml-2">{selectedCoin_out}</div>
-              <div className="ml-2">
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 8 8"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="rotate-0"
-                >
-                  <path
-                    fill="#5155a6"
-                    fillRule="nonzero"
-                    d="M4.036 6.571.5 3.036l.786-.786L4.037 5l2.748-2.75.786.786z"
-                  ></path>
-                </svg>
-              </div>
-            </div>
-          </div>
-          {/* Balance */}
-          <div className="flex justify-end mt-3 text-gray-600 text-sm">
-            {/* input value */}
-            {/* <div>
-              {"$" +
-                inputValue.toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                  useGrouping: true,
-                })}
-            </div> */}
-            <div className="">{`Balance: ${
-              outTokenBalance
-                ? Number(outTokenBalance?.formatted).toFixed(6)
-                : "0.0"
-            } `}</div>
-          </div>
-        </div>
-      </div>
-      {/* 汇率 */}
-      {/* <div className="flex bg-white  bg-opacity-50 rounded-xl px-4 py-2 relative mt-5 text-sm items-center">
+        {/* 汇率 */}
+        {/* <div className="flex bg-white  bg-opacity-50 rounded-xl px-4 py-2 relative mt-5 text-sm items-center">
    
         <div className="w-[17px] h-[17px]">
           <img
@@ -295,57 +292,58 @@ export default function SwapCard_Content() {
           }) + " USDC"}{" "}
         </div>
       </div> */}
-      {/* button */}
-      <div
-        className={`flex justify-center items-center text-center font-semibold w-full mt-5 h-12 ${
-          Number(receiveTokenAmount) > 0
-            ? inputTokenBalance?.formatted >= inputAmountRef.current?.value
-              ? "bg-indigo-400  hover:cursor-pointer"
+        {/* button */}
+        <div
+          className={`flex justify-center items-center text-center font-semibold w-full mt-5 h-12 ${
+            Number(receiveTokenAmount) > 0
+              ? inputTokenBalance?.formatted >= inputAmountRef.current?.value
+                ? "bg-indigo-400  hover:cursor-pointer"
+                : "bg-white text-gray-500 hover:cursor-default"
               : "bg-white text-gray-500 hover:cursor-default"
-            : "bg-white text-gray-500 hover:cursor-default"
-        } py-2 rounded-xl ripple-btn`}
-        onClick={swapClick}
-      >
-        {isLoading_Btn && (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="animate-spin h-5 w-5 mr-3 text-gray-700"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            ></circle>
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            ></path>
-          </svg>
-        )}
-        {Number(receiveTokenAmount) !== 0
-          ? inputTokenBalance?.formatted >= inputAmountRef.current?.value
-            ? currentInputTokenAllowance >= inputAmountRef.current?.value
-              ? "Swap"
-              : "Approve"
-            : "Insufficient Balance"
-          : "Insufficient Amount"}
+          } py-2 rounded-xl ripple-btn`}
+          onClick={swapClick}
+        >
+          {isLoading_Btn && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="animate-spin h-5 w-5 mr-3 text-gray-700"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+          )}
+          {Number(receiveTokenAmount) !== 0
+            ? inputTokenBalance?.formatted >= inputAmountRef.current?.value
+              ? currentInputTokenAllowance >= inputAmountRef.current?.value
+                ? "Swap"
+                : "Approve"
+              : "Insufficient Balance"
+            : "Insufficient Amount"}
+        </div>
+        {/* tokenListModal */}
+        <TokenListModal
+          isOpen={isOpen}
+          closeModal={closeModal}
+          selectedTokenlist={selectedTokenlist}
+          selectedCoin_input={selectedCoin_input}
+          setSelectedCoin_input={setSelectedCoin_input}
+          selectedCoin_out={selectedCoin_out}
+          setSelectedCoin_out={setSelectedCoin_out}
+        />
       </div>
-      {/* 代币列表modal */}
-      <TokenListModal
-        isOpen={isOpen}
-        closeModal={closeModal}
-        selectedTokenlist={selectedTokenlist}
-        selectedCoin_input={selectedCoin_input}
-        setSelectedCoin_input={setSelectedCoin_input}
-        selectedCoin_out={selectedCoin_out}
-        setSelectedCoin_out={setSelectedCoin_out}
-      />
     </div>
   )
 }
