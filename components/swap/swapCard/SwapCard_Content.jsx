@@ -97,7 +97,17 @@ export default function SwapCard_Content() {
                   ref={inputAmountRef}
                   pattern="[0-9]*"
                   onKeyPress={(event) => {
-                    if (!/[0-9.]/.test(event.key)) {
+                    const { key } = event
+                    const { value } = event.target
+
+                    if (!/[0-9.]/.test(key)) {
+                      event.preventDefault()
+                    } else if (
+                      (key === "." && value.indexOf(".") !== -1) ||
+                      (key !== "." &&
+                        value.indexOf(".") !== -1 &&
+                        value.split(".")[1].length >= 12)
+                    ) {
                       event.preventDefault()
                     }
                   }}
