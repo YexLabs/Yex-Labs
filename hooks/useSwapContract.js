@@ -161,6 +161,12 @@ export default function useSwapContract() {
   }, [contractTransaction, selectedCoin_input, inputValue])
 
   const swapClick = useCallback(async () => {
+    if (Number(receiveTokenAmount) === 0) {
+      return
+    }
+    if (inputTokenBalance?.formatted < inputAmountRef.current?.value) {
+      return
+    }
     try {
       setIsLoading_Btn(true)
 
