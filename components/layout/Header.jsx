@@ -9,13 +9,22 @@ import { useRouter } from "next/router"
 export default function Header() {
   const { chain, chains } = useNetwork()
   const [isPoolHovered, setIsPoolHovered] = useState(false)
+  const [hoveredItems, setHoveredItems] = useState({})
   const router = useRouter()
-  const handleMouseEnter = () => {
-    setIsPoolHovered(true)
+  const handleMouseEnter = (title) => {
+    setHoveredItems((prevState) => ({
+      ...prevState,
+      [title]: true
+    }))
   }
-  const handleMouseLeave = () => {
-    setIsPoolHovered(false)
+
+  const handleMouseLeave = (title) => {
+    setHoveredItems((prevState) => ({
+      ...prevState,
+      [title]: false
+    }))
   }
+
   const handleHackathonClick = (demoName) => {
     router.push("/" + demoName)
   }
@@ -44,11 +53,30 @@ export default function Header() {
       ]
     },
     {
+      title: "FTO",
+      href: "",
+      hasSubMenu: true,
+      subMenu: [
+        {
+          title: "Launchpad",
+          href: "/launchpad",
+          description: "Prototype | Polygon-Testnet"
+        },
+        {
+          title: "Portfolio",
+          href: "/portfolio",
+          description: "Prototype | Polygon-Testnet"
+        }
+      ]
+    },
+    {
       title: "ILO",
       href: "/ilo",
       hasSubMenu: false
     }
   ]
+
+  console.log(hoveredItems)
 
   return (
     <header className="box-border  flex flex-col top-0 left-0 w-full h-[80px] z-30 border-b-0">
@@ -79,70 +107,75 @@ export default function Header() {
                 </div>
               </div>
 
-              {MENU_ITEMS.map((item) => (
-                <div
-                  key={item.title}
-                  className={`relative ${
-                    item.hasSubMenu ? "dropdown dropdown-hover " : ""
-                  }`}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <div onClick={() => handleHackathonClick(item.href)}>
-                    <div className="flex items-center gap-1 md:gap-1 py-2 cursor-pointer">
-                      <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
-                        {item.title}
-                      </p>
-                      {item.hasSubMenu && (
-                        <div className="mt-1">
-                          <svg
-                            width="8"
-                            height="8"
-                            viewBox="0 0 8 8"
-                            xmlns="http://www.w3.org/2000/svg"
-                            className={
-                              isPoolHovered ? "rotate-180" : "rotate-0"
-                            }
-                          >
-                            <path
-                              fill="#5155a6"
-                              fillRule="nonzero"
-                              d="M4.036 6.571.5 3.036l.786-.786L4.037 5l2.748-2.75.786.786z"
-                            ></path>
-                          </svg>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  {item.hasSubMenu && (
-                    <ul
-                      tabIndex="0"
-                      className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-80 mt-0"
-                    >
-                      {item.subMenu.map((subItem) => (
-                        <li>
-                          <div
-                            key={subItem.title}
-                            className="flex"
-                            onClick={() => handleHackathonClick(subItem.href)}
-                          >
-                            <div className="flex items-center">
-                              <Image
-                                src={logo}
-                                className="h-[24px] w-[24px] z-1"
-                              />
-                            </div>
-                            <div className="flex flex-col ml-0">
-                              <p>{subItem.title}</p>
-                              <p className="text-xs">{subItem.description}</p>
-                            </div>
+              {MENU_ITEMS.map((item) => {
+                const isItemHovered = true
+                return (
+                  <div
+                    key={item.title}
+                    className={`relative ${
+                      item.hasSubMenu ? "dropdown dropdown-hover " : ""
+                    }`}
+                    onMouseEnter={() => handleMouseEnter(item.title)}
+                    onMouseLeave={() => handleMouseLeave(item.title)}
+                  >
+                    <div onClick={() => handleHackathonClick(item.href)}>
+                      <div className="flex items-center gap-1 md:gap-1 py-2 cursor-pointer">
+                        <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
+                          {item.title}
+                        </p>
+                        {item.hasSubMenu && (
+                          <div className="mt-1">
+                            <svg
+                              width="8"
+                              height="8"
+                              viewBox="0 0 8 8"
+                              xmlns="http://www.w3.org/2000/svg"
+                              className={
+                                hoveredItems[item.title]
+                                  ? "rotate-180"
+                                  : "rotate-0"
+                              }
+                            >
+                              <path
+                                fill="#5155a6"
+                                fillRule="nonzero"
+                                d="M4.036 6.571.5 3.036l.786-.786L4.037 5l2.748-2.75.786.786z"
+                              ></path>
+                            </svg>
                           </div>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              ))}
+                        )}
+                      </div>
+                    </div>
+                    {item.hasSubMenu && (
+                      <ul
+                        tabIndex="0"
+                        className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-80 mt-0"
+                      >
+                        {item.subMenu.map((subItem) => (
+                          <li>
+                            <div
+                              key={subItem.title}
+                              className="flex"
+                              onClick={() => handleHackathonClick(subItem.href)}
+                            >
+                              <div className="flex items-center">
+                                <Image
+                                  src={logo}
+                                  className="h-[24px] w-[24px] z-1"
+                                />
+                              </div>
+                              <div className="flex flex-col ml-0">
+                                <p>{subItem.title}</p>
+                                <p className="text-xs">{subItem.description}</p>
+                              </div>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                )
+              })}
             </div>
             <div className="flex flex-row items-center gap-3">
               <div className="relative">
