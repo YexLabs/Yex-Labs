@@ -79,7 +79,7 @@ export default function Header() {
   console.log(hoveredItems)
 
   return (
-    <header className="box-border  flex flex-col top-0 left-0 w-full h-[80px] z-30 border-b-0">
+    <header className="box-border  flex flex-col top-0 left-0 w-full h-[80px] z-30 border-b-0 z-10">
       <div className="flex fade-in bg-blue-500 backdrop-blur-md items-center">
         <div className="mx-auto py-[2px] ">
           <p className="m-0 font-inter font-normal leading-5 text-xs text-white">
@@ -112,6 +112,7 @@ export default function Header() {
                 return (
                   <div
                     key={item.title}
+                    tabIndex="0"
                     className={`relative ${
                       item.hasSubMenu ? "dropdown dropdown-hover " : ""
                     }`}
@@ -149,19 +150,20 @@ export default function Header() {
                     {item.hasSubMenu && (
                       <ul
                         tabIndex="0"
-                        className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-80 mt-0"
+                        className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-80 mt-0 z-10"
                       >
                         {item.subMenu.map((subItem) => (
                           <li>
                             <div
                               key={subItem.title}
+                              tabIndex="0"
                               className="flex"
                               onClick={() => handleHackathonClick(subItem.href)}
                             >
                               <div className="flex items-center">
                                 <Image
                                   src={logo}
-                                  className="h-[24px] w-[24px] z-1"
+                                  className="h-[24px] w-[24px]"
                                 />
                               </div>
                               <div className="flex flex-col ml-0">
