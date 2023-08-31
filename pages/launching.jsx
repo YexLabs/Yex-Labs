@@ -1,11 +1,15 @@
-import SwapCard from "@/components/swap/SwapCard"
+import Fto from "@/components/fto/Fto"
 import useCheckNetwork from "@/hooks/useCheckNetwork"
 import React from "react"
 
-const launchpad = () => {
+const launching = () => {
   const { error } = useCheckNetwork()
   // console.log("checkNetworkError:" + error)
-  return <div>launchpad</div>
+  return (
+    <div>
+      <Fto />
+    </div>
+  )
 }
 
-export default launchpad
+export default launching

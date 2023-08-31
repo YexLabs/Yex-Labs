@@ -58,8 +58,8 @@ export default function Header() {
       hasSubMenu: true,
       subMenu: [
         {
-          title: "Launchpad",
-          href: "/launchpad",
+          title: "Launching",
+          href: "/launching",
           description: "Prototype | Polygon-Testnet"
         },
         {
@@ -79,7 +79,7 @@ export default function Header() {
   console.log(hoveredItems)
 
   return (
-    <header className="box-border  flex flex-col top-0 left-0 w-full h-[80px] z-30 border-b-0 z-10">
+    <header className="box-border  flex flex-col top-0 left-0 w-full h-[80px] border-b-0 z-10">
       <div className="flex fade-in bg-blue-500 backdrop-blur-md items-center">
         <div className="mx-auto py-[2px] ">
           <p className="m-0 font-inter font-normal leading-5 text-xs text-white">
