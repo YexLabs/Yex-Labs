@@ -1,6 +1,7 @@
 import Faucet_Mumbai from "@/components/common/Faucet_Mumbai"
 import React from "react"
 import { Button } from "@/components/ui/button"
+import TokenDetails from "./TokenDetails"
 
 export default function FtoCard_Header() {
   return (
@@ -25,7 +26,10 @@ export default function FtoCard_Header() {
         </svg>
       </div> */}
       <div className="flex">
-        <Button>Launch My Token</Button>
+        <Button onClick={() => window.tokenDetails_modal.showModal()}>
+          Launch My Token
+        </Button>
+        <TokenDetails />
       </div>
     </div>
   )
