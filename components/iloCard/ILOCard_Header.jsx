@@ -8,9 +8,9 @@ import Image from "next/image"
 import { ethers } from "ethers"
 import ILO_Faucet from "./ILO_Faucet"
 
-export default function ILOCard_Header() {
+export default function ILOCard_Header({ token }) {
   const { depositedTokenA, lockedTokenB, setRasingPaused, isPaused } =
-    useILOContract()
+    useILOContract(token)
 
   const rasingPaused = async () => {
     try {
@@ -31,7 +31,7 @@ export default function ILOCard_Header() {
             <div className="text-2xl font-semibold">Token B ILO</div>
             <div className="text-sm flex">
               <div className="text-indigo-600 mr-1">Contract on</div>
-              <div>{truncateAddress(ILO_ADDRESS)}</div>
+              <div>{truncateAddress(token || "0")}</div>
             </div>
           </div>
         </div>

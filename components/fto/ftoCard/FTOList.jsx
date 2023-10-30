@@ -4,7 +4,7 @@ import { useContractRead } from "wagmi"
 
 const projects = [
   {
-    id: 0,
+    id: "0xa5885ef4c6F8E14e9d97d7243C3481718E63Fd9E",
     status: "ongoing",
     tokenName: "ETH",
     price: "0.01 USDT",
