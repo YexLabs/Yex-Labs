@@ -5,7 +5,7 @@ import { useAccount, useBalance } from "wagmi"
 import { toast } from "react-toastify"
 import useILOContract from "@/hooks/useILOContract"
 
-export default function ILOCard_Content() {
+export default function ILOCard_Content({ token }) {
   const { address } = useAccount()
 
   const [amount, setAmount] = useState(0)
@@ -28,7 +28,7 @@ export default function ILOCard_Content() {
     setDepositLoading,
     depositLoading,
     isPaused
-  } = useILOContract()
+  } = useILOContract(token)
 
   const deposit = async () => {
     setDepositLoading(true)
