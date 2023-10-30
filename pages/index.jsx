@@ -14,7 +14,7 @@ const Home = () => {
       <Head />
       <main>
         <div className="box-border mx-auto mb-7 min-h-screen md:min-h-auto md:h-auto md:pt-7">
-          <div className="mb-[100px] relative">
+          <div className="mb-[100px]">
             <div className="flex flex-col box-border mx-auto w-full max-w-screen-lg pt-40">
               <div className="flex flex-col cursor-default">
                 <div className="flex flex-col ml-24 text-left m-2 gap-8">
