@@ -155,23 +155,23 @@ export default function Faucet_Mumbai() {
       setAbleILOFaucted_A(!data[2].result)
 
       setTokenABalance(
-        Number(formatEther(data[3].result))
+        Number(formatEther(data[3]?.result || 0))
           .toFixed(6)
           .replace(/\.?0+$/, "")
       )
       console.log(
         "tokenA balance",
-        Number(formatEther(data[3].result))
+        Number(formatEther(data[3].result || 0))
           .toFixed(6)
           .replace(/\.?0+$/, "")
       )
       setTokenBBalance(
-        Number(formatEther(data[4].result))
+        Number(formatEther(data[4].result || 0))
           .toFixed(6)
           .replace(/\.?0+$/, "")
       )
       settokenILOA_balance(
-        Number(formatEther(data[5].result))
+        Number(formatEther(data[5].result || 0))
           .toFixed(6)
           .replace(/\.?0+$/, "")
       )
