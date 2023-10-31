@@ -1,6 +1,9 @@
-import React from "react"
-import { useRouter } from "next/router"
+import React, { useState, useEffect } from "react"
+
 import { useContractRead } from "wagmi"
+import { FTO_FACTORY_ADDRESS } from "@/contracts/addresses"
+import { MUBAI_FTO_FACTORY_ABI } from "@/contracts/abis"
+import ProjectDetail from "./ProjectDetail"
 
 const projects = [
   {
@@ -71,30 +74,45 @@ const projects = [
 ]
 
 export default function FTOList() {
-  const {
-    data: allPairs,
-    isError,
-    isLoading
-  } = useContractRead({
-    address: "address",
-    abi: "abi",
-    functionName: "allPairs"
+  const [allPairs, setAllPairs] = useState([])
+  const { data: pairsLength } = useContractRead({
+    address: FTO_FACTORY_ADDRESS,
+    abi: MUBAI_FTO_FACTORY_ABI,
+    functionName: "allPairsLength"
   })
 
-  const router = useRouter()
+  // 根据 pairsLength 生成一个地址数组
+  const allPairIndexes = Array.from(
+    { length: Number(pairsLength) || 0 },
+    (_, index) => index
+  )
 
-  const handleHackathonClick = (id) => {
-    router.push("/ilo" + "/" + id)
-  }
+  // const loadPairs = async () => {
+  //   if (pairsLength) {
+  //     let pairs = []
+  //     for (let i = 0; i < pairsLength; i++) {
+  //       const pair = await useContractRead({
+  //         address: FTO_FACTORY_ADDRESS,
+  //         abi: MUBAI_FTO_FACTORY_ABI,
+  //         functionName: "allPairs",
+  //         args: [i] // 使用索引作为参数
+  //       })
+  //       pairs.push(pair.data)
+  //     }
+  //     setAllPairs(pairs)
+  //   }
+  // }
+
+  useEffect(() => {}, [pairsLength])
 
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">FTO Projects</h1>
       <div className="space-y-4 max-h-[300px] overflow-y-auto">
-        {allPairs &&
-          allPairs.map((pairAddress) => (
-            <ProjectDetail key={pairAddress} pairAddress={pairAddress} />
-          ))}
+        {allPairIndexes.map((index) => {
+          console.log(index) // 检查 index 是否如预期那样变化
+          return <ProjectDetail key={index} index={index} />
+        })}
       </div>
     </div>
   )
