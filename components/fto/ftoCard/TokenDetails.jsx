@@ -44,9 +44,11 @@ export default function TokenDetails() {
         className="modal-box"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-          ✕
-        </button>
+        <form method="dialog">
+          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+            ✕
+          </button>{" "}
+        </form>
         <h3 className="font-bold text-lg mb-8">Token Details</h3>
         <div className="mb-4">
           <label className="block text-sm font-medium">Token Address</label>
