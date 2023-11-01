@@ -22,7 +22,7 @@ export default function ILOCard_Content({ token }) {
     depositWrite,
     setDepositLoading,
     depositLoading,
-    isPaused,
+    ftoState,
     tokenA,
     tokenAbalanceData
   } = useILOContract(token)
@@ -117,7 +117,7 @@ export default function ILOCard_Content({ token }) {
       <button
         className={`flex justify-center items-center text-center w-full mt-5 
           ${
-            !isPaused
+            ftoState == 2
               ? "bg-indigo-400"
               : "bg-gray-400 opacity-50 cursor-not-allowed"
           }
@@ -147,7 +147,7 @@ export default function ILOCard_Content({ token }) {
             ></path>
           </svg>
         )}
-        Deposit
+        {`Deposit`}
       </button>
       <TokenListModal
         isOpen={isOpen}
