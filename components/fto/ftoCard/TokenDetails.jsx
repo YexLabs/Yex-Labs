@@ -38,6 +38,9 @@ export default function TokenDetails() {
     })
   }
 
+  const ethereumAddressPattern = /^(0x)[0-9A-Fa-f]{40}$/
+  const positiveIntegerPattern = /^[1-9]\d*$/
+
   return (
     <dialog id="tokenDetails_modal" className="modal">
       <form
@@ -55,11 +58,17 @@ export default function TokenDetails() {
           <label className="block text-sm font-medium">Token Address</label>
           <input
             type="text"
-            {...register("tokenAddress", { required: true })}
+            {...register("tokenAddress", {
+              required: "Token Address is required",
+              pattern: {
+                value: ethereumAddressPattern,
+                message: "Invalid Ethereum address"
+              }
+            })}
             className="mt-1 p-2 w-full border rounded-md"
           />
           {errors.tokenAddress && (
-            <span className="text-red-500">Token Address is required</span>
+            <span className="text-red-500">{errors.tokenAddress.message}</span>
           )}
         </div>
         <div className="mb-4">
@@ -77,44 +86,68 @@ export default function TokenDetails() {
           <label className="block text-sm font-medium">Token Symbol</label>
           <input
             type="text"
-            {...register("tokenSymbol", { required: true })}
+            {...register("tokenSymbol", {
+              required: "Token Symbol is required",
+              pattern: {
+                value: positiveIntegerPattern,
+                message: "Token Symbol should be a positive integer"
+              }
+            })}
             className="mt-1 p-2 w-full border rounded-md"
           />
           {errors.tokenSymbol && (
-            <span className="text-red-500">Token Symbol is required</span>
+            <span className="text-red-500">{errors.tokenSymbol.message}</span>
           )}
         </div>
         <div className="mb-4">
           <label className="block text-sm font-medium">Token Amount</label>
           <input
             type="text"
-            {...register("tokenAmount", { required: true })}
+            {...register("tokenAmount", {
+              required: "Token Amount is required",
+              pattern: {
+                value: positiveIntegerPattern,
+                message: "Token Amount should be a positive integer"
+              }
+            })}
             className="mt-1 p-2 w-full border rounded-md"
           />
           {errors.tokenAmount && (
-            <span className="text-red-500">Token Amount is required</span>
+            <span className="text-red-500">{errors.tokenAmount.message}</span>
           )}
         </div>
         <div className="mb-4">
           <label className="block text-sm font-medium">Pool Handler</label>
           <input
             type="text"
-            {...register("poolHandler", { required: true })}
+            {...register("poolHandler", {
+              required: "Pool Handler is required",
+              pattern: {
+                value: ethereumAddressPattern,
+                message: "Invalid Ethereum address"
+              }
+            })}
             className="mt-1 p-2 w-full border rounded-md"
           />
           {errors.poolHandler && (
-            <span className="text-red-500">Pool Handler is required</span>
+            <span className="text-red-500">{errors.poolHandler.message}</span>
           )}
         </div>
         <div className="mb-6">
           <label className="block text-sm font-medium">Rasing Cycle</label>
           <input
             type="number"
-            {...register("rasing_cycle", { required: true })}
+            {...register("rasing_cycle", {
+              required: "Rasing Cycle is required",
+              pattern: {
+                value: positiveIntegerPattern,
+                message: "Rasing Cycle should be a positive integer"
+              }
+            })}
             className="mt-1 p-2 w-full border rounded-md"
           />
           {errors.rasing_cycle && (
-            <span className="text-red-500">Rasing Cycle is required</span>
+            <span className="text-red-500">{errors.rasing_cycle.message}</span>
           )}
         </div>
         <div className="flex justify-center items-center">
