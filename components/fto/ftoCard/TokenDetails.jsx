@@ -1,11 +1,13 @@
+import { MUBAI_FTO_FACTORY_ABI } from "@/contracts/abis"
+import { FTO_FACTORY_ADDRESS } from "@/contracts/addresses"
 import React from "react"
 import { useForm } from "react-hook-form"
 import { useContractWrite } from "wagmi"
 
 export default function TokenDetails() {
   const { data, isLoading, isSuccess, write } = useContractWrite({
-    address: "address",
-    abi: "ABI",
+    address: FTO_FACTORY_ADDRESS,
+    abi: MUBAI_FTO_FACTORY_ABI,
     functionName: "createFTO"
   })
 
@@ -16,7 +18,6 @@ export default function TokenDetails() {
   } = useForm()
 
   const onSubmit = (data) => {
-    console.log(data)
     const {
       tokenAddress,
       tokenName,
@@ -97,7 +98,7 @@ export default function TokenDetails() {
         <div className="mb-4">
           <label className="block text-sm font-medium">Pool Handler</label>
           <input
-            type="number"
+            type="text"
             {...register("poolHandler", { required: true })}
             className="mt-1 p-2 w-full border rounded-md"
           />
