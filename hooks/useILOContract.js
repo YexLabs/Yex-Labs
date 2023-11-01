@@ -1,23 +1,57 @@
 import React, { useState } from "react"
 import {
   MUMBAI_ILO_TOKENA_ADDRESS,
-  MUMBAI_ILO_TOKENB_ADDRESS
+  MUMBAI_ILO_TOKENB_ADDRESS,
+  FTO_FACADE_ADDRESS
   // ILO_ADDRESS
 } from "../contracts/addresses"
-import { MUMBAI_YEX_ILO_EXAMPLE_ABI } from "../contracts/abis"
-import YEX_ILO_ABI from "../contracts/abis/YexILOExample.json"
-import { useAccount, useContractRead, useContractWrite } from "wagmi"
+import {
+  MUMBAI_YEX_ILO_EXAMPLE_ABI,
+  MUBAI_FTO_PAIR_ABI,
+  MUBAI_FTO_FACADE_ABI
+} from "../contracts/abis"
+
+import {
+  useAccount,
+  useContractRead,
+  useContractWrite,
+  useBalance
+} from "wagmi"
 import { ethers } from "ethers"
 import { toast } from "react-toastify"
 
 export default function useILOContract(tokenAddress) {
   const ILO_ADDRESS = tokenAddress
+  const MUMBAI_YEX_ILO_EXAMPLE_ABI = MUBAI_FTO_PAIR_ABI
   const { address } = useAccount()
-  const [amountA, setAmountA] = useState("0")
+  const [depositAmount, setDepositAmount] = useState("0")
   const [depositLoading, setDepositLoading] = useState(false)
+
+  const { data: tokenB } = useContractRead({
+    address: ILO_ADDRESS,
+    abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
+    functionName: "tokenB"
+  })
+
+  const { data: tokenA } = useContractRead({
+    address: ILO_ADDRESS,
+    abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
+    functionName: "tokenA"
+  })
+
+  const { data: tokenAbalanceData } = useBalance({
+    token: tokenA,
+    address: address
+  })
+
+  const { data: tokenBbalanceData } = useBalance({
+    token: tokenB,
+    address: address
+  })
+
   const { data: totalSupply, isLoading: isTotalSupplyLoading } =
     useContractRead({
-      address: ILO_ADDRESS,
+      address: tokenB,
       abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
       functionName: "totalSupply"
     })
@@ -31,7 +65,7 @@ export default function useILOContract(tokenAddress) {
   })
 
   const { writeAsync: approveTokenAWrite } = useContractWrite({
-    address: MUMBAI_ILO_TOKENA_ADDRESS,
+    address: tokenA,
     abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
     functionName: "approve",
     args: [ILO_ADDRESS, ethers.utils.parseEther("100")],
@@ -55,11 +89,16 @@ export default function useILOContract(tokenAddress) {
   })
 
   const { writeAsync: depositWrite } = useContractWrite({
-    address: ILO_ADDRESS,
-    abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
-    functionName: "depositTokenA",
+    address: FTO_FACADE_ADDRESS,
+    abi: MUBAI_FTO_FACADE_ABI,
+    functionName: "deposit",
     account: address,
-    args: [ethers.utils.parseEther(amountA), ethers.utils.parseEther("0")],
+    args: [
+      tokenA,
+      tokenB,
+      ethers.utils.parseEther(depositAmount || "0"),
+      ethers.utils.parseEther("0")
+    ],
     onError(error) {
       setDepositLoading(false)
       console.log("Error", error)
@@ -99,7 +138,7 @@ export default function useILOContract(tokenAddress) {
 
   const { writeAsync: setRasingPaused } = useContractWrite({
     address: ILO_ADDRESS,
-    abi: YEX_ILO_ABI,
+    abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
     functionName: "setRasingPaused",
     onError(error) {
       console.log("Error", error)
@@ -112,25 +151,25 @@ export default function useILOContract(tokenAddress) {
 
   const { data: lockedTokenB } = useContractRead({
     address: ILO_ADDRESS,
-    abi: YEX_ILO_ABI,
+    abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
     functionName: "deposited_TokenB"
   })
 
   const { data: depositedTokenA } = useContractRead({
     address: ILO_ADDRESS,
-    abi: YEX_ILO_ABI,
+    abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
     functionName: "deposited_TokenA"
   })
 
-  const { data: isPaused } = useContractRead({
+  const { data: ftoState } = useContractRead({
     address: ILO_ADDRESS,
-    abi: YEX_ILO_ABI,
+    abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
     functionName: "ftoState"
   })
 
   const { data: claimableLP } = useContractRead({
     address: ILO_ADDRESS,
-    abi: YEX_ILO_ABI,
+    abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
     functionName: "claimableLP",
     args: [address]
   })
@@ -138,7 +177,7 @@ export default function useILOContract(tokenAddress) {
   return {
     approveTokenAWrite,
     approveTokenBWrite,
-    setAmountA,
+    setDepositAmount,
     depositWrite,
     claimLPWrite,
     addLiquidityWrite,
@@ -146,10 +185,14 @@ export default function useILOContract(tokenAddress) {
     setRasingPaused,
     setDepositLoading,
     depositLoading,
-    isPaused,
+    ftoState,
     lockedTokenB,
     depositedTokenA,
     totalSupply,
-    claimableLP
+    claimableLP,
+    tokenA,
+    tokenB,
+    tokenAbalanceData,
+    tokenBbalanceData
   }
 }

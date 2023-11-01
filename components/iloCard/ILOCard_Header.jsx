@@ -9,8 +9,14 @@ import { ethers } from "ethers"
 import ILO_Faucet from "./ILO_Faucet"
 
 export default function ILOCard_Header({ token }) {
-  const { depositedTokenA, lockedTokenB, setRasingPaused, isPaused } =
-    useILOContract(token)
+  const {
+    depositedTokenA,
+    lockedTokenB,
+    setRasingPaused,
+    ftoState,
+    tokenB,
+    tokenBbalanceData
+  } = useILOContract(token)
 
   const rasingPaused = async () => {
     try {
@@ -28,24 +34,26 @@ export default function ILOCard_Header({ token }) {
             <Image src={eth_icon} alt="ETH" />
           </div>
           <div className="flex-col ml-2">
-            <div className="text-2xl font-semibold">Token B ILO</div>
+            <div className="text-2xl font-semibold">
+              {`${tokenBbalanceData?.symbol} ILO`}
+            </div>
             <div className="text-sm flex">
               <div className="text-indigo-600 mr-1">Contract on</div>
-              <div>{truncateAddress(token || "0")}</div>
+              <div>{truncateAddress(tokenB || "0")}</div>
             </div>
           </div>
         </div>
         <div>
-          {!isPaused ? (
+          {ftoState == 2 ? (
             <div
               className="rounded-lg bg-indigo-600 animate-bounce text-white p-2"
-              onClick={rasingPaused}
+              // onClick={rasingPaused}
             >
               LIVE
             </div>
           ) : (
             <div className="rounded-lg bg-gray-400 opacity-50 cursor-not-allowed text-white p-2">
-              {ethers.utils.formatUnits(depositedTokenA, 18) > 0
+              {ethers.utils.formatUnits(depositedTokenA || 0, 18) > 0
                 ? "SUCCESS"
                 : "FAILED"}
             </div>
@@ -57,7 +65,7 @@ export default function ILOCard_Header({ token }) {
           <div className="text-sm text-indigo-600">Uniform Price</div>
           <div className="">
             {lockedTokenB
-              ? ethers.utils.formatUnits(depositedTokenA, 18) /
+              ? ethers.utils.formatUnits(depositedTokenA || 0, 18) /
                 ethers.utils.formatUnits(lockedTokenB, 18)
               : "0.0"}
           </div>
@@ -67,7 +75,7 @@ export default function ILOCard_Header({ token }) {
           <div className="flex justify-center items-center">
             <div>
               {lockedTokenB
-                ? ethers.utils.formatUnits(lockedTokenB, 18)
+                ? ethers.utils.formatUnits(lockedTokenB || 0, 18)
                 : "0.0"}
             </div>
             <div className="w-4 h-4 ml-1">
@@ -80,7 +88,7 @@ export default function ILOCard_Header({ token }) {
           <div className="flex justify-center items-center">
             <div>
               {depositedTokenA
-                ? ethers.utils.formatUnits(depositedTokenA, 18)
+                ? ethers.utils.formatUnits(depositedTokenA || 0, 18)
                 : "0.0"}
             </div>
             <div className="w-4 h-4 ml-1">
