@@ -1,11 +1,9 @@
 import React from "react"
 import ILOCard_Header from "./ILOCard_Header"
 import ILOCard_Content from "./ILOCard_Content"
-import { useRouter } from "next/router"
 
-const ILOCard = () => {
-  const router = useRouter()
-  const { token } = router.query
+const ILOCard = ({ token }) => {
+  console.log(token, "token")
   return (
     <div className="h-full">
       <div className="flex justify-center items-center">

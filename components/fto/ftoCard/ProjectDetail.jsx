@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useRouter } from "next/router"
-import { useContractRead } from "wagmi"
+import { useContractRead, useContractReads } from "wagmi"
 import { FTO_FACTORY_ADDRESS } from "@/contracts/addresses"
 import {
   MUBAI_FTO_FACTORY_ABI,
@@ -20,10 +20,30 @@ export default function ProjectDetail({ index }) {
     args: [index]
   })
 
-  const { data: name } = useContractRead({
+  const { data: tokenAAddress } = useContractRead({
     address: pairAddress,
+    abi: MUBAI_FTO_PAIR_ABI,
+    functionName: "tokenA"
+  })
+
+  const { data: tokenBAddress } = useContractRead({
+    address: pairAddress,
+    abi: MUBAI_FTO_PAIR_ABI,
+    functionName: "tokenB"
+  })
+
+  console.log(tokenBAddress, "tokenBAddress")
+
+  const { data: name } = useContractRead({
+    address: tokenBAddress,
     abi: ERC20_ABI,
-    functionName: "name"
+    functionName: "name",
+    onSuccess: (data) => {
+      console.log(data, "+++++++++++")
+    },
+    onError: (error) => {
+      console.log(error, "+++++++++++")
+    }
   })
 
   const { data: tokenA } = useContractRead({
@@ -77,13 +97,13 @@ export default function ProjectDetail({ index }) {
 
   const timeLeft = end_time ? calculateTimeLeft() : "Loading..."
 
-  const handleHackathonClick = (id) => {
-    router.push("/ilo" + "/" + id)
+  const handleHackathonClick = (pairAddress) => {
+    router.push("/ilo" + "/" + pairAddress)
   }
 
   return (
     <div
-      onClick={() => handleHackathonClick("1")}
+      onClick={() => handleHackathonClick(pairAddress)}
       key={index}
       className={`p-2 border rounded ${
         "status" === "ongoing" ? "" : ""
