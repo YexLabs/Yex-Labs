@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react"
 import { useRouter } from "next/router"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from "@/components/ui/card"
 import { useContractRead, useContractReads } from "wagmi"
 import { FTO_FACTORY_ADDRESS } from "@/contracts/addresses"
 import {
@@ -103,24 +111,24 @@ export default function ProjectDetail({ index }) {
 
   return (
     <div
-      onClick={() => handleHackathonClick(pairAddress)}
-      key={index}
-      className={`p-2 border rounded ${
+      className={`w-1/3 border rounded ${
         "status" === "ongoing" ? "" : ""
       } hover:bg-gray-200 hover:cursor-pointer hover:border-4 hover:border-indigo-100 hover:shadow-lg 
-                        transition-all ease-in-out duration-300`}
+                    transition-all ease-in-out duration-300`}
     >
-      <span className="font-medium">{name} price: </span>
-      {price.toString()} <span className="font-medium">Timeline: </span>
-      {timeLeft} <span className="font-medium">Total Raised: </span>
-      {tokenB}{" "}
-      <span
-        className={`font-medium text-${
-          "status" === "ongoing" ? "green" : "red"
-        }-600`}
-      >
-        {"status".toUpperCase() + status.slice(1)}
-      </span>
+      <Card onClick={() => handleHackathonClick(pairAddress)} key={index}>
+        <CardHeader>
+          <CardTitle>{name}</CardTitle>
+          <CardDescription>price: {price.toString()}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div>Timeline: {timeLeft}</div>
+          <div>Total Raised: {tokenB}</div>
+        </CardContent>
+        <CardFooter>
+          <div>{"status".toUpperCase() + status.slice(1)}</div>
+        </CardFooter>
+      </Card>
     </div>
   )
 }
