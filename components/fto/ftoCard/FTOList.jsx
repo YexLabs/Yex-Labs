@@ -108,7 +108,7 @@ export default function FTOList() {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">FTO Projects</h1>
-      <div className="space-y-4 max-h-[300px] overflow-y-auto flex flex-wrap justify-between">
+      <div className="space-x-4 max-h-[300px] overflow-y-auto flex  justify-between items-center">
         {allPairIndexes.map((index) => {
           console.log(index) // 检查 index 是否如预期那样变化
           return <ProjectDetail key={index} index={index} />
