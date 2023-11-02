@@ -11,7 +11,7 @@ export default function Fto() {
       {/* 写一个swap卡片样式,上下左右都居中 */}
       <div className="">
         <div className="w-full flex justify-center items-center">
-          <div className="mt-10  w-2/3  bg-white  bg-opacity-30 rounded-xl shadow-xl flex-col p-4">
+          <div className="mt-10  w-3/4  bg-white  bg-opacity-30 rounded-xl shadow-xl flex-col p-4">
             <FtoCard_Header />
             <FtoCard_Content />
           </div>

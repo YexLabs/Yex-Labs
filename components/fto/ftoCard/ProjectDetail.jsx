@@ -111,12 +111,16 @@ export default function ProjectDetail({ index }) {
 
   return (
     <div
-      className={`w-1/3 border rounded ${
+      className={`w-1/3 border h-full rounded ${
         "status" === "ongoing" ? "" : ""
       } hover:bg-gray-200 hover:cursor-pointer hover:border-4 hover:border-indigo-100 hover:shadow-lg 
                     transition-all ease-in-out duration-300`}
     >
-      <Card onClick={() => handleHackathonClick(pairAddress)} key={index}>
+      <Card
+        className="min-h-[265px]"
+        onClick={() => handleHackathonClick(pairAddress)}
+        key={index}
+      >
         <CardHeader>
           <CardTitle>{name}</CardTitle>
           <CardDescription>price: {price.toString()}</CardDescription>
