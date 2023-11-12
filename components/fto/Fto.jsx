@@ -8,8 +8,7 @@ import chainlinkIcon from "../../assets/images/projects/chainlink.png"
 export default function Fto() {
   return (
     <div className="h-full">
-      {/* 写一个swap卡片样式,上下左右都居中 */}
-      <div className="">
+      <div>
         <div className="w-full flex justify-center items-center">
           <div className="mt-10  w-3/4  bg-white  bg-opacity-30 rounded-xl shadow-xl flex-col p-4">
             <FtoCard_Header />
