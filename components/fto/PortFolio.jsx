@@ -1,7 +1,7 @@
 import React from "react"
 import "@/styles/Swap.module.css"
-import PortCard_Header from "./portFolioCard/PortCard_Header"
-import PortCard_Content from "./portFolioCard/PortCard_Content"
+import PortCard_Header from "./portCard/PortCard_Header"
+import PortCard_Content from "./portCard/PortCard_Content"
 
 export default function PortFolio() {
   return (
