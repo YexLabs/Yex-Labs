@@ -1,27 +1,24 @@
-import Faucet_Mumbai from "@/components/common/Faucet_Mumbai"
+import USDTFaucet from "@/components/common/USDTFaucet"
 import React from "react"
 import { useAccount } from "wagmi"
 
 const PortCard_Header = () => {
+  const { address } = useAccount()
 
-  const {address} = useAccount()
-
-  const formatAddress = address => {
+  const formatAddress = (address) => {
     if (address) {
-      return address.slice(0, 4) + '....' + address.slice(-4);
+      return address.slice(0, 4) + "...." + address.slice(-4)
     }
-    return address;
-  };
+    return address
+  }
 
   return (
     <div className="flex justify-between">
-    <Faucet_Mumbai />
-    <div className="flex">
-      <div>
-      {formatAddress(address)}
+      <USDTFaucet />
+      <div className="flex">
+        <div>{formatAddress(address)}</div>
       </div>
     </div>
-  </div>
   )
 }
 

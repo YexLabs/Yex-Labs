@@ -53,7 +53,7 @@ export default function Header() {
       ]
     },
     {
-      title: "FTO",
+      title: "Xstarter Beta",
       href: "",
       hasSubMenu: true,
       subMenu: [
@@ -68,12 +68,12 @@ export default function Header() {
           description: "Prototype | Polygon-Testnet"
         }
       ]
-    },
-    {
-      title: "ILO",
-      href: "/ilo",
-      hasSubMenu: false
     }
+    // {
+    //   title: "ILO",
+    //   href: "/ilo",
+    //   hasSubMenu: false
+    // }
   ]
 
   console.log(hoveredItems)
@@ -84,7 +84,9 @@ export default function Header() {
         <div className="mx-auto py-[2px] ">
           <p className="m-0 font-inter font-normal leading-5 text-xs text-white">
             {/* Scroll's Alpha Testnet is now live. */}
-            {chain?.name} is now live.
+            {/* {chain?.name} is now live. */}
+            We use our invented FTO (fair token offering) algorithm to ensure
+            transparent and fair token launch.
           </p>
         </div>
       </div>

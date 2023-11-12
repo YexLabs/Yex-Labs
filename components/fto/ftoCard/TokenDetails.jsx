@@ -1,6 +1,6 @@
 import { MUBAI_FTO_FACTORY_ABI } from "@/contracts/abis"
 import { FTO_FACTORY_ADDRESS } from "@/contracts/addresses"
-import React from "react"
+import React, { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { useContractWrite } from "wagmi"
 
@@ -14,8 +14,18 @@ export default function TokenDetails() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors }
   } = useForm()
+
+  useEffect(() => {
+    setValue("tokenAddress", "0xe33ECF950b53DCC429E6127ed1A6A5085e1918Fe", {
+      shouldValidate: true
+    })
+    setValue("poolHandler", "0x2f2f7197d19A13e8c72c1087dD29d555aBE76C5C", {
+      shouldValidate: true
+    })
+  }, [setValue])
 
   const onSubmit = (data) => {
     const {
@@ -58,13 +68,15 @@ export default function TokenDetails() {
           <label className="block text-sm font-medium">Token Address</label>
           <input
             type="text"
-            {...register("tokenAddress", {
-              required: "Token Address is required",
-              pattern: {
-                value: ethereumAddressPattern,
-                message: "Invalid Ethereum address"
-              }
-            })}
+            defaultValue={"0xe33ECF950b53DCC429E6127ed1A6A5085e1918Fe"}
+            disabled
+            // {...register("tokenAddress", {
+            //   required: "Token Address is required",
+            //   pattern: {
+            //     value: ethereumAddressPattern,
+            //     message: "Invalid Ethereum address"
+            //   }
+            // })}
             className="mt-1 p-2 w-full border rounded-md"
           />
           {errors.tokenAddress && (
@@ -120,6 +132,8 @@ export default function TokenDetails() {
           <label className="block text-sm font-medium">Pool Handler</label>
           <input
             type="text"
+            defaultValue={"0x2f2f7197d19A13e8c72c1087dD29d555aBE76C5C"}
+            disabled
             {...register("poolHandler", {
               required: "Pool Handler is required",
               pattern: {
