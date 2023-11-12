@@ -25,11 +25,30 @@ const polygonMumbai = {
   }
 }
 
+export const ScrollSepoliaTestnet = {
+  id: 534351,
+  name: "Scroll Sepolia",
+  network: "Scroll Sepolia",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Ethereum",
+    symbol: "ETH"
+  },
+  rpcUrls: {
+    public: { http: ["https://sepolia-rpc.scroll.io"] },
+    default: { http: ["https://sepolia-rpc.scroll.io"] }
+  },
+  blockExplorers: {
+    default: { name: "scrollscan", url: "https://sepolia.scrollscan.dev" }
+  }
+}
+
 export const chains = {
   mainnet,
   sepolia,
   polygon,
   optimism,
   arbitrum,
-  polygonMumbai
+  polygonMumbai,
+  ScrollSepoliaTestnet
 }
