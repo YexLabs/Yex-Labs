@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card"
-import { useContractRead, useContractReads } from "wagmi"
+import { useContractRead, useContractReads, useAccount } from "wagmi"
 import { FTO_FACTORY_ADDRESS } from "@/contracts/addresses"
 import {
   MUBAI_FTO_FACTORY_ABI,
@@ -17,17 +17,20 @@ import {
 } from "@/contracts/abis"
 import { formatEther } from "viem"
 
-export default function ProjectDetail({ index }) {
+export default function PortProjectDetail({ pair, index }) {
+  const { address } = useAccount()
   const [price, setPrice] = useState(0)
   const [state, setState] = useState("")
   const router = useRouter()
+  const pairAddress = pair
 
-  const { data: pairAddress } = useContractRead({
-    address: FTO_FACTORY_ADDRESS,
-    abi: MUBAI_FTO_FACTORY_ABI,
-    functionName: "allPairs",
-    args: [index]
-  })
+  // const { data: pairOk } = useContractRead({
+  //   address: FTO_FACTORY_ADDRESS,
+  //   abi: MUBAI_FTO_FACTORY_ABI,
+  //   functionName: "events",
+  //   args: [address]
+  // })
+  // console.log(pairOk, "pairOkpairOkpairOk")
 
   const { data: tokenAAddress } = useContractRead({
     address: pairAddress,
@@ -40,8 +43,6 @@ export default function ProjectDetail({ index }) {
     abi: MUBAI_FTO_PAIR_ABI,
     functionName: "tokenB"
   })
-
-  console.log(tokenBAddress, "tokenBAddress")
 
   const { data: ftoState } = useContractRead({
     address: pairAddress,

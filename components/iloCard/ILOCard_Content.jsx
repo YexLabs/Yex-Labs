@@ -32,6 +32,7 @@ export default function ILOCard_Content({ token }) {
     setDepositAmount(String(amount))
     try {
       // await approveTokenAWrite()
+
       await depositWrite()
     } catch (e) {
       toast.error(e?.reason)
