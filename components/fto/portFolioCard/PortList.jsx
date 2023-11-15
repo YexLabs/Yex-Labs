@@ -92,7 +92,7 @@ const PortList = () => {
             {project.price} <span className="font-medium">Timeline: </span>
             {project.timeline}{" "}
             <span className="font-medium">Total Raised: </span>
-            {project.totalRaised.toLocaleString()}{" "}
+            {project.totalRaised.toLocaleString() || "-"}{" "}
             <span
               className={`font-medium text-${
                 project.status === "ongoing" ? "green" : "red"

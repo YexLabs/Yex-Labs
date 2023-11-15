@@ -17,25 +17,20 @@ import {
 } from "@/contracts/abis"
 import { formatEther } from "viem"
 
-export default function PortProjectDetail({ index }) {
+export default function PortProjectDetail({ pair, index }) {
   const { address } = useAccount()
   const [price, setPrice] = useState(0)
+  const [state, setState] = useState("")
   const router = useRouter()
+  const pairAddress = pair
 
-  const { data: pairAddress } = useContractRead({
-    address: FTO_FACTORY_ADDRESS,
-    abi: MUBAI_FTO_FACTORY_ABI,
-    functionName: "allPairs",
-    args: [index]
-  })
-
-  const { data: pairOk } = useContractRead({
-    address: FTO_FACTORY_ADDRESS,
-    abi: MUBAI_FTO_FACTORY_ABI,
-    functionName: "events",
-    args: [address]
-  })
-  console.log(pairOk, "pairOkpairOkpairOk")
+  // const { data: pairOk } = useContractRead({
+  //   address: FTO_FACTORY_ADDRESS,
+  //   abi: MUBAI_FTO_FACTORY_ABI,
+  //   functionName: "events",
+  //   args: [address]
+  // })
+  // console.log(pairOk, "pairOkpairOkpairOk")
 
   const { data: tokenAAddress } = useContractRead({
     address: pairAddress,
@@ -49,7 +44,21 @@ export default function PortProjectDetail({ index }) {
     functionName: "tokenB"
   })
 
-  console.log(tokenBAddress, "tokenBAddress")
+  const { data: ftoState } = useContractRead({
+    address: pairAddress,
+    abi: MUBAI_FTO_PAIR_ABI,
+    functionName: "ftoState"
+  })
+
+  useEffect(() => {
+    if (ftoState == 0) {
+      setState("Success")
+    } else if (ftoState == 1) {
+      setState("Failed")
+    } else {
+      setState("Processing")
+    }
+  }, [ftoState])
 
   const { data: name } = useContractRead({
     address: tokenBAddress,
@@ -136,10 +145,12 @@ export default function PortProjectDetail({ index }) {
         </CardHeader>
         <CardContent>
           <div>Timeline: {timeLeft}</div>
-          <div>Total Raised: {tokenB}</div>
+          <div>
+            Total Raised: {tokenA ? formatEther(tokenA).toString() : "0"}
+          </div>
         </CardContent>
         <CardFooter>
-          <div>{"status".toUpperCase() + status.slice(1)}</div>
+          <div>{state.toUpperCase() + status.slice(1)}</div>
         </CardFooter>
       </Card>
     </div>

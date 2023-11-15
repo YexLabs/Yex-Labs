@@ -68,7 +68,7 @@ export default function useILOContract(tokenAddress) {
     address: tokenA,
     abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
     functionName: "approve",
-    args: [ILO_ADDRESS, ethers.utils.parseEther("100")],
+    args: [FTO_FACADE_ADDRESS, ethers.utils.parseEther("100")],
     onError(error) {
       setDepositLoading(false)
       console.log("Error", error)
