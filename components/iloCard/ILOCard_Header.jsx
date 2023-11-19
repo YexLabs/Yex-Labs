@@ -52,7 +52,13 @@ export default function ILOCard_Header({ token }) {
               LIVE
             </div>
           ) : (
-            <div className="rounded-lg bg-gray-400 opacity-50 cursor-not-allowed text-white p-2">
+            <div
+              className={`rounded-lg  ${
+                ethers.utils.formatUnits(depositedTokenA || 0, 18) > 0
+                  ? " bg-green-400"
+                  : "bg-gray-400"
+              }  cursor-not-allowed text-white p-2`}
+            >
               {ethers.utils.formatUnits(depositedTokenA || 0, 18) > 0
                 ? "SUCCESS"
                 : "FAILED"}
