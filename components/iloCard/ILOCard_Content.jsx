@@ -24,7 +24,8 @@ export default function ILOCard_Content({ token }) {
     depositLoading,
     ftoState,
     tokenA,
-    tokenAbalanceData
+    tokenAbalanceData,
+    claimLPWrite
   } = useILOContract(token)
 
   const deposit = async () => {
@@ -34,6 +35,18 @@ export default function ILOCard_Content({ token }) {
       // await approveTokenAWrite()
 
       await depositWrite()
+    } catch (e) {
+      toast.error(e?.reason)
+    }
+  }
+
+  const claim = async () => {
+    setDepositLoading(true)
+    setDepositAmount(String(amount))
+    try {
+      // await approveTokenAWrite()
+
+      await claimLPWrite()
     } catch (e) {
       toast.error(e?.reason)
     }
@@ -56,6 +69,8 @@ export default function ILOCard_Content({ token }) {
   useEffect(() => {
     setDepositAmount(String(amount))
   }, [amount])
+
+  console.log(ftoState, "ftoStateftoStateftoState")
 
   return (
     <div className="flex-col mt-8">
@@ -115,41 +130,106 @@ export default function ILOCard_Content({ token }) {
           </div>
         </div>
       </div>
-      <button
-        className={`flex justify-center items-center text-center w-full mt-5 
+
+      {ftoState == 2 ? (
+        // processing
+        <button
+          className={`flex justify-center items-center text-center w-full mt-5 bg-indigo-400 py-2 rounded-xl ripple-btn text-white`}
+          onClick={deposit}
+          disabled={!amount}
+        >
+          {depositLoading && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="animate-spin h-5 w-5 mr-3 text-gray-700"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+          )}
+          {`Deposit`}
+        </button>
+      ) : ftoState == 0 ? (
+        // success
+        <button
+          className={`flex justify-center items-center text-center w-full mt-5 bg-indigo-400 py-2 rounded-xl ripple-btn text-white`}
+          onClick={claim}
+        >
+          {depositLoading && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="animate-spin h-5 w-5 mr-3 text-gray-700"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+          )}
+          {`Claim LP`}
+        </button>
+      ) : (
+        //failed
+        <button
+          className={`flex justify-center items-center text-center w-full mt-5 
           ${
             ftoState == 2
               ? "bg-indigo-400"
               : "bg-gray-400 opacity-50 cursor-not-allowed"
           }
           py-2 rounded-xl ripple-btn text-white`}
-        onClick={deposit}
-        disabled={!amount}
-      >
-        {depositLoading && (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="animate-spin h-5 w-5 mr-3 text-gray-700"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            ></circle>
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            ></path>
-          </svg>
-        )}
-        {`Deposit`}
-      </button>
+          onClick={deposit}
+          disabled={!amount}
+        >
+          {depositLoading && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="animate-spin h-5 w-5 mr-3 text-gray-700"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+          )}
+          {`Deposit`}
+        </button>
+      )}
       <TokenListModal
         isOpen={isOpen}
         closeModal={closeModal}

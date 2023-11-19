@@ -110,18 +110,18 @@ export default function useILOContract(tokenAddress) {
   })
 
   const { writeAsync: claimLPWrite } = useContractWrite({
-    address: ILO_ADDRESS,
-    abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
+    address: FTO_FACADE_ADDRESS,
+    abi: MUBAI_FTO_FACADE_ABI,
     functionName: "claimLP",
     account: address,
-    args: [address],
+    args: [tokenA, tokenB],
     onError(error) {
       setDepositLoading(false)
       console.log("Error", error)
     },
     onSuccess() {
       setDepositLoading(false)
-      toast.success("Deposit Success!")
+      toast.success("CliaimLP Success!")
     }
   })
 
