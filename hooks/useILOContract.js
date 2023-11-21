@@ -15,7 +15,8 @@ import {
   useAccount,
   useContractRead,
   useContractWrite,
-  useBalance
+  useBalance,
+  erc20ABI
 } from "wagmi"
 import { ethers } from "ethers"
 import { toast } from "react-toastify"
@@ -37,6 +38,12 @@ export default function useILOContract(tokenAddress) {
     address: ILO_ADDRESS,
     abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
     functionName: "tokenA"
+  })
+
+  const { data: tokenB_provider } = useContractRead({
+    address: ILO_ADDRESS,
+    abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
+    functionName: "tokenB_provider"
   })
 
   const { data: tokenAbalanceData } = useBalance({
@@ -62,6 +69,20 @@ export default function useILOContract(tokenAddress) {
     functionName: "addLiquidity",
     account: address,
     args: [ethers.utils.parseEther("0.5"), ethers.utils.parseEther("1")]
+  })
+
+  const { data: allownedTokenToFTO } = useContractRead({
+    address: tokenA,
+    abi: erc20ABI,
+    functionName: "allowance",
+    args: [address, FTO_FACADE_ADDRESS],
+    onError(error) {
+      setDepositLoading(false)
+      console.log("Error", error)
+    },
+    onSuccess() {
+      toast.success("allownedTokenToFTO!")
+    }
   })
 
   const { writeAsync: approveTokenAWrite } = useContractWrite({
@@ -125,6 +146,22 @@ export default function useILOContract(tokenAddress) {
     }
   })
 
+  const { writeAsync: providerWithdraw } = useContractWrite({
+    address: ILO_ADDRESS,
+    abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
+    functionName: "withdraw",
+    account: address,
+    args: [address],
+    onError(error) {
+      setDepositLoading(false)
+      console.log("Error", error)
+    },
+    onSuccess() {
+      setDepositLoading(false)
+      toast.success("CliaimLP Success!")
+    }
+  })
+
   const { writeAsync: performUpKeepWrite } = useContractWrite({
     address: ILO_ADDRESS,
     abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
@@ -173,6 +210,7 @@ export default function useILOContract(tokenAddress) {
     functionName: "claimableLP",
     args: [address]
   })
+  console.log(claimableLP, "claimableLP")
 
   return {
     approveTokenAWrite,
@@ -192,7 +230,10 @@ export default function useILOContract(tokenAddress) {
     claimableLP,
     tokenA,
     tokenB,
+    tokenB_provider,
     tokenAbalanceData,
-    tokenBbalanceData
+    tokenBbalanceData,
+    providerWithdraw,
+    allownedTokenToFTO
   }
 }
