@@ -152,7 +152,7 @@ export default function ILOCard_Content({ token }) {
       ) : (
         <div className=" flex items-center justify-center">
           <div className=" text-3xl font-semibold">
-            {formatEther(claimableLP)}
+            {formatEther(claimableLP || 0)}
           </div>
         </div>
       )}

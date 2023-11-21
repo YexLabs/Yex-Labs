@@ -96,17 +96,7 @@ export default function TokenDetails() {
         </div>
         <div className="mb-4">
           <label className="block text-sm font-medium">Token Symbol</label>
-          <input
-            type="text"
-            {...register("tokenSymbol", {
-              required: "Token Symbol is required",
-              pattern: {
-                value: positiveIntegerPattern,
-                message: "Token Symbol should be a positive integer"
-              }
-            })}
-            className="mt-1 p-2 w-full border rounded-md"
-          />
+          <input type="text" className="mt-1 p-2 w-full border rounded-md" />
           {errors.tokenSymbol && (
             <span className="text-red-500">{errors.tokenSymbol.message}</span>
           )}
