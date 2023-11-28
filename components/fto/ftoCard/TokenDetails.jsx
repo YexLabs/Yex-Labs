@@ -50,6 +50,7 @@ export default function TokenDetails() {
 
   const ethereumAddressPattern = /^(0x)[0-9A-Fa-f]{40}$/
   const positiveIntegerPattern = /^[1-9]\d*$/
+  const minimumTimePattern = /^(6[1-9]|[7-9][0-9]|[1-9][0-9]{2,})$/
 
   return (
     <dialog id="tokenDetails_modal" className="modal">
@@ -138,14 +139,14 @@ export default function TokenDetails() {
           )}
         </div>
         <div className="mb-6">
-          <label className="block text-sm font-medium">Rasing Cycle</label>
+          <label className="block text-sm font-medium">Compaign Duration (s)</label>
           <input
             type="number"
             {...register("rasing_cycle", {
               required: "Rasing Cycle is required",
               pattern: {
-                value: positiveIntegerPattern,
-                message: "Rasing Cycle should be a positive integer"
+                value: minimumTimePattern,
+                message: "Raising Cycle should be over 60s"
               }
             })}
             className="mt-1 p-2 w-full border rounded-md"

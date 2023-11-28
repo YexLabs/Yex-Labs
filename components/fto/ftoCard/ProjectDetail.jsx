@@ -49,16 +49,6 @@ export default function ProjectDetail({ index }) {
     functionName: "ftoState"
   })
 
-  useEffect(() => {
-    if (ftoState == 0) {
-      setState("Success")
-    } else if (ftoState == 1) {
-      setState("Failed")
-    } else {
-      setState("Processing")
-    }
-  }, [ftoState])
-
   const { data: name } = useContractRead({
     address: tokenBAddress,
     abi: ERC20_ABI,
@@ -109,9 +99,12 @@ export default function ProjectDetail({ index }) {
     functionName: "end_time"
   })
 
+  const getTimeDiff = () => {
+    return Number(end_time) - Math.floor(Date.now() / 1000)
+  }
+
   const calculateTimeLeft = () => {
-    const currentTime = Math.floor(Date.now() / 1000)
-    const timeDiff = Number(end_time) - currentTime
+    const timeDiff = getTimeDiff()
 
     const hours = Math.floor(timeDiff / 3600)
     const minutes = Math.floor((timeDiff % 3600) / 60)
@@ -119,6 +112,18 @@ export default function ProjectDetail({ index }) {
 
     return timeDiff>0 ? `${hours}h ${minutes}m ${seconds}s`: "0"
   }
+
+  useEffect(() => {
+    if (ftoState == 0) {
+      setState("Success")
+    } else if (ftoState == 1) {
+      setState("Failed")
+    } else if(getTimeDiff() <=0) {
+      setState("campaign completed")
+    } else{
+      setState("processing")
+    }
+  }, [ftoState])
    
   const timeLeft = end_time ? calculateTimeLeft() : "Loading..."
 
