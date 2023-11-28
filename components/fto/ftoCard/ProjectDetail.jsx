@@ -117,9 +117,9 @@ export default function ProjectDetail({ index }) {
     const minutes = Math.floor((timeDiff % 3600) / 60)
     const seconds = timeDiff % 60
 
-    return `${hours}h ${minutes}m ${seconds}s`
+    return timeDiff>0 ? `${hours}h ${minutes}m ${seconds}s`: "0"
   }
-
+   
   const timeLeft = end_time ? calculateTimeLeft() : "Loading..."
 
   const handleHackathonClick = (pairAddress) => {
