@@ -118,9 +118,11 @@ export default function ProjectDetail({ index }) {
       setState("Success")
     } else if (ftoState == 1) {
       setState("Failed")
-    } else if(getTimeDiff() <=0) {
+    } else if(getTimeDiff() <=0) { 
+      // console.log(ftoState)
       setState("campaign completed")
     } else{
+      // console.log(ftoState)
       setState("processing")
     }
   }, [ftoState])
@@ -131,18 +133,21 @@ export default function ProjectDetail({ index }) {
     router.push("/ilo" + "/" + pairAddress)
   }
 
+
+
   return (
+    
     <div
       className={`w-1/3 border h-full rounded ${
         "status" === "ongoing" ? "" : ""
       } hover:bg-gray-200 hover:cursor-pointer hover:border-4 hover:border-indigo-100 hover:shadow-lg 
                     transition-all ease-in-out duration-300`}
     >
-      <Card
+      {getTimeDiff()> 0 ? (<Card
         className="min-h-[265px]"
         onClick={() => handleHackathonClick(pairAddress)}
         key={index}
-      >
+      >  <h1>current project</h1>
         <CardHeader>
           <CardTitle>{name}</CardTitle>
           <CardDescription>price: {price.toString()}</CardDescription>
@@ -156,7 +161,28 @@ export default function ProjectDetail({ index }) {
         <CardFooter>
           <div>{state.toUpperCase() + status.slice(1)}</div>
         </CardFooter>
-      </Card>
+      </Card>) : (
+      
+      <Card
+        className="min-h-[265px]"
+        onClick={() => handleHackathonClick(pairAddress)}
+        key={index}
+      > <h1>past project</h1>
+        <CardHeader>
+          <CardTitle>{name}</CardTitle>
+          <CardDescription>price: {price.toString()}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div>Timeline: {timeLeft}</div>
+          <div>
+            Total Raised: {tokenA ? formatEther(tokenA).toString() : "0"}
+          </div>
+        </CardContent>
+        <CardFooter>
+          <div>{state.toUpperCase() + status.slice(1)}</div>
+        </CardFooter>
+      </Card>)}
+      
     </div>
   )
 }
