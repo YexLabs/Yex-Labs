@@ -1,0 +1,29 @@
+.sectionIcon {
+    margin: 7px 11px 0 0;
+    width: 29px;
+    height: 29px;
+}
+
+.partnersSection {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.partnerLogo {
+    width: 170px;
+    height: auto;
+    margin: 12px;
+}
+
+@media only screen and (max-width: 420px){
+    .partnersSection {
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .partnerLogo {
+        margin: 10px 0;
+    }
+}

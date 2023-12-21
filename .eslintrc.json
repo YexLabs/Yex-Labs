@@ -12,6 +12,6 @@
     "camelcase": [1, {"properties": "always"}],
     "react/jsx-pascal-case": [1, { "allowAllCaps": true, "ignore": [] }],
     "comma-dangle": [1, "never"],
-    "react/prop-types": "off"
+    "react/prop-types": "off",
   }
 }
