@@ -75,6 +75,7 @@ const projects = [
 
 export default function FTOList() {
   const [allPairs, setAllPairs] = useState([])
+  const [projectEndTimes, setProjectEndTimes] = useState({})
   const { data: pairsLength } = useContractRead({
     address: FTO_FACTORY_ADDRESS,
     abi: MUBAI_FTO_FACTORY_ABI,
@@ -87,31 +88,47 @@ export default function FTOList() {
     (_, index) => index
   )
 
-  // const loadPairs = async () => {
-  //   if (pairsLength) {
-  //     let pairs = []
-  //     for (let i = 0; i < pairsLength; i++) {
-  //       const pair = await useContractRead({
-  //         address: FTO_FACTORY_ADDRESS,
-  //         abi: MUBAI_FTO_FACTORY_ABI,
-  //         functionName: "allPairs",
-  //         args: [i] // 使用索引作为参数
-  //       })
-  //       pairs.push(pair.data)
-  //     }
-  //     setAllPairs(pairs)
-  //   }
-  // }
+  const handleEndTimeReceived = (projectId, endTime) => {
+    setProjectEndTimes((prevEndTimes) => ({
+      ...prevEndTimes,
+      [projectId]: endTime
+    }))
+  }
+  const sortByTimeleft = (aIndex, bIndex) => {
+    const aTimeleft = projectEndTimes[aIndex] || 0
+    const bTimeleft = projectEndTimes[bIndex] || 0
+    console.log(aTimeleft, typeof aTimeleft)
+    console.log(bTimeleft, typeof bTimeleft)
 
-  useEffect(() => {}, [pairsLength])
+    // Sort by timeleft, placing items with timeleft > 0 first and smaller timeleft earlier
+    if (aTimeleft !== "0" && bTimeleft === "0") {
+      return -1
+    } else if (aTimeleft === "0" && bTimeleft !== "0") {
+      return 1
+    } else {
+      return aTimeleft - bTimeleft
+    }
+  }
+  const sortedIndexes = allPairIndexes.slice().sort(sortByTimeleft)
+  console.log(allPairIndexes)
+  console.log(sortedIndexes)
+
+  useEffect(() => {
+    console.log(projectEndTimes)
+  }, [pairsLength, projectEndTimes])
 
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">FTO Projects</h1>
       <div className="space-x-0 max-h-[300px] overflow-y-auto flex flex-wrap justify-between items-center">
-        {allPairIndexes.map((index) => {
-          console.log(index) // 检查 index 是否如预期那样变化
-          return <ProjectDetail key={index} index={index} />
+        {sortedIndexes.map((index) => {
+          return (
+            <ProjectDetail
+              key={index}
+              index={index}
+              onEndTimeReceived={handleEndTimeReceived}
+            />
+          )
         })}
       </div>
     </div>
