@@ -76,10 +76,11 @@ export default function Home() {
                 alt='Chainlink logo' 
               />
               <Image
-                src='/bera.png'
+                src='/bera-brown.svg'
+                style={{ padding: '5px' }}
                 className={homepageStyles.partnerLogo}
-                width={838} 
-                height={216} 
+                width={0} 
+                height={0} 
                 alt='Bera logo' 
               />
               <Image
