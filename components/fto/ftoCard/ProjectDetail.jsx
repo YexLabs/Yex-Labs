@@ -17,7 +17,7 @@ import {
 } from "@/contracts/abis"
 import { formatEther } from "viem"
 
-export default function ProjectDetail({ index }) {
+export default function ProjectDetail({ index, onEndTimeReceived }) {
   const [price, setPrice] = useState(0)
   const [state, setState] = useState("")
   const router = useRouter()
@@ -41,8 +41,6 @@ export default function ProjectDetail({ index }) {
     functionName: "tokenB"
   })
 
-  console.log(tokenBAddress, "tokenBAddress")
-
   const { data: ftoState } = useContractRead({
     address: pairAddress,
     abi: MUBAI_FTO_PAIR_ABI,
@@ -53,12 +51,8 @@ export default function ProjectDetail({ index }) {
     address: tokenBAddress,
     abi: ERC20_ABI,
     functionName: "name",
-    onSuccess: (data) => {
-      console.log(data, "+++++++++++")
-    },
-    onError: (error) => {
-      console.log(error, "+++++++++++")
-    }
+    onSuccess: (data) => {},
+    onError: (error) => {}
   })
 
   const { data: tokenA } = useContractRead({
@@ -73,25 +67,14 @@ export default function ProjectDetail({ index }) {
     functionName: "deposited_TokenB"
   })
 
-  console.log(index, "index index index")
-  console.log(tokenA, tokenB, index, "index token A and B")
-
   useEffect(() => {
     if (tokenA && tokenB) {
       const FloatTokenA = formatEther(tokenA)
       const FloatTokenB = formatEther(tokenB)
-      console.log(
-        FloatTokenA,
-        FloatTokenB,
-        index,
-        "index+++++++++++++++++++++++++++"
-      )
 
       setPrice(FloatTokenB / FloatTokenA)
     }
   }, [tokenA, tokenB])
-
-  console.log(price, "price")
 
   const { data: end_time } = useContractRead({
     address: pairAddress,
@@ -110,7 +93,7 @@ export default function ProjectDetail({ index }) {
     const minutes = Math.floor((timeDiff % 3600) / 60)
     const seconds = timeDiff % 60
 
-    return timeDiff>0 ? `${hours}h ${minutes}m ${seconds}s`: "0"
+    return timeDiff > 0 ? `${hours}h ${minutes}m ${seconds}s` : "0"
   }
 
   useEffect(() => {
@@ -118,71 +101,77 @@ export default function ProjectDetail({ index }) {
       setState("Success")
     } else if (ftoState == 1) {
       setState("Failed")
-    } else if(getTimeDiff() <=0) { 
+    } else if (getTimeDiff() <= 0) {
       // console.log(ftoState)
       setState("campaign completed")
-    } else{
+    } else {
       // console.log(ftoState)
       setState("processing")
     }
   }, [ftoState])
-   
+
   const timeLeft = end_time ? calculateTimeLeft() : "Loading..."
+
+  useEffect(() => {
+    onEndTimeReceived(index, timeLeft)
+  }, [timeLeft])
 
   const handleHackathonClick = (pairAddress) => {
     router.push("/ilo" + "/" + pairAddress)
   }
 
-
-
   return (
-    
     <div
       className={`w-1/3 border h-full rounded ${
         "status" === "ongoing" ? "" : ""
       } hover:bg-gray-200 hover:cursor-pointer hover:border-4 hover:border-indigo-100 hover:shadow-lg 
                     transition-all ease-in-out duration-300`}
     >
-      {getTimeDiff()> 0 ? (<Card
-        className="min-h-[265px]"
-        onClick={() => handleHackathonClick(pairAddress)}
-        key={index}
-      >  <h1>current project</h1>
-        <CardHeader>
-          <CardTitle>{name}</CardTitle>
-          <CardDescription>price: {price.toString()}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div>Timeline: {timeLeft}</div>
-          <div>
-            Total Raised: {tokenA ? formatEther(tokenA).toString() : "0"}
-          </div>
-        </CardContent>
-        <CardFooter>
-          <div>{state.toUpperCase() + status.slice(1)}</div>
-        </CardFooter>
-      </Card>) : (
-      
-      <Card
-        className="min-h-[265px]"
-        onClick={() => handleHackathonClick(pairAddress)}
-        key={index}
-      > <h1>past project</h1>
-        <CardHeader>
-          <CardTitle>{name}</CardTitle>
-          <CardDescription>price: {price.toString()}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div>Timeline: {timeLeft}</div>
-          <div>
-            Total Raised: {tokenA ? formatEther(tokenA).toString() : "0"}
-          </div>
-        </CardContent>
-        <CardFooter>
-          <div>{state.toUpperCase() + status.slice(1)}</div>
-        </CardFooter>
-      </Card>)}
-      
+      {getTimeDiff() > 0 ? (
+        <Card
+          className="min-h-[265px]"
+          onClick={() => handleHackathonClick(pairAddress)}
+          key={index}
+        >
+          {" "}
+          <h1>current project</h1>
+          <CardHeader>
+            <CardTitle>{name}</CardTitle>
+            <CardDescription>price: {price.toString()}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div>Timeline: {timeLeft}</div>
+            <div>
+              Total Raised: {tokenA ? formatEther(tokenA).toString() : "0"}
+            </div>
+          </CardContent>
+          <CardFooter>
+            <div>{state.toUpperCase() + status.slice(1)}</div>
+          </CardFooter>
+        </Card>
+      ) : (
+        <Card
+          className="min-h-[265px]"
+          onClick={() => handleHackathonClick(pairAddress)}
+          key={index}
+        >
+          {" "}
+          <h1>past project</h1>
+          <CardHeader>
+            <CardTitle>{name}</CardTitle>
+            <CardDescription>price: {price.toString()}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div>Timeline: {timeLeft}</div>
+            <div>
+              Total Raised: {tokenA ? formatEther(tokenA).toString() : "0"}
+            </div>
+          </CardContent>
+          <CardFooter>
+            <div>{state.toUpperCase() + status.slice(1)}</div>
+          </CardFooter>
+        </Card>
+      )}
     </div>
   )
 }
