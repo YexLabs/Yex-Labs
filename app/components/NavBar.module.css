@@ -1,0 +1,41 @@
+.outerContainer {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.0);
+    padding: 0;
+    position: fixed;
+    top: 0px;
+    backdrop-filter: blur(30px) saturate(120%);
+    border-bottom: 1px solid var(--bg-secondary);
+    left: 0px;
+    right: 0px;
+    z-index: 100;
+}
+
+.menuItem {
+    margin-right: 16px;
+}
+
+.listIcon {
+    color: var(--text-primary);
+    width: 40px;
+    height: 40px;
+    margin-right: -10px;
+}
+
+.mobileMenu {
+    display: none;
+}
+
+.menuButtons {
+    display: flex;
+    align-items: center;
+}
+
+@media screen and (max-width: 550px) {
+    .menuButtons {
+        display: none;
+    }
+    .mobileMenu {
+        display: inherit;
+    }
+}

@@ -1,0 +1,28 @@
+
+.consoleContainer {
+    font-size:54px;
+    text-align:center;
+    width:100%;
+    height: 142px;
+    display:block;
+    color:white;
+    margin: 0 auto;
+    line-height: 1.3;
+    /* background-color: rgba(255, 0,0,0.1); */
+}
+
+.consoleUnderscore {
+    display:inline-block;
+    position:relative;
+    top:-3px;
+    left:5px;
+    color: var(--text-secondary);
+    z-index: 2;
+}
+
+@media only screen and (max-width: 500px){
+    .consoleContainer {
+        font-size: 46px;
+        height: 125px;
+    }
+}

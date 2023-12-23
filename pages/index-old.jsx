@@ -1,12 +1,12 @@
 import Head from "@/components/layout/Head"
 import Image from "next/image"
 
-import yexbanner from "@/assets/images/intro/yexbanner.png"
-import honeypot_banner from "@/assets/images/intro/honeypot.png"
-import scroll_banner from "@/assets/images/intro/scroll.png"
-import berachain_banner from "@/assets/images/intro/bera.png"
-import splatter_banner from "@/assets/images/intro/splatter.png"
-import chainlink_banner from "@/assets/images/intro/chainlink.svg"
+// import yexbanner from "@/assets/images/intro/yexbanner.png"
+// import honeypot_banner from "@/assets/images/intro/honeypot.png"
+// import scroll_banner from "@/assets/images/intro/scroll.png"
+// import berachain_banner from "@/assets/images/intro/bera.png"
+// import splatter_banner from "@/assets/images/intro/splatter.png"
+// import chainlink_banner from "@/assets/images/intro/chainlink.svg"
 
 const Home = () => {
   return (
@@ -64,7 +64,7 @@ const Home = () => {
                   <div>
                     {" "}
                     <div className=" grid grid-cols-5 gap-6 grid-flow-row mt-8">
-                      <Image
+                      {/* <Image
                         src={chainlink_banner}
                         alt="chainlink_banner"
                         className=" mx-4 w-52 h-16"
@@ -88,7 +88,7 @@ const Home = () => {
                         src={splatter_banner}
                         alt="splatter_banner"
                         className=" mx-4 w-52 h-16"
-                      />{" "}
+                      />{" "} */}
                     </div>
                   </div>
                 </div>

@@ -1,5 +1,5 @@
 import Layout from "@/components/layout"
-import "../styles/globals.css"
+import "@/app/globals.css";
 import { useIsMounted } from "@/hooks/useIsMounted"
 import { Web3Provider } from "providers/Web3"
 import Seo from "@/components/layout/Seo"

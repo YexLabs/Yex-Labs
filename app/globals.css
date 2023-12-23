@@ -2,6 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Colour Pallete */
+  --text-primary: #e5f7f9;
+  --text-secondary: #bce4e9;
+  --accent-primary: #4A58FC; /* rgb(74,88,252) */
+  --accent-secondary: #39c4c9; /* rgb(57,196,201) */
+  --accent-secondary-50: rgba(57,196,201,0.7);
+  --bg-primary: #101022;
+  --bg-secondary: #26252D;
+  --bg-secondary-55: rgba(38, 37, 45, 0.55);
+  --error: #f03838;
+  --warning: #d8b43c;
+  --success: #52D841;
+  --testing: #dadada;
+
+  --speed: 500ms;
+  --section-max-width: 1200px;
+}
+
+body {
+  background-color: var(--bg-primary) !important;
+  /* color: var(--text-primary); */
+  min-height: 100vh;
+}
+
+.hidden {
+  opacity:0;
+}
+
+.section {
+  color: var(--text-primary);
+  padding: 80px 0;
+  width: 100wv;
+}
+
+.sectionContainer {
+  max-width: var(--section-max-width);
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
+h2 {
+  color: var(--text-primary);
+  font-size: 30px;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+p {
+  line-height: 1.5;
+}
+
+.button3 {
+  color: var(--text-secondary);
+  line-height: 1;
+  padding: 3px 1px 2px 1px;
+}
+
+.button3:hover {
+  color: var(--bg-primary);
+  background-color: var(--text-primary);
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
