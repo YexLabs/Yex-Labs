@@ -13,7 +13,7 @@ const footerItems: any = {
     ],
     'Resources': [
         { displayName: 'YexFunds Docs', link: 'https://yexlabs.vercel.app/whitePaper', target: '_blank' },
-        { displayName: 'Splatter Docs', link: 'https://yexlabs.vercel.app/#', target: '_blank' },
+        { displayName: 'Splatter Docs', link: 'https://yexlabs.gitbook.io/splatterprotocol/overview/upgradeable-architecture', target: '_blank' },
     ],
 }
 

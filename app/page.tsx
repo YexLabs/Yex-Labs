@@ -50,9 +50,10 @@ export default function Home() {
           />
           <div style={{ display: 'inline' }}>
             <h2 style={{ color: 'var(--text-secondary)' }}>About</h2>
-            <p style={{ color: 'var(--text-secondary)' }}>Yexlabs is a research-based core contracts development team working toward innovation in Web 3.0. 
-              The vision is decentralization that is community-centric. The community chooses their development team, 
-              their front-end & their smart contracts to realize the products they want.</p>
+            <p style={{ color: 'var(--text-secondary)' }}>Yexlabs is a research-based smart contract development team working toward innovation in Web 3.0. 
+              We are solving the last mile of the centralization problem in blockchain - centralized Dapp development.
+              Our vision revolves a community-run DAO to integrate with existing upgrade infrastructure. This new infrastructure will allow numerous on-chain smart contract teams and auditing teams into decentralized product development which is the key to the realization of products that are truly community-centered.
+              </p>
           </div>
         </div>
       </section>
