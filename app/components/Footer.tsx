@@ -8,11 +8,11 @@ const footerItems: any = {
         { displayName: 'Discord', link: 'https://discord.gg/93fkRv5DgB', target: '_blank' },
     ],
     'News': [
-        { displayName: 'Twitter', link: 'https://twitter.com/yex_lab', target: '_blank' },
-        { displayName: 'Mirror', link: 'https://yexlabs.vercel.app/#', target: '_blank' },
+        { displayName: 'Twitter', link: 'https://twitter.com/yex_labs', target: '_blank' },
+        { displayName: 'Medium', link: 'https://medium.com/@yexlabs', target: '_blank' },
     ],
     'Resources': [
-        { displayName: 'YexFunds Docs', link: 'https://yexlabs.vercel.app/whitePaper', target: '_blank' },
+        // { displayName: 'YexFunds Docs', link: 'https://yexlabs.vercel.app/whitePaper', target: '_blank' }, // Add once link found
         { displayName: 'Splatter Docs', link: 'https://yexlabs.gitbook.io/splatterprotocol/overview/upgradeable-architecture', target: '_blank' },
     ],
 }
