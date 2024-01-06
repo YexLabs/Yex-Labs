@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { JetBrains_Mono } from 'next/font/google';
 import './reset.css';
 import './globals.css';
+import GoogleAnalytics from './components/GoogleAnalytics';
 
 // const inter = Inter({ subsets: ['latin'] })
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'] });
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={jetbrainsMono.className}>
+        <GoogleAnalytics />
         <div style={{ height: '50px', width: '20px' }}></div> {/* Spacer for NavBar (same height as navbar)*/}
         {children}
       </body>
