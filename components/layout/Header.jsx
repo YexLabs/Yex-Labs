@@ -53,7 +53,7 @@ export default function Header() {
       ]
     },
     {
-      title: "Xstarter Beta",
+      title: "Dreampad beta",
       href: "",
       hasSubMenu: true,
       subMenu: [
