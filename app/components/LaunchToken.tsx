@@ -24,6 +24,15 @@ export default function LaunchToken() {
     const handleLaunch = () => {
         console.log(`launching`);
         console.log(token);
+        setToken({
+            address: '',
+            addressErr: '',
+            symbol: '',
+            name: '',
+            amount: 0,
+            poolHandler: '',
+            campaignDuration: 0,
+        });
         setOpen(false);
     }
 
