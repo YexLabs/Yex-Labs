@@ -22,21 +22,21 @@ export default function Token({ token }: { token: any }) {
                     Timeline
                 </div>
                 <div className={TokenStyles.gridValue} style={{ gridColumn: '1 / span 1', gridRow: '2 / span 1' }}>
-                    129D
+                    {token.timeline}D
                 </div>
                 <div className={TokenStyles.gridLabel} style={{ gridColumn: '2 / span 1', gridRow: '1 / span 1' }}>
                    Total Raised
                 </div>
                 <div className={TokenStyles.gridValue} style={{ gridColumn: '2 / span 1', gridRow: '2 / span 1' }}>
-                    200
+                    {token.totalRaised}
                 </div>
                 <div className={TokenStyles.gridLabel} style={{ gridColumn: '3 / span 1', gridRow: '1 / span 1' }}>
                     Price
                 </div>
                 <div className={TokenStyles.gridValue} style={{ gridColumn: '3 / span 1', gridRow: '2 / span 1' }}>
-                    1.23 ETH<br></br>
+                    {token.price} ETH<br></br>
                     <span style={{ color: 'var(--text-secondary)', opacity: 0.7, fontSize: '12px' }}>
-                        ~$294349.34
+                        ~${token.price * 2465} USD
                     </span>
                 </div>
             </div>

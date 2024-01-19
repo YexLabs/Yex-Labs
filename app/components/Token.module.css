@@ -5,8 +5,7 @@
   border: 1px solid var(--bg-secondary);
   border-radius: 6px;
   width: calc(33.33% - 20px);
-  min-width: 250px;
-  max-width: 500px;
+  min-width: 300px;
   transition: all ease-in 0.01s;
 }
 
@@ -15,13 +14,13 @@
     border: 1px solid var(--text-secondary);
 }
 
-@media only screen and (max-width: 1000px) and (min-width: 700px) {
+@media only screen and (max-width: 1150px) and (min-width: 800px) {
     .container {
         width: calc(50% - 20px);
     }
 }
 
-@media only screen and (max-width: 699px) {
+@media only screen and (max-width: 799px) {
     .container {
         width: calc(100% - 20px);
     }
