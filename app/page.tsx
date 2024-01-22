@@ -12,7 +12,7 @@ export default function Home() {
     <>
       <GAPageView />
       <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <NavBar />
+        <NavBar hideLogo />
         <section 
           className='section' 
           style={{ padding: 'calc(25vh - 25px) 0 calc(25vh - 50px) 0' }}

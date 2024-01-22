@@ -25,7 +25,7 @@ export default function Footer() {
             <div className={'sectionContainer ' + footerStyles.container}>
                 <div className={footerStyles.leftCol}>
                     <Link href='/'>
-                        <Logo style={{ width: '180px', height: 'auto', color: 'var(--text-secondary)'}} />
+                        <Logo style={{ width: '160px', height: 'auto', color: 'var(--text-secondary)'}} />
                     </Link>
                     <p style={{ margin: '24px 0 18px 0', fontWeight: '500', lineHeight: 1.3, fontSize: '14px' }}>
                         Building the future of upgradeable, community-centric smart contracts.

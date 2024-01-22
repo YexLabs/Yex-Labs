@@ -1,0 +1,45 @@
+.container {
+  background-color: var(--bg-secondary);
+  padding: 19px;
+  margin: 10px;
+  border: 1px solid var(--bg-secondary);
+  border-radius: 6px;
+  width: calc(33.33% - 20px);
+  min-width: 300px;
+  transition: all ease-in 0.01s;
+}
+
+.container:hover {
+    cursor: pointer;
+    border: 1px solid var(--text-secondary);
+}
+
+@media only screen and (max-width: 1150px) and (min-width: 800px) {
+    .container {
+        width: calc(50% - 20px);
+    }
+}
+
+@media only screen and (max-width: 799px) {
+    .container {
+        width: calc(100% - 20px);
+    }
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1 1 1;
+    grid-template-rows: 1 1;
+}
+
+.gridLabel {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.gridValue {
+    color: var(--text-primary);
+    font-size: 18px;
+    line-height: 1;
+}
