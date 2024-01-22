@@ -43,6 +43,13 @@ body {
   margin: 0 auto;
 }
 
+h1 {
+  color: var(--text-primary);
+  font-size: 40px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
 h2 {
   color: var(--text-primary);
   font-size: 30px;
@@ -50,14 +57,52 @@ h2 {
   margin-bottom: 10px;
 }
 
+h2 {
+  color: var(--text-primary);
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 6px;
+}
+
 p {
   line-height: 1.5;
 }
 
+/* Button 1: Primary button */
+.button1 {
+  background-color: var(--text-secondary);
+  color: var(--bg-primary);
+  padding: 7px 17px;
+  border-radius: 6px;
+  border: 1.5px solid var(--text-secondary);
+  appearance: none;
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: 0px 8px 28px -6px rgba(24, 39, 75, 0.12),
+    0px 18px 88px -4px rgba(24, 39, 75, 0.14);
+  transition: all ease-in 0.01s;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.button1:hover {
+  /* transform: scale(1.02);
+  opacity: 0.9; */
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1.5px solid var(--text-primary);
+}
+
+.button1:disabled {
+  opacity: 0.9;
+}
+
+/* Button 3: terminal style plain button */
 .button3 {
   color: var(--text-secondary);
   line-height: 1;
   padding: 3px 1px 2px 1px;
+  transition: all ease-in 0.01s;
 }
 
 .button3:hover {

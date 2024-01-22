@@ -9,6 +9,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { theme } from '../../utils/theme.js';
 import ListIcon from '../../public/list.svg';
+import Logo from '@/public/yexlabs-logo-v2.svg';
 
 const menuItems = [
   // Target can be '_blank' to open new window or '_self'
@@ -18,7 +19,7 @@ const menuItems = [
   {text: 'Portfolio', link: '/portfolio', target: '_self', displayMobile: true, displayDesktop: true },
 ];
 
-export default function NavBar() {
+export default function NavBar({ hideLogo = false }: { hideLogo?: boolean }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -33,15 +34,12 @@ export default function NavBar() {
       <CssBaseline />
       <div className={navBarStyles.outerContainer} >
         <div className="sectionContainer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '50px' }}>
-          <Link href='/' style={{ maxHeight: '44px'}}>
-            {/* <Image
-              src='/logo.svg'
-              alt="Logo"
-              width={190}
-              height={44}
-              priority
-            /> */}
-          </Link>
+          {/* Logo is displayed by default unless hidden by hideLogo parameter: */}
+          {hideLogo ? <div></div> : 
+            <Link href='/' style={{ maxHeight: '44px'}}>
+              <Logo style={{ width: '160px', height: 'auto', color: 'var(--text-secondary)' }} />
+            </Link>
+          }
           <div className={navBarStyles.menuButtons}>
             {menuItems.map((item, i) => (
               item.displayDesktop ? (
