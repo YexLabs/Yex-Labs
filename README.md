@@ -1,6 +1,6 @@
 # Lightweight Frontend Development Template
 
-This is a lightweight front-end development template built with next.js, shadcn, tailwindcss, wagmi, and rainbowkit.
+This is a lightweight front-end development template built with Next.js, Shadcn, Tailwindcss, Wagmi, and Rainbowkit.
 
 ## Installation and Running
 
