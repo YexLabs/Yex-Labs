@@ -21,8 +21,8 @@ const LabelGroup = ({ list, onChange }) => {
           }}
           className={
             item.value == selected
-              ? " cursor-pointer flex w-[45.952px] justify-center items-center shrink-0 border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:var(--b-5-dce-1,#B5DCE1)] p-[5.968px] rounded-[17.903px] border-[1.194px] border-solid"
-              : "cursor-pointer flex w-[45.952px] justify-center items-center gap-[2.984px] shrink-0 border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:var(--b-5-dce-1,rgba(181,220,225,0.50))] p-[5.968px] rounded-[17.903px] border-[0.597px] border-solid"
+              ? " cursor-pointer flex w-[45.952px] justify-center h-[24px] items-center shrink-0 border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:var(--b-5-dce-1,#B5DCE1)] p-[5.968px] rounded-[17.903px] border-[1.194px] border-solid"
+              : "cursor-pointer flex w-[45.952px] justify-center  h-[24px] items-center gap-[2.984px] shrink-0 border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:var(--b-5-dce-1,rgba(181,220,225,0.50))] p-[5.968px] rounded-[17.903px] border-[0.597px] border-solid"
           }
         >
           <div className="relative">{item.label}</div>
@@ -126,7 +126,7 @@ export const ProjectDetail = ({ token }) => {
     <>
       <Header title={`${tokenBbalanceData?.symbol} ILO`}></Header>
       <div className="flex justify-center mt-[91px]">
-        <div className=" overflow-hidden relative w-[443px] h-[354px] shrink-0 border border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:#1C1C2D] pt-12 px-5 rounded-[14px] border-solid">
+        <div className=" overflow-hidden relative w-[443px] pb-[24px] shrink-0 border border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:#1C1C2D] pt-12 px-5 rounded-[14px] border-solid">
         {
           ftoState === 2 ? 
           ( <div className="bg-[rgba(67,217,163,0.50)] absolute w-[114px] h-[27px] flex items-center justify-center text-[#42F6B6] text-center [font-family:Open_Sans] text-[13px] font-normal leading-[normal] left-[0] top-[0]">

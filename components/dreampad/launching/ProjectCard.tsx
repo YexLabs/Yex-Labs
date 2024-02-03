@@ -9,6 +9,7 @@ import { useEffect, useState } from "react"
 import { formatEther } from "viem"
 import { useContractRead } from "wagmi"
 import BigNumber from "bignumber.js"
+import { dayjs } from '../../../lib/dayjs';
 
 type Project = {
   name: string
@@ -89,12 +90,7 @@ export const Project = ({ onEndTimeReceived, index }) => {
 
   const calculateTimeLeft = () => {
     const timeDiff = getTimeDiff()
-
-    const hours = Math.floor(timeDiff / 3600)
-    const minutes = Math.floor((timeDiff % 3600) / 60)
-    const seconds = timeDiff % 60
-
-    return timeDiff > 0 ? `${hours}h ${minutes}m ${seconds}s` : "0"
+    return timeDiff > 0 ? dayjs().add(timeDiff * 1000).fromNow() : "0"
   }
 
   useEffect(() => {
@@ -122,7 +118,7 @@ export const Project = ({ onEndTimeReceived, index }) => {
   }
   return (
     <div className="w-[380px] font-[700]  box-border max-w-full self-stretch rounded-xl bg-gray-400 flex flex-col items-center justify-start pt-8 px-3 pb-3 gap-[6px] border-[0.2px] border-solid border-borderColor">
-      <div className="self-stretch h-[159px] flex flex-col items-center justify-start py-0 px-[22px] box-border gap-[16px] mq450:h-auto">
+      <div className="flex flex-col items-center justify-start py-0 px-[22px] box-border gap-[16px] mq450:h-auto">
         <div className="flex flex-row items-start justify-start py-0 px-0 gap-[6px]">
           <img
             className="h-[27.2px] w-[27.2px] relative object-cover"
@@ -133,24 +129,24 @@ export const Project = ({ onEndTimeReceived, index }) => {
             {name as any}
           </h2>
         </div>
-        <div className="self-stretch flex flex-row items-start justify-between py-0 px-px gap-[20px] text-left text-xs text-lightsteelblue-100 mq450:flex-wrap mq450:justify-center">
-          <div className="flex flex-col flex-1 items-center justify-start gap-[8px]">
+        <div className="self-stretch flex flex-row items-start justify-between py-0 px-px gap-[8px] text-left text-xs text-lightsteelblue-100 mq450:flex-wrap mq450:justify-center">
+          <div className=" flex-1 text-center gap-[8px] overflow-hidden">
             <b className="relative">Timeline</b>
-            <div className="flex flex-row items-center justify-center pt-[5px] pb-[7px] pr-2.5 pl-2 text-center text-2xl text-white">
-              <b className="h-7 relative inline-block mq450:text-mid">
+            <div className="flex flex-row items-center justify-center text-center text-2xl text-white">
+              <b className="  relative inline-block mq450:text-mid  overflow-hidden text-ellipsis whitespace-nowrap" title={timeLeft}>
                 {timeLeft}
               </b>
             </div>
           </div>
-          <div className="flex flex-col flex-1 items-center justify-start gap-[8px]">
+          <div className=" flex-1 text-center gap-[8px]">
             <b className="relative">Total Raised</b>
-            <div className="flex flex-row items-center justify-center pt-[5px] pb-[7px] pr-[17px] pl-4 text-center text-2xl text-white">
+            <div className="flex flex-row items-center justify-center text-center text-2xl text-white">
               <b className="h-7 relative inline-block mq450:text-mid">
                 {tokenA ? formatEther(tokenA as any).toString() : "0"}
               </b>
             </div>
           </div>
-          <div className="flex flex-col flex-1 items-center justify-start gap-[8px]">
+          <div className=" flex-1 text-center gap-[8px]">
             <b className="relative">Price</b>
             <div className="flex flex-col items-center justify-start gap-[1px] text-center text-2xl text-white font-jetbrains-mono">
               <b className="h-7 relative inline-block mq450:text-mid">
