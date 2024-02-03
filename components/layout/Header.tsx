@@ -1,4 +1,5 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit"
+import Link from "next/link"
 import { useRouter } from "next/router"
 
 export const Header = () => {
@@ -6,15 +7,15 @@ export const Header = () => {
   const menus = [
     {
       name: "Swap",
-      to: "/"
+      to: "/swap"
     },
     {
       name: "Pool",
-      to: "/"
+      to: "/pool"
     },
     {
       name: "Portfolio",
-      to: "/"
+      to: "/portfolio"
     },
     {
       name: "launching",
@@ -32,7 +33,7 @@ export const Header = () => {
       />
       <div className="flex w-[481px] flex-row items-start  justify-between  max-w-full">
         {menus.map((menu, index) => (
-          <b onClick={() =>  router.push(menu.to)} className=" cursor-pointer relative tracking-[0.24px]">{menu.name}</b>
+             <Link className=" cursor-pointer relative tracking-[0.24px] text-white  no-underline" key={menu.name} href={menu.to}>{menu.name}</Link>
         ))}
       </div>
       <ConnectButton />

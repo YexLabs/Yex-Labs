@@ -30,8 +30,8 @@ export default function ILOCard_Header({ token }) {
       {/* <ILO_Faucet /> */}
       <div className="flex justify-between mt-4 items-center">
         <div className="flex">
-          <div className="w-14 h-14">
-            <Image src={eth_icon} alt="ETH" />
+          <div className="w-14 h-14 relative">
+            <Image src={eth_icon} alt="ETH" fill/>
           </div>
           <div className="flex-col ml-2">
             <div className="text-2xl font-semibold">
@@ -84,8 +84,8 @@ export default function ILOCard_Header({ token }) {
                 ? ethers.utils.formatUnits(lockedTokenB || 0, 18)
                 : "0.0"}
             </div>
-            <div className="w-4 h-4 ml-1">
-              <Image src={eth_icon} alt="ETH" />
+            <div className="w-4 h-4 ml-1 relative">
+              <Image src={eth_icon} alt="ETH" fill/>
             </div>
           </div>
         </div>
@@ -97,8 +97,8 @@ export default function ILOCard_Header({ token }) {
                 ? ethers.utils.formatUnits(depositedTokenA || 0, 18)
                 : "0.0"}
             </div>
-            <div className="w-4 h-4 ml-1">
-              <Image src={eth_icon} alt="ETH" />
+            <div className="w-4 h-4 ml-1 relative">
+              <Image src={eth_icon} alt="ETH" fill />
             </div>
           </div>
         </div>

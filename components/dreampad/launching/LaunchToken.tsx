@@ -3,10 +3,11 @@ import { FTO_FACTORY_ADDRESS } from "@/contracts/addresses"
 import { TextField } from "@mui/material"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
+import { set, useForm } from "react-hook-form"
 import { useContractWrite } from "wagmi"
 import LaunchTokenStyles from "./LaunchToken.module.css"
 import { Header } from "./Header"
+import { Button } from "@/components/button/Button"
 export const LaunchToken = () => {
   const { data, isLoading, isSuccess, write } = useContractWrite({
     address: FTO_FACTORY_ADDRESS,
@@ -17,6 +18,7 @@ export const LaunchToken = () => {
   const {
     register,
     handleSubmit,
+    
     setValue,
     formState: { errors }
   } = useForm()
@@ -169,12 +171,13 @@ export const LaunchToken = () => {
                 </span>
               )}
             </div>
-            <button
+            <Button
+              isLoading={isLoading}
               type="submit"
-              className=" cursor-pointer flex w-[518px] h-[60px] justify-center items-center gap-2.5 font-bold [background:var(--b-5-dce-1,#B5DCE1)] px-6 py-3 rounded-md border-[5px] border-solid border-[rgba(181,220,225,0.50)]"
+              className="cursor-pointer flex w-[518px] h-[60px] justify-center items-center gap-2.5 font-bold [background:var(--b-5-dce-1,#B5DCE1)] px-6 py-3 rounded-md border-[5px] border-solid border-[rgba(181,220,225,0.50)]"
             >
               Launch Token
-            </button>
+            </Button>
           </form>
         </div>
       </div>

@@ -25,10 +25,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/launching": [
+    "/launchtoken": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/launching.js"
+      "static/chunks/pages/launchtoken.js"
     ]
   },
   "ampFirstPages": []

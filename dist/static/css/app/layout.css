@@ -1821,6 +1821,9 @@ html {
 [dir="rtl"] .steps-vertical .step:before {
     margin-right: auto;
 }
+.pointer-events-none {
+    pointer-events: none;
+}
 .visible {
     visibility: visible;
 }
@@ -3024,6 +3027,9 @@ html {
 .text-white {
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+.no-underline {
+    text-decoration-line: none;
 }
 .underline-offset-4 {
     text-underline-offset: 4px;

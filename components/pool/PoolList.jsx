@@ -31,14 +31,14 @@ const PoolList = ({
         <div className="flex flex-row flex-wrap pl-5 m-1">
           <div className="flex flex-row flex-wrap gap-1">
             <div className="flex flex-row gap-1 items-center border rounded-2xl">
-              <div className="w-10 h-10 p-2">
-                <Image src={tokenAIcon} alt="icon" />
+              <div className="w-10 h-10 p-2 relative">
+                <Image src={tokenAIcon} alt="icon" fill />
               </div>
               <p className="p-2">{tokenAName}</p>
             </div>
             <div className="flex flex-row gap-1 items-center border rounded-2xl">
-              <div className="w-10 h-10 p-2">
-                <Image src={tokenBIcon} alt="icon" />
+              <div className="w-10 h-10 p-2 relative">
+                <Image src={tokenBIcon} alt="icon" fill />
               </div>
               <p className="p-2">{tokenBName}</p>
             </div>
