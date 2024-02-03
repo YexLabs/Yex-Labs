@@ -122,7 +122,7 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate"), require("daisyui")],
-  corePlugins: {
-    preflight: false,
-  },
+  // corePlugins: {
+  //   preflight: false,
+  // },
 }
