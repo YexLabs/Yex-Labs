@@ -10,7 +10,7 @@ export const Header = ({ title }) => {
           onClick={() => {
             router.push("/launching")
           }}
-        >{`<FTO Projects`}</div>
+        >{`<Dreampad beta`}</div>
         <div className="text-[rgba(255,255,255,0.50)]">{`/ token`}</div>
       </div>
       <div className="text-white [font-family:Segoe_UI] text-[32px] font-bold leading-[normal]">

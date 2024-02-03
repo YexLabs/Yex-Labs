@@ -1,0 +1,157 @@
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/.pnpm/next@13.5.6_@babel+core@7.23.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[7].use[2]!./node_modules/.pnpm/next@13.5.6_@babel+core@7.23.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[7].use[3]!./app/components/CodeTextAnimations.module.css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+
+.CodeTextAnimations_consoleContainer__b1x_m {
+    font-size:54px;
+    text-align:center;
+    width:100%;
+    height: 142px;
+    display:block;
+    color:white;
+    margin: 0 auto;
+    line-height: 1.3;
+    /* background-color: rgba(255, 0,0,0.1); */
+}
+
+.CodeTextAnimations_consoleUnderscore__mSYt_ {
+    display:inline-block;
+    position:relative;
+    top:-3px;
+    left:5px;
+    color: var(--text-secondary);
+    z-index: 2;
+}
+
+@media only screen and (max-width: 500px){
+    .CodeTextAnimations_consoleContainer__b1x_m {
+        font-size: 46px;
+        height: 125px;
+    }
+}
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/.pnpm/next@13.5.6_@babel+core@7.23.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[7].use[2]!./node_modules/.pnpm/next@13.5.6_@babel+core@7.23.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[7].use[3]!./app/components/NavBar.module.css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.NavBar_outerContainer__NtCaG {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.0);
+    padding: 0;
+    position: fixed;
+    top: 0px;
+    -webkit-backdrop-filter: blur(30px) saturate(120%);
+            backdrop-filter: blur(30px) saturate(120%);
+    border-bottom: 1px solid var(--bg-secondary);
+    left: 0px;
+    right: 0px;
+    z-index: 100;
+}
+
+.NavBar_menuItem__uOsH9 {
+    margin-right: 16px;
+}
+
+.NavBar_listIcon__E7HTw {
+    color: var(--text-primary);
+    width: 40px;
+    height: 40px;
+    margin-right: -10px;
+}
+
+.NavBar_mobileMenu__qZIgQ {
+    display: none;
+}
+
+.NavBar_menuButtons__wqus_ {
+    display: flex;
+    align-items: center;
+}
+
+@media screen and (max-width: 550px) {
+    .NavBar_menuButtons__wqus_ {
+        display: none;
+    }
+    .NavBar_mobileMenu__qZIgQ {
+        display: inherit;
+    }
+}
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/.pnpm/next@13.5.6_@babel+core@7.23.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[7].use[2]!./node_modules/.pnpm/next@13.5.6_@babel+core@7.23.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[7].use[3]!./app/page.module.css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.page_sectionIcon__PjgE8 {
+    margin: 7px 11px 0 0;
+    width: 29px;
+    height: 29px;
+}
+
+.page_partnersSection__eDpE_ {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.page_partnerLogo__ZIoEq {
+    width: 170px;
+    height: auto;
+    margin: 12px;
+}
+
+@media only screen and (max-width: 420px){
+    .page_partnersSection__eDpE_ {
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .page_partnerLogo__ZIoEq {
+        margin: 10px 0;
+    }
+}
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/.pnpm/next@13.5.6_@babel+core@7.23.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[7].use[2]!./node_modules/.pnpm/next@13.5.6_@babel+core@7.23.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[7].use[3]!./app/components/Footer.module.css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.Footer_container__6pNfo {
+    display: flex;
+}
+
+.Footer_leftCol__WXL8Y {
+    color: var(--text-secondary);
+    max-width: 350px;
+}
+
+.Footer_rightCol___8KrO {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.Footer_section__SM1cW {
+    margin: 0 0 0 10px;
+    min-width: 130px;
+    display: flex;
+    flex-direction: column;
+}
+
+.Footer_link__1kkB4 {
+    text-decoration: none;
+    margin: 10px auto 0 0;
+    flex: none;
+}
+
+@media screen and (max-width: 700px) {
+    .Footer_container__6pNfo {
+        flex-direction: column;
+    }
+
+    .Footer_leftCol__WXL8Y {
+        margin-bottom: 30px;
+    }
+
+    .Footer_rightCol___8KrO {
+        text-align: left;
+        flex-direction: column;
+    }
+    .Footer_section__SM1cW {
+        margin: 0 0 30px 0;
+    }
+}

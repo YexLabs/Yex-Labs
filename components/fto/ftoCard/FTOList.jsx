@@ -119,7 +119,7 @@ export default function FTOList() {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">FTO Projects</h1>
+      <h1 className="text-2xl font-bold mb-4">Dreampad beta</h1>
       <div className="space-x-0 max-h-[300px] overflow-y-auto flex flex-wrap justify-between items-center">
         {sortedIndexes.map((index) => {
           return (

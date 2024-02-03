@@ -56,7 +56,7 @@ export const LaunchToken = () => {
   const minimumTimePattern = /^(6[1-9]|[7-9][0-9]|[1-9][0-9]{2,})$/
   return (
     <>
-      <Header title="FTO Projects"></Header>
+      <Header title="Dreampad beta"></Header>
       <div className="mt-[91px] flex justify-center">
         <div className="flex w-[620px] h-[851px] justify-center items-center gap-[5px] shrink-0 border border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:#1C1C2D] backdrop-blur-[100px] px-[5px] py-0 rounded-[54px] border-solid">
           <form
