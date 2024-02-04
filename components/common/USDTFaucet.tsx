@@ -2,6 +2,7 @@ import React from "react"
 import { useContractWrite } from "wagmi"
 import { Button } from "@/components/ui/button"
 import { USDT_FAUCET_ADDRESS } from "@/contracts/addresses"
+import { useAlert } from "../alert/Alert"
 
 const FAUCET_ABI = [
   {
@@ -19,12 +20,17 @@ export default function USDTFaucet() {
     abi: FAUCET_ABI,
     functionName: "faucet"
   })
+  const alert = useAlert()
 
   const handleFaucetClick = async () => {
+    if (isLoading) {
+        return
+    }
     try {
       const tx = await writeAsync()
       console.log(tx)
-    } catch (error) {
+    } catch (error: any) {
+      alert.error(error?.message?.split('The contract function "faucet" reverted with the following reason:')?.[1])
       console.error("Faucet Error", error)
     }
   }
@@ -36,7 +42,6 @@ export default function USDTFaucet() {
           isLoading ? "loading" : ""
         }`}
         onClick={handleFaucetClick}
-        disabled={isLoading}
       >
         {isLoading ? "Loading..." : "Get USDC Faucet"}
       </div>
