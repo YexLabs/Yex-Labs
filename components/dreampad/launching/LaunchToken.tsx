@@ -70,7 +70,7 @@ export const LaunchToken = () => {
               <label className="block text-sm font-medium">Token Address</label>
               <input
                 type="text"
-                defaultValue={"0xe33ECF950b53DCC429E6127ed1A6A5085e1918Fe"}
+                defaultValue={"0x878fd3Ccf564Cc2e38EEdDd798F88D8f8a51a1dD"}
                 disabled
                 // {...register("tokenAddress", {
                 //   required: "Token Address is required",
