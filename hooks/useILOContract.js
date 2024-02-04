@@ -237,3 +237,13 @@ export default function useILOContract(tokenAddress) {
     allownedTokenToFTO
   }
 }
+
+export const useFaucetContract = () => {
+  return useContractWrite({
+    address: USDT_FAUCET_ADDRESS,
+    abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
+    functionName: "mint",
+    account: address,
+    args: [ethers.utils.parseEther("100")]
+  })
+}

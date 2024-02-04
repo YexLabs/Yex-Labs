@@ -30,14 +30,16 @@ export default function USDTFaucet() {
   }
 
   return (
-    <Button
-      className={`btn btn-outline btn-ghost btn-sm fade-in ${
-        isLoading ? "loading" : ""
-      }`}
-      onClick={handleFaucetClick}
-      disabled={isLoading}
-    >
-      {isLoading ? "Loading..." : "FAUCET $USDT"}
-    </Button>
+    <div className="w-[104px] cursor-pointer rounded-11xl flex flex-row items-center justify-center py-[3.9382238388061523px] px-[7.876447677612305px]">
+      <div
+        className={`${
+          isLoading ? "loading" : ""
+        }`}
+        onClick={handleFaucetClick}
+        disabled={isLoading}
+      >
+        {isLoading ? "Loading..." : "Get USDC Faucet"}
+      </div>
+    </div>
   )
 }
