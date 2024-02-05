@@ -1,5 +1,5 @@
 import { MUBAI_FTO_FACTORY_ABI } from "@/contracts/abis"
-import { FTO_FACTORY_ADDRESS, FTO_ROUTER_ADDRESS } from "@/contracts/addresses"
+import { FTO_FACTORY_ADDRESS, FTO_ROUTER_ADDRESS, USDT_FAUCET_ADDRESS } from "@/contracts/addresses"
 import { TextField } from "@mui/material"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -23,14 +23,14 @@ export const LaunchToken = () => {
     formState: { errors }
   } = useForm()
 
-  useEffect(() => {
-    setValue("tokenAddress", "0xe33ECF950b53DCC429E6127ed1A6A5085e1918Fe", {
-      shouldValidate: true
-    })
-    setValue("poolHandler", "0x2f2f7197d19A13e8c72c1087dD29d555aBE76C5C", {
-      shouldValidate: true
-    })
-  }, [setValue])
+  // useEffect(() => {
+  //   setValue("tokenAddress", "0xe33ECF950b53DCC429E6127ed1A6A5085e1918Fe", {
+  //     shouldValidate: true
+  //   })
+  //   setValue("poolHandler", "0x2f2f7197d19A13e8c72c1087dD29d555aBE76C5C", {
+  //     shouldValidate: true
+  //   })
+  // }, [setValue])
 
   const onSubmit = (data) => {
     const {
@@ -70,15 +70,17 @@ export const LaunchToken = () => {
               <label className="block text-sm font-medium">Token Address</label>
               <input
                 type="text"
-                defaultValue={"0x878fd3Ccf564Cc2e38EEdDd798F88D8f8a51a1dD"}
+                // defaultValue={USDT_FAUCET_ADDRESS}
                 disabled
-                // {...register("tokenAddress", {
-                //   required: "Token Address is required",
-                //   pattern: {
-                //     value: ethereumAddressPattern,
-                //     message: "Invalid Ethereum address"
-                //   }
-                // })}
+                {...register("tokenAddress", {
+                  value: USDT_FAUCET_ADDRESS
+                
+                  // required: "Token Address is required",
+                  // pattern: {
+                  //   value: ethereumAddressPattern,
+                  //   message: "Invalid Ethereum address"
+                  // }
+                })}
                 className="mt-1 p-2 w-full border rounded-md"
               />
               {errors.tokenAddress && (
@@ -133,14 +135,15 @@ export const LaunchToken = () => {
               <label className="block text-sm font-medium">Pool Handler</label>
               <input
                 type="text"
-                defaultValue={FTO_ROUTER_ADDRESS}
+                // defaultValue={FTO_ROUTER_ADDRESS}
                 disabled
                 {...register("poolHandler", {
-                  required: "Pool Handler is required",
-                  pattern: {
-                    value: ethereumAddressPattern,
-                    message: "Invalid Ethereum address"
-                  }
+                  value: FTO_ROUTER_ADDRESS
+                  // required: "Pool Handler is required",
+                  // pattern: {
+                  //   value: ethereumAddressPattern,
+                  //   message: "Invalid Ethereum address"
+                  // }
                 })}
                 className="mt-1 p-2 w-full border rounded-md"
               />
