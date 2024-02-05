@@ -8,6 +8,7 @@ import { useContractWrite } from "wagmi"
 import LaunchTokenStyles from "./LaunchToken.module.css"
 import { Header } from "./Header"
 import { Button } from "@/components/button/Button"
+import BigNumber from "bignumber.js"
 export const LaunchToken = () => {
   const { data, isLoading, isSuccess, write } = useContractWrite({
     address: FTO_FACTORY_ADDRESS,
@@ -46,7 +47,7 @@ export const LaunchToken = () => {
         tokenAddress,
         tokenName,
         tokenSymbol,
-        tokenAmount,
+        new BigNumber(tokenAmount).multipliedBy(new BigNumber(10).pow(18)).toFixed(),
         poolHandler,
         rasing_cycle
       ]
