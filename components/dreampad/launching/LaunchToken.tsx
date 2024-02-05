@@ -10,7 +10,7 @@ import { Header } from "./Header"
 import { Button } from "@/components/button/Button"
 import BigNumber from "bignumber.js"
 export const LaunchToken = () => {
-  const { data, isLoading, isSuccess, write } = useContractWrite({
+  const { data, isLoading, isIdle, isSuccess, write } = useContractWrite({
     address: FTO_FACTORY_ADDRESS,
     abi: MUBAI_FTO_FACTORY_ABI,
     functionName: "createFTO"
