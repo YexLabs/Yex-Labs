@@ -1,5 +1,5 @@
 import { MUBAI_FTO_FACTORY_ABI } from "@/contracts/abis"
-import { FTO_FACTORY_ADDRESS } from "@/contracts/addresses"
+import { FTO_FACTORY_ADDRESS, FTO_ROUTER_ADDRESS } from "@/contracts/addresses"
 import { TextField } from "@mui/material"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -133,7 +133,7 @@ export const LaunchToken = () => {
               <label className="block text-sm font-medium">Pool Handler</label>
               <input
                 type="text"
-                defaultValue={"0x2f2f7197d19A13e8c72c1087dD29d555aBE76C5C"}
+                defaultValue={FTO_ROUTER_ADDRESS}
                 disabled
                 {...register("poolHandler", {
                   required: "Pool Handler is required",

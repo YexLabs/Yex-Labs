@@ -43,7 +43,7 @@ export default function USDTFaucet() {
         }`}
         onClick={handleFaucetClick}
       >
-        {isLoading ? "Loading..." : "Get USDC Faucet"}
+        {isLoading ? "Loading..." : "Get USDT Faucet"}
       </div>
     </div>
   )
