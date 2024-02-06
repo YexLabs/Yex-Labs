@@ -53,7 +53,7 @@ export const Project = ({ onEndTimeReceived, index }) => {
     address: tokenBAddress as any,
     abi: ERC20_ABI,
     functionName: "name",
-    onSuccess: (data) => {},
+    onSuccess: (data) => {},                                                                                                                                                                                     
     onError: (error) => {}
   })
 
@@ -90,7 +90,7 @@ export const Project = ({ onEndTimeReceived, index }) => {
 
   const calculateTimeLeft = () => {
     const timeDiff = getTimeDiff()
-    return timeDiff > 0 ? dayjs().add(timeDiff * 1000).fromNow() : "0"
+    return timeDiff > 0 ? `Until ${dayjs().add(timeDiff * 1000).toDate().toLocaleString()}` : " "
   }
 
   useEffect(() => {
@@ -130,14 +130,14 @@ export const Project = ({ onEndTimeReceived, index }) => {
           </h2>
         </div>
         <div className="self-stretch flex flex-row items-start justify-between py-0 px-px gap-[8px] text-left text-xs text-lightsteelblue-100 mq450:flex-wrap mq450:justify-center">
-          <div className=" flex-1 text-center gap-[8px] overflow-hidden">
+          {/* <div className=" flex-1 text-center gap-[8px] overflow-hidden">
             <b className="relative">Timeline</b>
             <div className="flex flex-row items-center justify-center text-center text-2xl text-white">
               <b className="  relative inline-block mq450:text-mid  overflow-hidden text-ellipsis whitespace-nowrap" title={timeLeft}>
                 {timeLeft}
               </b>
             </div>
-          </div>
+          </div> */}
           <div className=" flex-1 text-center gap-[8px]">
             <b className="relative">Total Raised</b>
             <div className="flex flex-row items-center justify-center text-center text-2xl text-white">
@@ -158,6 +158,7 @@ export const Project = ({ onEndTimeReceived, index }) => {
             </div>
           </div>
         </div>
+        <div className="text-[14px] opacity-80 w-full text-left h-[18px]" >{timeLeft}</div>
         <button       onClick={handleHackathonClick} className="cursor-pointer pt-2 px-2 pb-[9px] bg-baseblue  w-[288.28px] h-[33.28px] rounded-md box-border overflow-hidden shrink-0 flex flex-row items-center justify-center gap-[3.28px] border-[2px] border-solid border-borderColor">
           <b
       
