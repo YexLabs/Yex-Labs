@@ -165,6 +165,7 @@ export const ProjectDetail = ({ token }) => {
               <div className="mt-[8px] w-[124px] h-4 text-[rgba(255,255,255,0.50)] text-center text-xs font-bold leading-[normal]">
               {lockedTokenB
               ? BigNumber((ethers.utils.formatUnits(depositedTokenA as any || 0, 18) as any /
+              //@ts-ignore
               ethers.utils.formatUnits(lockedTokenB as any, 18) as any)).toFixed()
               : "0.0"}
               </div>
