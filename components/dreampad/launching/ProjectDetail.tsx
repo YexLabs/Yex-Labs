@@ -8,6 +8,7 @@ import { ethers } from "ethers"
 import { Button } from "@/components/button/Button"
 import { useRouter } from "next/router"
 import { Header } from "./Header"
+import BigNumber from "bignumber.js"
 
 const LabelGroup = ({ list, onChange }) => {
   const [selected, setSelected] = useState(0)
@@ -48,6 +49,7 @@ export const ProjectDetail = ({ token }) => {
     lockedTokenB,
     setRasingPaused,
     tokenB,
+    tokenBName,
     tokenBbalanceData,
     approveTokenAWrite,
     setDepositAmount,
@@ -124,7 +126,7 @@ export const ProjectDetail = ({ token }) => {
 
   return (
     <>
-      <Header title={`${tokenBbalanceData?.symbol} ILO`}></Header>
+      <Header title={tokenBName}></Header>
       <div className="flex justify-center mt-[91px]">
         <div className=" overflow-hidden relative w-[443px] pb-[24px] shrink-0 border border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:#1C1C2D] pt-12 px-5 rounded-[14px] border-solid">
         {
@@ -148,7 +150,7 @@ export const ProjectDetail = ({ token }) => {
                 alt=""
                 src="/mask-group-1@2x.png"
               />
-              <div className="ml-[6px]">{`${tokenBbalanceData?.symbol} ILO`}</div>
+              <div className="ml-[6px]">{tokenBName}</div>
             </div>
             <div className="mt-[8px] flex justify-center">
               <div className="text-[#B5DCE1]">Contract on: </div>
@@ -162,9 +164,8 @@ export const ProjectDetail = ({ token }) => {
               </div>
               <div className="mt-[8px] w-[124px] h-4 text-[rgba(255,255,255,0.50)] text-center text-xs font-bold leading-[normal]">
               {lockedTokenB
-              ? ethers.utils.formatUnits(depositedTokenA as any || 0, 18) as any /
-                 // @ts-ignore
-                ethers.utils.formatUnits(lockedTokenB as any, 18) as any
+              ? BigNumber((ethers.utils.formatUnits(depositedTokenA as any || 0, 18) as any /
+              ethers.utils.formatUnits(lockedTokenB as any, 18) as any)).toFixed()
               : "0.0"}
               </div>
             </div>

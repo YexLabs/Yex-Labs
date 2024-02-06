@@ -34,6 +34,12 @@ export default function useILOContract(tokenAddress) {
     functionName: "tokenB"
   })
 
+  const {data: tokenBName} = useContractRead({
+    address: tokenB,
+    abi: erc20ABI,
+    functionName: "name"
+  })
+
   const { data: tokenA } = useContractRead({
     address: ILO_ADDRESS,
     abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
@@ -230,6 +236,7 @@ export default function useILOContract(tokenAddress) {
     claimableLP,
     tokenA,
     tokenB,
+    tokenBName,
     tokenB_provider,
     tokenAbalanceData,
     tokenBbalanceData,
