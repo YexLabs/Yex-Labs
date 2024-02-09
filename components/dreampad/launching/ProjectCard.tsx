@@ -74,7 +74,7 @@ export const Project = ({ onEndTimeReceived, index }) => {
       const FloatTokenA = formatEther(tokenA as any)
       const FloatTokenB = formatEther(tokenB as any)
 
-      setPrice(BigNumber(FloatTokenB).div(FloatTokenA).toFormat(2))
+      setPrice(BigNumber(FloatTokenA).div(FloatTokenB).toFormat())
     }
   }, [tokenA, tokenB])
 
@@ -108,10 +108,11 @@ export const Project = ({ onEndTimeReceived, index }) => {
   }, [ftoState])
 
   const timeLeft = end_time ? calculateTimeLeft() : "Loading..."
+  const timeLeftSeconds = getTimeDiff()
 
   useEffect(() => {
-    onEndTimeReceived(index, timeLeft)
-  }, [timeLeft])
+    onEndTimeReceived(index, timeLeftSeconds)
+  }, [timeLeftSeconds])
 
   const handleHackathonClick = () => {
     router.push("/ilo" + "/" + pairAddress)

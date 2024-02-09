@@ -65,12 +65,14 @@ export const ProjectDetail = ({ token }) => {
     providerWithdraw,
     allownedTokenToFTO
   } = useILOContract(token)
-
+  const needApprove = useMemo(() => {
+    return new BigNumber(formatEther(allownedTokenToFTO as any || 0)).isLessThan(amount || 0)
+  }, [amount, allownedTokenToFTO])
   const deposit = async () => {
     setDepositLoading(true)
     setDepositAmount(String(amount))
     try {
-      if (formatEther((allownedTokenToFTO as any) || 0) == "0") {
+      if (needApprove) {
         await approveTokenAWrite()
       } else {
         await depositWrite()
@@ -224,7 +226,7 @@ export const ProjectDetail = ({ token }) => {
           }
           <div className="mt-[24px] flex  justify-center">
             {ftoState === 2 ? <Button isLoading={depositLoading} onClick={deposit} className=" cursor-pointer border-[4px solid var(--b-5-dce-1, rgba(181, 220, 225, 0.50))] flex w-[362px] h-[45px] justify-center items-center gap-2.5 border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:var(--b-5-dce-1,#B5DCE1)] px-6 py-3 rounded-md border-4 border-solid text-black text-center [font-family:Segoe_UI] text-base font-bold leading-4">
-             {formatEther(allownedTokenToFTO as any || 0) == "0" ? "Approve" : `Deposit`}
+             {needApprove ? "Approve" : `Deposit`}
             </Button> : 
             ftoState === 0 ? <Button isLoading={depositLoading} onClick={claim} className=" cursor-pointer border-[4px solid var(--b-5-dce-1, rgba(181, 220, 225, 0.50))] flex w-[362px] h-[45px] justify-center items-center gap-2.5 border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:var(--b-5-dce-1,#B5DCE1)] px-6 py-3 rounded-md border-4 border-solid text-black text-center [font-family:Segoe_UI] text-base font-bold leading-4">
               Claim LP

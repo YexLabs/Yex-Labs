@@ -27,17 +27,26 @@ export const ProjectList = () => {
   const sortByTimeleft = (aIndex, bIndex) => {
     const aTimeleft = projectEndTimes[aIndex] || 0
     const bTimeleft = projectEndTimes[bIndex] || 0
-    console.log(aTimeleft, typeof aTimeleft)
-    console.log(bTimeleft, typeof bTimeleft)
-
-    // Sort by timeleft, placing items with timeleft > 0 first and smaller timeleft earlier
-    if (aTimeleft !== "0" && bTimeleft === "0") {
-      return -1
-    } else if (aTimeleft === "0" && bTimeleft !== "0") {
-      return 1
-    } else {
-      return aTimeleft - bTimeleft
+    console.log("aTimeleft", aTimeleft, typeof aTimeleft)
+    console.log("bTimeleft", bTimeleft, typeof bTimeleft)
+    if (!aTimeleft && !bTimeleft) {
+      return 0
     }
+
+    // processing
+    if (aTimeleft >=0 && bTimeleft >= 0) {
+      return aTimeleft - bTimeleft  
+    }
+    if (aTimeleft >= 0 && bTimeleft < 0) {
+      return -1
+    }
+    if (aTimeleft < 0 && bTimeleft >= 0) {
+      return 1
+    }
+    if (aTimeleft < 0 && bTimeleft < 0) {
+      return bTimeleft - aTimeleft
+    }
+    return 0
   }
   const sortedIndexes = allPairIndexes.slice().sort(sortByTimeleft)
   useEffect(() => {
@@ -46,7 +55,13 @@ export const ProjectList = () => {
   return (
     <div className="self-stretch flex flex-row flex-wrap items-center justify-center gap-[24px] max-w-full text-center text-2xl">
       <div className="flex-1 flex items-start justify-start gap-[24px] flex-wrap">
-        {sortedIndexes.map((index) =>  <Project  onEndTimeReceived={handleEndTimeReceived} index={index} key={index}></Project>)}
+        {sortedIndexes.map((index) => (
+          <Project
+            onEndTimeReceived={handleEndTimeReceived}
+            index={index}
+            key={index}
+          ></Project>
+        ))}
       </div>
     </div>
   )
