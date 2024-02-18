@@ -9,7 +9,7 @@ import { useEffect, useState } from "react"
 import { formatEther } from "viem"
 import { useContractRead } from "wagmi"
 import BigNumber from "bignumber.js"
-import { dayjs } from '../../../lib/dayjs';
+import { dayjs } from "../../../lib/dayjs"
 
 type Project = {
   name: string
@@ -53,7 +53,7 @@ export const Project = ({ onEndTimeReceived, index }) => {
     address: tokenBAddress as any,
     abi: ERC20_ABI,
     functionName: "name",
-    onSuccess: (data) => {},                                                                                                                                                                                     
+    onSuccess: (data) => {},
     onError: (error) => {}
   })
 
@@ -90,7 +90,12 @@ export const Project = ({ onEndTimeReceived, index }) => {
 
   const calculateTimeLeft = () => {
     const timeDiff = getTimeDiff()
-    return timeDiff > 0 ? `Until ${dayjs().add(timeDiff * 1000).toDate().toLocaleString()}` : " "
+    return timeDiff > 0
+      ? `Until ${dayjs()
+          .add(timeDiff * 1000)
+          .toDate()
+          .toLocaleString()}`
+      : " "
   }
 
   useEffect(() => {
@@ -119,8 +124,8 @@ export const Project = ({ onEndTimeReceived, index }) => {
   }
   return (
     <div className="w-[380px] font-[700]  box-border max-w-full self-stretch rounded-xl bg-gray-400 flex flex-col items-center justify-start pt-8 px-3 pb-3 gap-[6px] border-[0.2px] border-solid border-borderColor">
-      <div className="flex flex-col items-center justify-start py-0 px-[22px] box-border gap-[16px] mq450:h-auto">
-        <div className="flex flex-row items-start justify-start py-0 px-0 gap-[6px]">
+      <div className="flex flex-col items-center justify-start py-0 px-[22px] box-border mq450:h-auto">
+        <div className="flex w-full relative flex-row items-center justify-center py-0 px-0 gap-[6px]">
           <img
             className="h-[27.2px] w-[27.2px] relative object-cover"
             alt=""
@@ -129,8 +134,21 @@ export const Project = ({ onEndTimeReceived, index }) => {
           <h2 className="m-0 relative text-inherit font-bold font-inherit mq450:text-mid">
             {name as any}
           </h2>
+          <a
+            className="absolute right-0 top-0"
+            href={`https://twitter.com/compose/tweet?text=${encodeURIComponent(
+              `Taste this honey and they turn into a Smokey bear with honeypot finance @SmokeyTheBera https://yexlabs.xyz/ilo/${pairAddress} #honeypot finance #berachain #berabeelon`
+            )}`}
+            target="_blank"
+          >
+            <img
+              className="h-[26px] w-[26px] relative object-cover"
+              alt=""
+              src="/twitter.png"
+            />
+          </a>
         </div>
-        <div className="self-stretch flex flex-row items-start justify-between py-0 px-px gap-[8px] text-left text-xs text-lightsteelblue-100 mq450:flex-wrap mq450:justify-center">
+        <div className="mt-[8px] self-stretch flex flex-row items-start justify-between py-0 px-px gap-[8px] text-left text-xs text-lightsteelblue-100 mq450:flex-wrap mq450:justify-center">
           {/* <div className=" flex-1 text-center gap-[8px] overflow-hidden">
             <b className="relative">Timeline</b>
             <div className="flex flex-row items-center justify-center text-center text-2xl text-white">
@@ -151,7 +169,7 @@ export const Project = ({ onEndTimeReceived, index }) => {
             <b className="relative">Price</b>
             <div className="flex flex-col items-center justify-start gap-[1px] text-center text-2xl text-white font-jetbrains-mono">
               <b className="h-7 relative inline-block mq450:text-mid">
-                {price ? `$${price}` : '-'}
+                {price ? `$${price}` : "-"}
               </b>
               {/* <div className="relative text-xs text-lightsteelblue-200 text-left">
                   ~$294.349.90
@@ -159,12 +177,15 @@ export const Project = ({ onEndTimeReceived, index }) => {
             </div>
           </div>
         </div>
-        <div className="text-[14px] opacity-80 w-full text-left h-[18px]" >{timeLeft}</div>
-        <button       onClick={handleHackathonClick} className="cursor-pointer pt-2 px-2 pb-[9px] bg-baseblue  w-[288.28px] h-[33.28px] rounded-md box-border overflow-hidden shrink-0 flex flex-row items-center justify-center gap-[3.28px] border-[2px] border-solid border-borderColor">
-          <b
-      
-            className="relative text-xs leading-[5.25px] flex font-segoe-ui text-black text-center items-center justify-center h-[13px]"
-          >
+
+        <div className="mt-[8px] text-[14px] opacity-80 w-full text-left h-[18px]">
+          {timeLeft}
+        </div>
+        <button
+          onClick={handleHackathonClick}
+          className=" mt-[8px] cursor-pointer pt-2 px-2 pb-[9px] bg-baseblue  w-[288.28px] h-[33.28px] rounded-md box-border overflow-hidden shrink-0 flex flex-row items-center justify-center gap-[3.28px] border-[2px] border-solid border-borderColor"
+        >
+          <b className="relative text-xs leading-[5.25px] flex font-segoe-ui text-black text-center items-center justify-center h-[13px]">
             View Project
           </b>
         </button>
@@ -175,5 +196,3 @@ export const Project = ({ onEndTimeReceived, index }) => {
     </div>
   )
 }
-
-
