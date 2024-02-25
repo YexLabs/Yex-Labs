@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react"
-import { useAccount } from "wagmi"
+import { useAccount, useContractRead } from "wagmi"
 import { toast } from "react-toastify"
 import useILOContract from "@/hooks/useILOContract"
 import { formatEther, parseEther } from "viem"
@@ -9,6 +9,7 @@ import { Button } from "@/components/button/Button"
 import { useRouter } from "next/router"
 import { Header } from "./Header"
 import BigNumber from "bignumber.js"
+import { MUBAI_FTO_PAIR_ABI } from "@/contracts/abis"
 
 const LabelGroup = ({ list, onChange }) => {
   const [selected, setSelected] = useState(0)
@@ -95,6 +96,19 @@ export const ProjectDetail = ({ token }) => {
     }
   }
 
+  const { data: end_time } = useContractRead({
+    address: token as any,
+    abi: MUBAI_FTO_PAIR_ABI,
+    functionName: "end_time"
+  })
+
+
+
+  const getTimeDiff = () => {
+    return Number(end_time) - Math.floor(Date.now() / 1000)
+  }
+
+
   const provider_claim = async () => {
     setDepositLoading(true)
     setDepositAmount(String(amount))
@@ -125,14 +139,14 @@ export const ProjectDetail = ({ token }) => {
     setDepositAmount(String(amount))
   }, [amount])
   const router = useRouter()
-  console.log('ftoState', ftoState)
+  const isProgress = ftoState == 2 && getTimeDiff() >= 0
   return (
     <>
       <Header title={tokenBName}></Header>
       <div className="flex justify-center mt-[91px]">
         <div className=" overflow-hidden relative w-[443px] pb-[24px] shrink-0 border border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:#1C1C2D] pt-12 px-5 rounded-[14px] border-solid">
         {
-          ftoState === 2 ? 
+          isProgress ? 
           ( <div className="bg-[rgba(67,217,163,0.50)] absolute w-[114px] h-[27px] flex items-center justify-center text-[#42F6B6] text-center [font-family:Open_Sans] text-[13px] font-normal leading-[normal] left-[0] top-[0]">
           Currently Live
          </div>) : (
@@ -193,7 +207,7 @@ export const ProjectDetail = ({ token }) => {
               </div>
             </div>
           </div>
-          {ftoState == 2 ?
+          {isProgress && getTimeDiff()>= 0?
           <>
                   <div className="mt-[25px] w-[411px] h-[52px] [background:#272738] px-4 py-0 rounded-[11.563px]">
                   <input
@@ -225,7 +239,7 @@ export const ProjectDetail = ({ token }) => {
                 </div>
           }
           <div className="mt-[24px] flex  justify-center">
-            {ftoState === 2 ? <Button isLoading={depositLoading} onClick={deposit} className=" cursor-pointer border-[4px solid var(--b-5-dce-1, rgba(181, 220, 225, 0.50))] flex w-[362px] h-[45px] justify-center items-center gap-2.5 border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:var(--b-5-dce-1,#B5DCE1)] px-6 py-3 rounded-md border-4 border-solid text-black text-center [font-family:Segoe_UI] text-base font-bold leading-4">
+            {isProgress ? <Button isLoading={depositLoading} onClick={deposit} className=" cursor-pointer border-[4px solid var(--b-5-dce-1, rgba(181, 220, 225, 0.50))] flex w-[362px] h-[45px] justify-center items-center gap-2.5 border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:var(--b-5-dce-1,#B5DCE1)] px-6 py-3 rounded-md border-4 border-solid text-black text-center [font-family:Segoe_UI] text-base font-bold leading-4">
              {needApprove ? "Approve" : `Deposit`}
             </Button> : 
             ftoState === 0 ? <Button isLoading={depositLoading} onClick={claim} className=" cursor-pointer border-[4px solid var(--b-5-dce-1, rgba(181, 220, 225, 0.50))] flex w-[362px] h-[45px] justify-center items-center gap-2.5 border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:var(--b-5-dce-1,#B5DCE1)] px-6 py-3 rounded-md border-4 border-solid text-black text-center [font-family:Segoe_UI] text-base font-bold leading-4">
