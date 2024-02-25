@@ -84,6 +84,12 @@ export const Project = ({ onEndTimeReceived, index }) => {
     functionName: "end_time"
   })
 
+  const { data: start_time } = useContractRead({
+    address: pairAddress as any,
+    abi: MUBAI_FTO_PAIR_ABI,
+    functionName: "start_time"
+  })
+
   const getTimeDiff = () => {
     return Number(end_time) - Math.floor(Date.now() / 1000)
   }
@@ -116,7 +122,7 @@ export const Project = ({ onEndTimeReceived, index }) => {
   const timeLeftSeconds = getTimeDiff()
 
   useEffect(() => {
-    onEndTimeReceived(index, timeLeftSeconds)
+    onEndTimeReceived(index, timeLeftSeconds, start_time)
   }, [timeLeftSeconds])
 
   const handleHackathonClick = () => {

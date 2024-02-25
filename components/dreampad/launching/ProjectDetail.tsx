@@ -125,7 +125,7 @@ export const ProjectDetail = ({ token }) => {
     setDepositAmount(String(amount))
   }, [amount])
   const router = useRouter()
-
+  console.log('ftoState', ftoState)
   return (
     <>
       <Header title={tokenBName}></Header>

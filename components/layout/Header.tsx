@@ -5,20 +5,20 @@ import { useRouter } from "next/router"
 export const Header = () => {
   const router = useRouter()
   const menus = [
-    {
-      name: "Swap",
-      to: "/swap"
-    },
-    {
-      name: "Pool",
-      to: "/pool"
-    },
+    // {
+    //   name: "Swap",
+    //   to: "/swap"
+    // },
+    // {
+    //   name: "Pool",
+    //   to: "/pool"
+    // },
     {
       name: "Portfolio",
       to: "/portfolio"
     },
     {
-      name: "launching",
+      name: "Launching",
       to: "/launching"
     }
   ]
@@ -31,7 +31,7 @@ export const Header = () => {
         onClick={() => router.push("/")}
         src="/logo.png"
       />
-      <div className="flex w-[481px] flex-row items-start  justify-between  max-w-full">
+      <div className="flex w-[481px] flex-row items-start gap-[50px] max-w-full">
         {menus.map((menu, index) => (
              <Link className=" cursor-pointer relative tracking-[0.24px] text-white  no-underline" key={menu.name} href={menu.to}>{menu.name}</Link>
         ))}

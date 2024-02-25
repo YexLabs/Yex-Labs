@@ -3,6 +3,7 @@ import { FTO_FACTORY_ADDRESS } from "@/contracts/addresses"
 import { useEffect, useState } from "react"
 import { useContractRead } from "wagmi"
 import { Project } from "./ProjectCard"
+import BigNumber from "bignumber.js"
 
 export const ProjectList = () => {
   const [projectEndTimes, setProjectEndTimes] = useState({})
@@ -18,35 +19,41 @@ export const ProjectList = () => {
     (_, index) => index
   )
 
-  const handleEndTimeReceived = (projectId, endTime) => {
+  const handleEndTimeReceived = (projectId, endTime, startTime) => {
     setProjectEndTimes((prevEndTimes) => ({
       ...prevEndTimes,
-      [projectId]: endTime
+      [projectId]: {
+        endTime,
+        startTime
+      }
     }))
   }
   const sortByTimeleft = (aIndex, bIndex) => {
-    const aTimeleft = projectEndTimes[aIndex] || 0
-    const bTimeleft = projectEndTimes[bIndex] || 0
-    console.log("aTimeleft", aTimeleft, typeof aTimeleft)
-    console.log("bTimeleft", bTimeleft, typeof bTimeleft)
-    if (!aTimeleft && !bTimeleft) {
-      return 0
-    }
+    const aProject = projectEndTimes[aIndex] || {}
+    const bProject = projectEndTimes[bIndex] || {}
+    // const aTimeleft = projectEndTimes[aIndex] || 0
+    // const bTimeleft = projectEndTimes[bIndex] || 0
+    // console.log("aTimeleft", aTimeleft, typeof aTimeleft)
+    // console.log("bTimeleft", bTimeleft, typeof bTimeleft)
+    // if (!aTimeleft && !bTimeleft) {
+    //   return 0
+    // }
 
-    // processing
-    if (aTimeleft >=0 && bTimeleft >= 0) {
-      return aTimeleft - bTimeleft  
-    }
-    if (aTimeleft >= 0 && bTimeleft < 0) {
-      return -1
-    }
-    if (aTimeleft < 0 && bTimeleft >= 0) {
-      return 1
-    }
-    if (aTimeleft < 0 && bTimeleft < 0) {
-      return bTimeleft - aTimeleft
-    }
-    return 0
+    // // processing
+    // if (aTimeleft >=0 && bTimeleft >= 0) {
+    //   return aTimeleft - bTimeleft  
+    // }
+    // if (aTimeleft >= 0 && bTimeleft < 0) {
+    //   return -1
+    // }
+    // if (aTimeleft < 0 && bTimeleft >= 0) {
+    //   return 1
+    // }
+    // if (aTimeleft < 0 && bTimeleft < 0) {
+    //   return bTimeleft - aTimeleft
+    // }
+    // return 0
+    return new BigNumber(aProject.startTime?.toString() || 0).isGreaterThan(bProject.startTime?.toString() || 0) ? -1 : 1
   }
   const sortedIndexes = allPairIndexes.slice().sort(sortByTimeleft)
   useEffect(() => {
