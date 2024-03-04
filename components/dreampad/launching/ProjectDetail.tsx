@@ -10,6 +10,7 @@ import { useRouter } from "next/router"
 import { Header } from "./Header"
 import BigNumber from "bignumber.js"
 import { MUBAI_FTO_PAIR_ABI } from "@/contracts/abis"
+import { Copy } from '../../copy/index';
 
 const LabelGroup = ({ list, onChange }) => {
   const [selected, setSelected] = useState(0)
@@ -166,7 +167,8 @@ export const ProjectDetail = ({ token }) => {
                 alt=""
                 src="/mask-group-1@2x.png"
               />
-              <div className="ml-[6px]">{tokenBName}</div>
+              <div className="ml-[6px]">{tokenBName}<Copy value={tokenB as string}/></div>
+              
             </div>
             <div className="mt-[8px] flex justify-center">
               <div className="text-[#B5DCE1]">Contract on: </div>

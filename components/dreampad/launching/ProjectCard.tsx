@@ -78,17 +78,19 @@ export const Project = ({ onEndTimeReceived, index }) => {
     }
   }, [tokenA, tokenB])
 
+  const { data: start_time } = useContractRead({
+    address: pairAddress as any,
+    abi: MUBAI_FTO_PAIR_ABI,
+    functionName: "start_time"
+  })
+
   const { data: end_time } = useContractRead({
     address: pairAddress as any,
     abi: MUBAI_FTO_PAIR_ABI,
     functionName: "end_time"
   })
 
-  const { data: start_time } = useContractRead({
-    address: pairAddress as any,
-    abi: MUBAI_FTO_PAIR_ABI,
-    functionName: "start_time"
-  })
+
 
   const getTimeDiff = () => {
     return Number(end_time) - Math.floor(Date.now() / 1000)
