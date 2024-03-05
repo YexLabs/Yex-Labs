@@ -22,6 +22,7 @@
     "daisyui": "^3.5.1",
     "dayjs": "^1.11.10",
     "ethers": "5.7.2",
+    "framer-motion": "^11.0.8",
     "lucide-react": "0.105.0-alpha.4",
     "mobx": "^6.12.0",
     "mobx-react-lite": "^4.0.5",

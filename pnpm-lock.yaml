@@ -44,6 +44,9 @@ dependencies:
   ethers:
     specifier: 5.7.2
     version: 5.7.2
+  framer-motion:
+    specifier: ^11.0.8
+    version: 11.0.8(react-dom@18.2.0)(react@18.2.0)
   lucide-react:
     specifier: 0.105.0-alpha.4
     version: 0.105.0-alpha.4(react@18.2.0)
