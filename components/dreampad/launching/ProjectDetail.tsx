@@ -167,12 +167,12 @@ export const ProjectDetail = ({ token }) => {
                 alt=""
                 src="/mask-group-1@2x.png"
               />
-              <div className="ml-[6px]">{tokenBName}<Copy value={tokenB as string}/></div>
+              <div className="ml-[6px]">{tokenBName}</div>
               
             </div>
             <div className="mt-[8px] flex justify-center">
               <div className="text-[#B5DCE1]">Contract on: </div>
-              <div className="ml-[6px] text-[rgba(255,255,255,0.50)]">{truncateAddress(tokenB || "0")}</div>
+              <div className="ml-[6px] flex align-middle  text-[rgba(255,255,255,0.50)]">{truncateAddress(tokenB || "0")}<Copy value={tokenB as string}/></div>
             </div>
           </div>
           <div className="mt-[8px] flex h-[60px] justify-between items-center [background:#272738] rounded-[14px]">
