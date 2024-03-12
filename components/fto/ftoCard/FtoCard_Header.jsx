@@ -14,5 +14,6 @@ export default function FtoCard_Header() {
         <TokenDetails />
       </div>
     </div>
+    
   )
 }

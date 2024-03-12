@@ -34,6 +34,12 @@ export default function useILOContract(tokenAddress) {
     functionName: "tokenB"
   })
 
+  const {data: tokenBName} = useContractRead({
+    address: tokenB,
+    abi: erc20ABI,
+    functionName: "name"
+  })
+
   const { data: tokenA } = useContractRead({
     address: ILO_ADDRESS,
     abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
@@ -89,7 +95,7 @@ export default function useILOContract(tokenAddress) {
     address: tokenA,
     abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
     functionName: "approve",
-    args: [FTO_FACADE_ADDRESS, ethers.utils.parseEther("100")],
+    args: [FTO_FACADE_ADDRESS, ethers.constants.MaxInt256],
     onError(error) {
       setDepositLoading(false)
       console.log("Error", error)
@@ -103,7 +109,7 @@ export default function useILOContract(tokenAddress) {
     address: MUMBAI_ILO_TOKENB_ADDRESS,
     abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
     functionName: "approve",
-    args: [ILO_ADDRESS, ethers.utils.parseEther("100")],
+    args: [ILO_ADDRESS, ethers.constants.MaxInt256],
     onError(error) {
       console.log("Error", error)
     }
@@ -230,10 +236,21 @@ export default function useILOContract(tokenAddress) {
     claimableLP,
     tokenA,
     tokenB,
+    tokenBName,
     tokenB_provider,
     tokenAbalanceData,
     tokenBbalanceData,
     providerWithdraw,
     allownedTokenToFTO
   }
+}
+
+export const useFaucetContract = () => {
+  return useContractWrite({
+    address: USDT_FAUCET_ADDRESS,
+    abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
+    functionName: "mint",
+    account: address,
+    args: [ethers.utils.parseEther("100")]
+  })
 }

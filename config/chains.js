@@ -45,10 +45,10 @@ export const ScrollSepoliaTestnet = {
 
 export const chains = {
   mainnet,
-  sepolia,
+  // sepolia,
   polygon,
   optimism,
   arbitrum,
   polygonMumbai,
-  ScrollSepoliaTestnet
+  // ScrollSepoliaTestnet
 }

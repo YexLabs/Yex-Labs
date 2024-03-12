@@ -18,7 +18,7 @@ export default function DreamPadPage() {
           <div className='sectionContainer'>
             <div className={dreampadPageStyles.headerRow}>
                 <div style={{ display: 'flex' }}>
-                    <h1>Dreampad</h1>
+                    <h1>Dreampad beta</h1>
                     <span style={{ margin: '0 0 0 2px', color: 'var(--text-primary)' }}>beta</span>
                 </div>
                 <div>

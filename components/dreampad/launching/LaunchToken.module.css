@@ -1,0 +1,14 @@
+.form {
+  text-align: left;
+  @apply text-white [font-family:Segoe_UI] font-bold leading-3 tracking-[0.16px];
+}
+.form>div:nth-of-type(n + 2)>label {
+    margin-top: 22px;
+}
+.form input {
+  margin-top: 18px;
+  border: none;
+  outline: none;
+  @apply flex text-white w-[522px] h-[65px] items-center gap-4 [background:rgba(255,255,255,0.05)] pl-3 pr-4 py-3 rounded-2xl;
+  box-sizing: border-box;
+}

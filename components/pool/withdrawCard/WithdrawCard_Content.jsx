@@ -263,8 +263,8 @@ const WithdrawCard_Content = ({ poolSelected }) => {
             <p className="text-sm font-normal mt-4">Expected to receive</p>
             <div className="flex flex-row justify-between mt-4">
               <div className="flex flex-row">
-                <div className="w-10 h-10 p-2">
-                  <Image src={eth_icon} alt="ETH" />
+                <div className="w-10 h-10 p-2 relative">
+                  <Image src={eth_icon} alt="ETH"  fill/>
                 </div>
                 <p className="p-2">TokenA</p>
               </div>
@@ -274,8 +274,8 @@ const WithdrawCard_Content = ({ poolSelected }) => {
             </div>
             <div className="flex flex-row justify-between">
               <div className="flex flex-row">
-                <div className="w-10 h-10 p-2">
-                  <Image src={eth_icon} alt="ETH" />
+                <div className="w-10 h-10 p-2 relative">
+                  <Image src={eth_icon} alt="ETH" fill />
                 </div>
                 <p className="p-2">TokenB</p>
               </div>

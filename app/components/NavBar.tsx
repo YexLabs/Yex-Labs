@@ -13,8 +13,8 @@ import Logo from '@/public/yexlabs-logo-v2.svg';
 
 const menuItems = [
   // Target can be '_blank' to open new window or '_self'
-  {text: 'Swap', link: '/swap', target: '_self', displayMobile: true, displayDesktop: true },
-  {text: 'Pool', link: '/pool', target: '_self', displayMobile: true, displayDesktop: true },
+  // {text: 'Swap', link: '/swap', target: '_self', displayMobile: true, displayDesktop: true },
+  // {text: 'Pool', link: '/pool', target: '_self', displayMobile: true, displayDesktop: true },
   {text: 'Launching', link: '/launching', target: '_self', displayMobile: true, displayDesktop: true },
   {text: 'Portfolio', link: '/portfolio', target: '_self', displayMobile: true, displayDesktop: true },
 ];
