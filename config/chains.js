@@ -10,8 +10,8 @@ const polygonMumbai = {
     symbol: "MATIC"
   },
   rpcUrls: {
-    public: { http: ["https://rpc-mumbai.maticvigil.com"] },
-    default: { http: ["https://rpc-mumbai.maticvigil.com"] }
+    public: { http: ["https://polygon-mumbai-pokt.nodies.app"] },
+    default: { http: ["https://polygon-mumbai-pokt.nodies.app"] }
   },
   blockExplorers: {
     etherscan: { name: "PolygonScan", url: "https://mumbai.polygonscan.com" },
