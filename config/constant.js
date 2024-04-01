@@ -12,8 +12,9 @@ export const SOCIAL_GITHUB = "yexlab"
 export const OG_IAMGE = banner.src
 
 export const ETH_CHAINS = [
-  chains.mainnet,
   chains.polygonMumbai,
+  // chains.mainnet,
+
   // chains.ScrollSepoliaTestnet,
 
 ]

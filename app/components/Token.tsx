@@ -1,5 +1,6 @@
 import TokenStyles from './Token.module.css';
 import Image from 'next/image';
+import { formatAmount } from '../../lib/number';
 
 export default function Token({ token }: { token: any }) {
 
@@ -28,7 +29,7 @@ export default function Token({ token }: { token: any }) {
                    Total Raised
                 </div>
                 <div className={TokenStyles.gridValue} style={{ gridColumn: '2 / span 1', gridRow: '2 / span 1' }}>
-                    {token.totalRaised}
+                    {formatAmount(token.totalRaised)}
                 </div>
                 <div className={TokenStyles.gridLabel} style={{ gridColumn: '3 / span 1', gridRow: '1 / span 1' }}>
                     Price

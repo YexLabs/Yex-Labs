@@ -10,7 +10,9 @@ import { useRouter } from "next/router"
 import { Header } from "./Header"
 import BigNumber from "bignumber.js"
 import { MUBAI_FTO_PAIR_ABI } from "@/contracts/abis"
-import { Copy } from '../../copy/index';
+import { Copy } from "../../copy/index"
+import { formatAmount } from "@/lib/number"
+import { waitForTransaction } from "@wagmi/core"
 
 const LabelGroup = ({ list, onChange }) => {
   const [selected, setSelected] = useState(0)
@@ -45,7 +47,7 @@ export const ProjectDetail = ({ token }) => {
   const [selectedCoin_input, setSelectedCoin_input] = useState("TTA")
   const [selectedCoin_out, setSelectedCoin_out] = useState("USDC")
   const [balance, setBalance] = useState("0")
-
+  const [depositLoading, setDepositLoading] = useState(false)
   const {
     depositedTokenA,
     lockedTokenB,
@@ -56,8 +58,6 @@ export const ProjectDetail = ({ token }) => {
     approveTokenAWrite,
     setDepositAmount,
     depositWrite,
-    setDepositLoading,
-    depositLoading,
     ftoState,
     tokenA,
     tokenAbalanceData,
@@ -68,17 +68,20 @@ export const ProjectDetail = ({ token }) => {
     allownedTokenToFTO
   } = useILOContract(token)
   const needApprove = useMemo(() => {
-    return new BigNumber(formatEther(allownedTokenToFTO as any || 0)).isLessThan(amount || 0)
+    return new BigNumber(
+      formatEther((allownedTokenToFTO as any) || 0)
+    ).isLessThan(amount || 0)
   }, [amount, allownedTokenToFTO])
   const deposit = async () => {
     setDepositLoading(true)
     setDepositAmount(String(amount))
     try {
       if (needApprove) {
-        await approveTokenAWrite()
-      } else {
-        await depositWrite()
+        const { hash } = await approveTokenAWrite()
+        await waitForTransaction({ hash })
       }
+      const { hash } = await depositWrite()
+      await waitForTransaction({ hash })
       // await approveTokenAWrite()
     } catch (e) {
       toast.error(e?.reason)
@@ -91,7 +94,8 @@ export const ProjectDetail = ({ token }) => {
     try {
       // await approveTokenAWrite()
 
-      await claimLPWrite()
+      const { hash } = await claimLPWrite()
+      await waitForTransaction({ hash })
     } catch (e) {
       toast.error(e?.reason)
     }
@@ -103,12 +107,9 @@ export const ProjectDetail = ({ token }) => {
     functionName: "end_time"
   })
 
-
-
   const getTimeDiff = () => {
     return Number(end_time) - Math.floor(Date.now() / 1000)
   }
-
 
   const provider_claim = async () => {
     setDepositLoading(true)
@@ -116,7 +117,8 @@ export const ProjectDetail = ({ token }) => {
     try {
       // await approveTokenAWrite()
 
-      await providerWithdraw()
+      const { hash } = await providerWithdraw()
+      await waitForTransaction({ hash })
     } catch (e) {
       toast.error(e?.reason)
     }
@@ -146,21 +148,22 @@ export const ProjectDetail = ({ token }) => {
       <Header title={tokenBName}></Header>
       <div className="flex justify-center mt-[91px]">
         <div className=" overflow-hidden relative w-[443px] pb-[24px] shrink-0 border border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:#1C1C2D] pt-12 px-5 rounded-[14px] border-solid">
-        {
-          isProgress ? 
-          ( <div className="bg-[rgba(67,217,163,0.50)] absolute w-[114px] h-[27px] flex items-center justify-center text-[#42F6B6] text-center [font-family:Open_Sans] text-[13px] font-normal leading-[normal] left-[0] top-[0]">
-          Currently Live
-         </div>) : (
-          Number(ethers.utils.formatUnits(depositedTokenA as any || 0, 18)) > 0 ? 
-          <div className="bg-[rgba(67,217,163,0.50)] absolute w-[114px] h-[27px] flex items-center justify-center text-[#42F6B6] text-center [font-family:Open_Sans] text-[13px] font-normal leading-[normal] left-[0] top-[0]">
-          SUCCESS
-          </div>: 
+          {isProgress ? (
+            <div className="bg-[rgba(67,217,163,0.50)] absolute w-[114px] h-[27px] flex items-center justify-center text-[#42F6B6] text-center [font-family:Open_Sans] text-[13px] font-normal leading-[normal] left-[0] top-[0]">
+              Currently Live
+            </div>
+          ) : Number(
+              ethers.utils.formatUnits((depositedTokenA as any) || 0, 18)
+            ) > 0 ? (
+            <div className="bg-[rgba(67,217,163,0.50)] absolute w-[114px] h-[27px] flex items-center justify-center text-[#42F6B6] text-center [font-family:Open_Sans] text-[13px] font-normal leading-[normal] left-[0] top-[0]">
+              SUCCESS
+            </div>
+          ) : (
             <div className="bg-[rgba(128,128,128,0.5)] absolute w-[114px] h-[27px] flex items-center justify-center text-[rgba(128,128,128,1)] text-center [font-family:Open_Sans] text-[13px] font-normal leading-[normal] left-[0] top-[0]">
               FAILED
             </div>
-         )
-         }
-         <div className="h-[64px]">
+          )}
+          <div className="h-[64px]">
             <div className="flex items-center justify-center">
               <img
                 className="h-[27.2px] w-[27.2px] relative object-cover"
@@ -168,11 +171,13 @@ export const ProjectDetail = ({ token }) => {
                 src="/mask-group-1@2x.png"
               />
               <div className="ml-[6px]">{tokenBName}</div>
-              
             </div>
             <div className="mt-[8px] flex justify-center">
               <div className="text-[#B5DCE1]">Contract on: </div>
-              <div className="ml-[6px] flex align-middle  text-[rgba(255,255,255,0.50)]">{truncateAddress(tokenB || "0")}<Copy value={tokenB as string}/></div>
+              <div className="ml-[6px] flex align-middle  text-[rgba(255,255,255,0.50)]">
+                {truncateAddress(tokenB || "0")}
+                <Copy value={tokenB as string} />
+              </div>
             </div>
           </div>
           <div className="mt-[8px] flex h-[60px] justify-between items-center [background:#272738] rounded-[14px]">
@@ -181,76 +186,112 @@ export const ProjectDetail = ({ token }) => {
                 Uniform Price
               </div>
               <div className="mt-[8px] w-[124px] h-4 text-[rgba(255,255,255,0.50)] text-center text-xs font-bold leading-[normal]">
-              {lockedTokenB
-              ? BigNumber((ethers.utils.formatUnits(depositedTokenA as any || 0, 18) as any /
-              //@ts-ignore
-              ethers.utils.formatUnits(lockedTokenB as any, 18) as any)).toFixed()
-              : "0.0"}
+                {lockedTokenB
+                  ? formatAmount(
+                      BigNumber(
+                        ((ethers.utils.formatUnits(
+                          (depositedTokenA as any) || 0,
+                          18
+                        ) as any) /
+                          //@ts-ignore
+                          ethers.utils.formatUnits(
+                            lockedTokenB as any,
+                            18
+                          )) as any
+                      ).toFixed()
+                    )
+                  : "0.0"}
               </div>
             </div>
             <div>
               <div className="text-white text-center text-xs font-bold leading-[normal]">
-              Total Sale Token B
+                Total Sale Token B
               </div>
               <div className="mt-[8px] w-[124px] h-4 text-[rgba(255,255,255,0.50)] text-center text-xs font-bold leading-[normal]">
-              {lockedTokenB
-                ? ethers.utils.formatUnits(lockedTokenB as any || 0, 18)
-                : "0.0"}
+                {lockedTokenB
+                  ? formatAmount(
+                      ethers.utils.formatUnits((lockedTokenB as any) || 0, 18)
+                    )
+                  : "0.0"}
               </div>
             </div>
             <div>
               <div className="text-white text-center text-xs font-bold leading-[normal]">
-              User Deposited Token
+                User Deposited Token
               </div>
               <div className="mt-[8px] w-[124px] h-4 text-[rgba(255,255,255,0.50)] text-center text-xs font-bold leading-[normal]">
-              {depositedTokenA
-                ? ethers.utils.formatUnits(depositedTokenA as any|| 0, 18)
-                : "0.0"}
+                {depositedTokenA
+                  ? formatAmount(
+                      ethers.utils.formatUnits(
+                        (depositedTokenA as any) || 0,
+                        18
+                      )
+                    )
+                  : "0.0"}
               </div>
             </div>
           </div>
-          {isProgress && getTimeDiff()>= 0?
-          <>
-                  <div className="mt-[25px] w-[411px] h-[52px] [background:#272738] px-4 py-0 rounded-[11.563px]">
-                  <input
-                    type="number"
-                    placeholder="0.0"
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value as any)}
-                    className="h-[31px] p-0 outline-none w-full  border-none rounded-md text-[#FAFAFC] [background:#272738]  [font-family:JetBrains_Mono] text-[15.176px] font-bold leading-[17.344px]"
-                  ></input>
-                  <div className="mt-[4px] text-left text-[#9E9DA3] [font-family:JetBrains_Mono] text-[10.117px] font-bold leading-[8.672px] tracking-[0.101px]">
-                    Balance: {tokenAbalanceData?.formatted || "0.0"}
-                  </div>
+          {isProgress && getTimeDiff() >= 0 ? (
+            <>
+              <div className="mt-[25px] w-[411px] h-[52px] [background:#272738] px-4 py-0 rounded-[11.563px]">
+                <input
+                  type="number"
+                  placeholder="0.0"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value as any)}
+                  className="h-[31px] p-0 outline-none w-full  border-none rounded-md text-[#FAFAFC] [background:#272738]  [font-family:JetBrains_Mono] text-[15.176px] font-bold leading-[17.344px]"
+                ></input>
+                <div className="mt-[4px] text-left text-[#9E9DA3] [font-family:JetBrains_Mono] text-[10.117px] font-bold leading-[8.672px] tracking-[0.101px]">
+                  Balance: {tokenAbalanceData?.formatted || "0.0"}
                 </div>
-                <div className="mt-[12px] flex justify-end">
-                  <LabelGroup
-                    list={[
-                      { label: "25%", value: 25 },
-                      { label: "50%", value: 50 },
-                      { label: "75%", value: 75 },
-                      { label: "100%", value: 100 }
-                    ]}
-                    onChange={(item) => {
-                      onSetPercent(item.value)
-                    }}
-                  ></LabelGroup>
-                </div>
-                </> : <div className="mt-[16px]">
-                   {formatEther(claimableLP as any || 0)}
-                </div>
-          }
+              </div>
+              <div className="mt-[12px] flex justify-end">
+                <LabelGroup
+                  list={[
+                    { label: "25%", value: 25 },
+                    { label: "50%", value: 50 },
+                    { label: "75%", value: 75 },
+                    { label: "100%", value: 100 }
+                  ]}
+                  onChange={(item) => {
+                    onSetPercent(item.value)
+                  }}
+                ></LabelGroup>
+              </div>
+            </>
+          ) : (
+            <div className="mt-[16px]">
+              {formatEther((claimableLP as any) || 0)}
+            </div>
+          )}
           <div className="mt-[24px] flex  justify-center">
-            {isProgress ? <Button isLoading={depositLoading} onClick={deposit} className=" cursor-pointer border-[4px solid var(--b-5-dce-1, rgba(181, 220, 225, 0.50))] flex w-[362px] h-[45px] justify-center items-center gap-2.5 border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:var(--b-5-dce-1,#B5DCE1)] px-6 py-3 rounded-md border-4 border-solid text-black text-center [font-family:Segoe_UI] text-base font-bold leading-4">
-             {needApprove ? "Approve" : `Deposit`}
-            </Button> : 
-            ftoState === 0 ? <Button isLoading={depositLoading} onClick={claim} className=" cursor-pointer border-[4px solid var(--b-5-dce-1, rgba(181, 220, 225, 0.50))] flex w-[362px] h-[45px] justify-center items-center gap-2.5 border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:var(--b-5-dce-1,#B5DCE1)] px-6 py-3 rounded-md border-4 border-solid text-black text-center [font-family:Segoe_UI] text-base font-bold leading-4">
-              Claim LP
-           </Button> :
-           tokenB_provider == address &&  
-           <Button isLoading={depositLoading} onClick={provider_claim} className=" cursor-pointer border-[4px solid var(--b-5-dce-1, rgba(181, 220, 225, 0.50))] flex w-[362px] h-[45px] justify-center items-center gap-2.5 border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:var(--b-5-dce-1,#B5DCE1)] px-6 py-3 rounded-md border-4 border-solid text-black text-center [font-family:Segoe_UI] text-base font-bold leading-4">
-             Provider Withdraw
-           </Button>}
+            {isProgress ? (
+              <Button
+                isLoading={depositLoading}
+                onClick={deposit}
+                className=" cursor-pointer border-[4px solid var(--b-5-dce-1, rgba(181, 220, 225, 0.50))] flex w-[362px] h-[45px] justify-center items-center gap-2.5 border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:var(--b-5-dce-1,#B5DCE1)] px-6 py-3 rounded-md border-4 border-solid text-black text-center [font-family:Segoe_UI] text-base font-bold leading-4"
+              >
+                Deposit
+              </Button>
+            ) : ftoState === 0 ? (
+              <Button
+                isLoading={depositLoading}
+                onClick={claim}
+                className=" cursor-pointer border-[4px solid var(--b-5-dce-1, rgba(181, 220, 225, 0.50))] flex w-[362px] h-[45px] justify-center items-center gap-2.5 border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:var(--b-5-dce-1,#B5DCE1)] px-6 py-3 rounded-md border-4 border-solid text-black text-center [font-family:Segoe_UI] text-base font-bold leading-4"
+              >
+                Claim LP
+              </Button>
+            ) : (
+              tokenB_provider == address && (
+                <Button
+                  isLoading={depositLoading}
+                  onClick={provider_claim}
+                  className=" cursor-pointer border-[4px solid var(--b-5-dce-1, rgba(181, 220, 225, 0.50))] flex w-[362px] h-[45px] justify-center items-center gap-2.5 border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:var(--b-5-dce-1,#B5DCE1)] px-6 py-3 rounded-md border-4 border-solid text-black text-center [font-family:Segoe_UI] text-base font-bold leading-4"
+                >
+                  Provider Withdraw
+                </Button>
+              )
+            )}
           </div>
         </div>
       </div>

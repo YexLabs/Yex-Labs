@@ -9,12 +9,15 @@ import LaunchTokenStyles from "./LaunchToken.module.css"
 import { Header } from "./Header"
 import { Button } from "@/components/button/Button"
 import BigNumber from "bignumber.js"
+import { waitForTransaction } from "@wagmi/core"
 export const LaunchToken = () => {
-  const { data, isLoading, isIdle, isSuccess, write } = useContractWrite({
+  const { data, isIdle, isSuccess, writeAsync } = useContractWrite({
     address: FTO_FACTORY_ADDRESS,
     abi: MUBAI_FTO_FACTORY_ABI,
     functionName: "createFTO"
   })
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
 
   const {
     register,
@@ -33,7 +36,8 @@ export const LaunchToken = () => {
   //   })
   // }, [setValue])
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    setIsLoading(true)
     const {
       tokenAddress,
       tokenName,
@@ -42,16 +46,24 @@ export const LaunchToken = () => {
       poolHandler,
       rasing_cycle
     } = data
-    write({
-      args: [
-        tokenAddress,
-        tokenName,
-        tokenSymbol,
-        new BigNumber(tokenAmount).multipliedBy(new BigNumber(10).pow(18)).toFixed(),
-        poolHandler,
-        rasing_cycle
-      ]
-    })
+    try {
+      const { hash } = await writeAsync({
+        args: [
+          tokenAddress,
+          tokenName,
+          tokenSymbol,
+          new BigNumber(tokenAmount).multipliedBy(new BigNumber(10).pow(18)).toFixed(),
+          poolHandler,
+          rasing_cycle
+        ]
+      })
+      await waitForTransaction({ hash })
+      router.push('/launching')
+    } catch (error) {
+      console.error(error)
+    }
+    setIsLoading(false)
+  
   }
 
   const ethereumAddressPattern = /^(0x)[0-9A-Fa-f]{40}$/

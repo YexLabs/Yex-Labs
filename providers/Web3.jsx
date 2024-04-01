@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react"
 import "@rainbow-me/rainbowkit/styles.css"
-import { configureChains, createConfig, WagmiConfig } from "wagmi"
+import { configureChains, createConfig, WagmiConfig, } from "wagmi"
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit"
 import { publicProvider } from "wagmi/providers/public"
 import { ETH_CHAINS } from "@/config/constant"
+import { createPublicClient ,http} from 'viem'
+import {chains as customChain} from '../config/chains'
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   ETH_CHAINS,
@@ -19,7 +21,13 @@ const { connectors } = getDefaultWallets({
 const wagmiConfig = createConfig({
   autoConnect: true,
   connectors,
-  publicClient,
+  publicClient: createPublicClient({
+    chain: customChain.polygonMumbai,
+    batch: {
+      multicall: true, 
+    },
+    transport: http(),
+  }),
   webSocketPublicClient
 })
 

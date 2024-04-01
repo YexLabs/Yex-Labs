@@ -7,6 +7,7 @@ import useILOContract from "@/hooks/useILOContract"
 import Image from "next/image"
 import { ethers } from "ethers"
 import ILO_Faucet from "./ILO_Faucet"
+import { formatAmount } from "@/lib/number"
 
 export default function ILOCard_Header({ token }) {
   const {
@@ -81,7 +82,7 @@ export default function ILOCard_Header({ token }) {
           <div className="flex justify-center items-center">
             <div>
               {lockedTokenB
-                ? ethers.utils.formatUnits(lockedTokenB || 0, 18)
+                ? formatAmount(ethers.utils.formatUnits(lockedTokenB || 0, 18))
                 : "0.0"}
             </div>
             <div className="w-4 h-4 ml-1 relative">
