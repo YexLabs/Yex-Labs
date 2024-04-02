@@ -11,8 +11,8 @@ import { Header } from "./Header"
 import BigNumber from "bignumber.js"
 import { MUBAI_FTO_PAIR_ABI } from "@/contracts/abis"
 import { Copy } from "../../copy/index"
-import { formatAmount } from "@/lib/number"
 import { waitForTransaction } from "@wagmi/core"
+import { AmountFormat } from "@/components/amounFormat"
 
 const LabelGroup = ({ list, onChange }) => {
   const [selected, setSelected] = useState(0)
@@ -187,19 +187,19 @@ export const ProjectDetail = ({ token }) => {
               </div>
               <div className="mt-[8px] w-[124px] h-4 text-[rgba(255,255,255,0.50)] text-center text-xs font-bold leading-[normal]">
                 {lockedTokenB
-                  ? formatAmount(
-                      BigNumber(
-                        ((ethers.utils.formatUnits(
-                          (depositedTokenA as any) || 0,
+                  ? <AmountFormat amount={
+                    BigNumber(
+                      ((ethers.utils.formatUnits(
+                        (depositedTokenA as any) || 0,
+                        18
+                      ) as any) /
+                        //@ts-ignore
+                        ethers.utils.formatUnits(
+                          lockedTokenB as any,
                           18
-                        ) as any) /
-                          //@ts-ignore
-                          ethers.utils.formatUnits(
-                            lockedTokenB as any,
-                            18
-                          )) as any
-                      ).toFixed()
-                    )
+                        )) as any
+                    ).toFixed()
+                  }></AmountFormat>
                   : "0.0"}
               </div>
             </div>
@@ -209,9 +209,7 @@ export const ProjectDetail = ({ token }) => {
               </div>
               <div className="mt-[8px] w-[124px] h-4 text-[rgba(255,255,255,0.50)] text-center text-xs font-bold leading-[normal]">
                 {lockedTokenB
-                  ? formatAmount(
-                      ethers.utils.formatUnits((lockedTokenB as any) || 0, 18)
-                    )
+                  ? <AmountFormat amount={ethers.utils.formatUnits((lockedTokenB as any) || 0, 18)}></AmountFormat>
                   : "0.0"}
               </div>
             </div>
@@ -221,12 +219,10 @@ export const ProjectDetail = ({ token }) => {
               </div>
               <div className="mt-[8px] w-[124px] h-4 text-[rgba(255,255,255,0.50)] text-center text-xs font-bold leading-[normal]">
                 {depositedTokenA
-                  ? formatAmount(
-                      ethers.utils.formatUnits(
-                        (depositedTokenA as any) || 0,
-                        18
-                      )
-                    )
+                  ? <AmountFormat amount={ ethers.utils.formatUnits(
+                    (depositedTokenA as any) || 0,
+                    18
+                  )}></AmountFormat>
                   : "0.0"}
               </div>
             </div>

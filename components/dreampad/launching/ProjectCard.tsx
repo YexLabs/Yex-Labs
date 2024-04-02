@@ -10,7 +10,8 @@ import { formatEther } from "viem"
 import { useContractRead } from "wagmi"
 import BigNumber from "bignumber.js"
 import { dayjs } from "../../../lib/dayjs"
-import { formatAmount } from "@/lib/number"
+import { AmountFormat } from "@/components/amounFormat"
+
 
 type Project = {
   name: string
@@ -170,7 +171,7 @@ export const Project = ({ onEndTimeReceived, index }) => {
             <b className="relative">Total Raised</b>
             <div className="flex flex-row items-center justify-center text-center text-2xl text-white">
               <b className="h-7 relative inline-block mq450:text-mid">
-                {tokenA ? formatAmount(formatEther(tokenA as any).toString()) : "0"}
+                   <AmountFormat amount={tokenA ? formatEther(tokenA as any).toString() : "0"}></AmountFormat >
               </b>
             </div>
           </div>
@@ -178,7 +179,9 @@ export const Project = ({ onEndTimeReceived, index }) => {
             <b className="relative">Price</b>
             <div className="flex flex-col items-center justify-start gap-[1px] text-center text-2xl text-white font-jetbrains-mono">
               <b className="h-7 relative inline-block mq450:text-mid">
-                {price ? `$${formatAmount(price)}` : "-"}
+                {price ? <>
+                  $<AmountFormat amount={price}></AmountFormat>
+                </> : "-"}
               </b>
               {/* <div className="relative text-xs text-lightsteelblue-200 text-left">
                   ~$294.349.90

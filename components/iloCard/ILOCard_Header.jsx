@@ -8,6 +8,7 @@ import Image from "next/image"
 import { ethers } from "ethers"
 import ILO_Faucet from "./ILO_Faucet"
 import { formatAmount } from "@/lib/number"
+import { AmountFormat } from "../amounFormat"
 
 export default function ILOCard_Header({ token }) {
   const {
@@ -72,8 +73,8 @@ export default function ILOCard_Header({ token }) {
           <div className="text-sm text-indigo-600">Uniform Price</div>
           <div className="">
             {lockedTokenB
-              ? ethers.utils.formatUnits(depositedTokenA || 0, 18) /
-                ethers.utils.formatUnits(lockedTokenB, 18)
+              ? <AmountFormat amount={ethers.utils.formatUnits(depositedTokenA || 0, 18) /
+                ethers.utils.formatUnits(lockedTokenB, 18)}></AmountFormat>
               : "0.0"}
           </div>
         </div>
@@ -82,7 +83,7 @@ export default function ILOCard_Header({ token }) {
           <div className="flex justify-center items-center">
             <div>
               {lockedTokenB
-                ? formatAmount(ethers.utils.formatUnits(lockedTokenB || 0, 18))
+                ? <AmountFormat amount={ethers.utils.formatUnits(lockedTokenB || 0, 18)}></AmountFormat>
                 : "0.0"}
             </div>
             <div className="w-4 h-4 ml-1 relative">
