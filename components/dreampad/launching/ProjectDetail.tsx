@@ -86,6 +86,7 @@ export const ProjectDetail = ({ token }) => {
     } catch (e) {
       toast.error(e?.reason)
     }
+    setDepositLoading(false)
   }
 
   const claim = async () => {
@@ -99,6 +100,7 @@ export const ProjectDetail = ({ token }) => {
     } catch (e) {
       toast.error(e?.reason)
     }
+    setDepositLoading(false)
   }
 
   const { data: end_time } = useContractRead({
@@ -122,6 +124,7 @@ export const ProjectDetail = ({ token }) => {
     } catch (e) {
       toast.error(e?.reason)
     }
+    setDepositLoading(false)
   }
 
   const openModal_input = () => {
