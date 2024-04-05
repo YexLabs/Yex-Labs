@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import "@rainbow-me/rainbowkit/styles.css"
-import { configureChains, createConfig, WagmiConfig, } from "wagmi"
+import { configureChains, createConfig, WagmiConfig} from "wagmi"
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit"
 import { publicProvider } from "wagmi/providers/public"
 import { ETH_CHAINS } from "@/config/constant"

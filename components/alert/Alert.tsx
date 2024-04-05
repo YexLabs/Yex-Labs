@@ -1,5 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, use, useCallback, useContext, useEffect, useRef, useState } from "react"
 import Alert from "@mui/material/Alert"
+import { set } from 'react-hook-form';
 
 export const AlertContext = createContext({
   alertLevel: "",
@@ -38,21 +39,28 @@ export const GlobalAlert = () => {
 export const AlertProvider = ({ children }) => {
   const [alertLevel, setAlertLevel] = useState("")
   const [message, setMessage] = useState("")
-  const info = (message: string) => {
-    setAlertLevel("info")
+  const timer = useRef<any>()
+  const setAlert = useCallback((level, message) => {
+    clearTimeout(timer.current)
+    setAlertLevel(level)
     setMessage(message)
+    timer.current = setTimeout(() => {
+      console.log("clear")
+      setAlertLevel("")
+      setMessage("")
+    }, 3000)
+  }, [setAlertLevel, setMessage])
+  const info = (message: string) => {
+    setAlert("info", message)
   }
   const success = (message: string) => {
-    setAlertLevel("success")
-    setMessage(message)
+    setAlert("success", message)
   }
   const error = (message: string) => {
-    setAlertLevel("error")
-    setMessage(message)
+    setAlert("error", message)
   }
   const warning = (message: string) => {
-    setAlertLevel("warning")
-    setMessage(message)
+    setAlert("warning", message)
   }
   const value = {
     alertLevel,
@@ -63,14 +71,6 @@ export const AlertProvider = ({ children }) => {
     warning,
     
   }
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setAlertLevel("")
-      setMessage("")
-    }, 3000)
-    return () => clearTimeout(timer)
-  })
 
   return (
       // @ts-ignore

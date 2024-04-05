@@ -4,20 +4,40 @@ import { TextField } from "@mui/material"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { set, useForm } from "react-hook-form"
-import { useContractWrite } from "wagmi"
+import { useContractWrite, useWaitForTransaction } from "wagmi"
 import LaunchTokenStyles from "./LaunchToken.module.css"
 import { Header } from "./Header"
 import { Button } from "@/components/button/Button"
 import BigNumber from "bignumber.js"
 import { waitForTransaction } from "@wagmi/core"
+import { toast } from "react-toastify"
 export const LaunchToken = () => {
+  const [isLoading, setIsLoading] = useState(false)
   const { data, isIdle, isSuccess, writeAsync } = useContractWrite({
     address: FTO_FACTORY_ADDRESS,
     abi: MUBAI_FTO_FACTORY_ABI,
-    functionName: "createFTO"
+    functionName: "createFTO",
+    onError: (error: any) => {
+      setIsLoading(false)
+      console.error(error)
+      toast.error(error.shortMessage)
+    }
+  })
+  useWaitForTransaction({
+    hash: data?.hash,
+    onSuccess: () => {
+      setIsLoading(false)
+      toast.success("Token Launched")
+      router.push("/launching")
+    },
+    onError: (error: any) => {
+      setIsLoading(false)
+      console.error(error)
+      toast.error(error.shortMessage)
+    }
   })
   const router = useRouter()
-  const [isLoading, setIsLoading] = useState(false)
+ 
 
   const {
     register,
@@ -47,7 +67,7 @@ export const LaunchToken = () => {
       rasing_cycle
     } = data
     try {
-      const { hash } = await writeAsync({
+      await writeAsync({
         args: [
           tokenAddress,
           tokenName,
@@ -57,12 +77,10 @@ export const LaunchToken = () => {
           rasing_cycle
         ]
       })
-      await waitForTransaction({ hash })
-      router.push('/launching')
     } catch (error) {
       console.error(error)
     }
-    setIsLoading(false)
+
   
   }
 

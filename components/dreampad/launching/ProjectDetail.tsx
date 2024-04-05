@@ -47,8 +47,11 @@ export const ProjectDetail = ({ token }) => {
   const [selectedCoin_input, setSelectedCoin_input] = useState("TTA")
   const [selectedCoin_out, setSelectedCoin_out] = useState("USDC")
   const [balance, setBalance] = useState("0")
-  const [depositLoading, setDepositLoading] = useState(false)
   const {
+    refetchTokenABalance,
+    refetchTokenBBalance,
+    depositLoading,
+    setDepositLoading,
     depositedTokenA,
     lockedTokenB,
     setRasingPaused,
@@ -77,16 +80,13 @@ export const ProjectDetail = ({ token }) => {
     setDepositAmount(String(amount))
     try {
       if (needApprove) {
-        const { hash } = await approveTokenAWrite()
-        await waitForTransaction({ hash })
+         await approveTokenAWrite()
       }
-      const { hash } = await depositWrite()
-      await waitForTransaction({ hash })
+      await depositWrite()
       // await approveTokenAWrite()
     } catch (e) {
       toast.error(e?.reason)
     }
-    setDepositLoading(false)
   }
 
   const claim = async () => {
@@ -95,12 +95,10 @@ export const ProjectDetail = ({ token }) => {
     try {
       // await approveTokenAWrite()
 
-      const { hash } = await claimLPWrite()
-      await waitForTransaction({ hash })
+      await claimLPWrite()
     } catch (e) {
       toast.error(e?.reason)
     }
-    setDepositLoading(false)
   }
 
   const { data: end_time } = useContractRead({
@@ -119,12 +117,11 @@ export const ProjectDetail = ({ token }) => {
     try {
       // await approveTokenAWrite()
 
-      const { hash } = await providerWithdraw()
-      await waitForTransaction({ hash })
+      await providerWithdraw()
     } catch (e) {
+      console.log('e?.reason.0', e?.reason)
       toast.error(e?.reason)
     }
-    setDepositLoading(false)
   }
 
   const openModal_input = () => {

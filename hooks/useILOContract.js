@@ -16,7 +16,8 @@ import {
   useContractRead,
   useContractWrite,
   useBalance,
-  erc20ABI
+  erc20ABI,
+  useWaitForTransaction
 } from "wagmi"
 import { ethers } from "ethers"
 import { toast } from "react-toastify"
@@ -27,7 +28,6 @@ export default function useILOContract(tokenAddress) {
   const { address } = useAccount()
   const [depositAmount, setDepositAmount] = useState("0")
   const [depositLoading, setDepositLoading] = useState(false)
-
   const { data: tokenB } = useContractRead({
     address: ILO_ADDRESS,
     abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
@@ -52,12 +52,12 @@ export default function useILOContract(tokenAddress) {
     functionName: "tokenB_provider"
   })
 
-  const { data: tokenAbalanceData } = useBalance({
+  const { refetch: refetchTokenABalance, data: tokenAbalanceData } = useBalance({
     token: tokenA,
     address: address
   })
 
-  const { data: tokenBbalanceData } = useBalance({
+  const { refetch: refetchTokenBBalance, data: tokenBbalanceData } = useBalance({
     token: tokenB,
     address: address
   })
@@ -74,7 +74,10 @@ export default function useILOContract(tokenAddress) {
     abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
     functionName: "addLiquidity",
     account: address,
-    args: [ethers.utils.parseEther("0.5"), ethers.utils.parseEther("1")]
+    args: [ethers.utils.parseEther("0.5"), ethers.utils.parseEther("1")],
+    onError(error) {
+      toast.error(error.shortMessage)
+    }
   })
 
   const { data: allownedTokenToFTO } = useContractRead({
@@ -87,21 +90,31 @@ export default function useILOContract(tokenAddress) {
       console.log("Error", error)
     },
     onSuccess() {
-      toast.success("allownedTokenToFTO!")
+      // toast.success("allownedTokenToFTO!")
     }
   })
 
-  const { writeAsync: approveTokenAWrite } = useContractWrite({
+  const { data: approveTokenAData, writeAsync: approveTokenAWrite } = useContractWrite({
     address: tokenA,
     abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
     functionName: "approve",
     args: [FTO_FACADE_ADDRESS, ethers.constants.MaxInt256],
     onError(error) {
       setDepositLoading(false)
+      toast.error(error.shortMessage)
       console.log("Error", error)
     },
-    onSuccess() {
-      toast.success("Approve TTA Success!")
+  })
+  useWaitForTransaction({
+    hash: approveTokenAData?.hash,
+    onError(error) {
+      setDepositLoading(false)
+      toast.error(error.shortMessage)
+      console.log("Error", error)
+    },
+    onSuccess () {
+      setDepositLoading(false)
+      toast.success("Approve Success!")
     }
   })
 
@@ -112,10 +125,13 @@ export default function useILOContract(tokenAddress) {
     args: [ILO_ADDRESS, ethers.constants.MaxInt256],
     onError(error) {
       console.log("Error", error)
+    },
+    onSuccess() {
+  
     }
   })
 
-  const { writeAsync: depositWrite } = useContractWrite({
+  const { data:depositData,  writeAsync: depositWrite } = useContractWrite({
     address: FTO_FACADE_ADDRESS,
     abi: MUBAI_FTO_FACADE_ABI,
     functionName: "deposit",
@@ -128,15 +144,25 @@ export default function useILOContract(tokenAddress) {
     ],
     onError(error) {
       setDepositLoading(false)
+      toast.error(error.shortMessage)
       console.log("Error", error)
     },
-    onSuccess() {
+  })
+  useWaitForTransaction({
+    hash: depositData?.hash,
+    onError(error) {
       setDepositLoading(false)
+      toast.error(error.shortMessage)
+      console.log("Error", error)
+    },
+    onSuccess () {
+      setDepositLoading(false)
+      refetchTokenABalance()
       toast.success("Deposit Success!")
     }
   })
 
-  const { writeAsync: claimLPWrite } = useContractWrite({
+  const { data: claimLPData, writeAsync: claimLPWrite } = useContractWrite({
     address: FTO_FACADE_ADDRESS,
     abi: MUBAI_FTO_FACADE_ABI,
     functionName: "claimLP",
@@ -144,15 +170,25 @@ export default function useILOContract(tokenAddress) {
     args: [tokenA, tokenB],
     onError(error) {
       setDepositLoading(false)
+      toast.error(error.shortMessage)
+      // toast.error(error.shortMessage)
+    },
+  })
+  useWaitForTransaction({
+    hash: claimLPData?.hash,
+    onError(error) {
+      setDepositLoading(false)
+      toast.error(error.shortMessage)
       console.log("Error", error)
     },
-    onSuccess() {
+    onSuccess () {
+      refetchTokenABalance()
       setDepositLoading(false)
       toast.success("CliaimLP Success!")
     }
   })
 
-  const { writeAsync: providerWithdraw } = useContractWrite({
+  const { data: providerData, writeAsync: providerWithdraw } = useContractWrite({
     address: ILO_ADDRESS,
     abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
     functionName: "withdraw",
@@ -160,9 +196,20 @@ export default function useILOContract(tokenAddress) {
     args: [address],
     onError(error) {
       setDepositLoading(false)
+      toast.error(error.shortMessage)
       console.log("Error", error)
     },
-    onSuccess() {
+  })
+
+  useWaitForTransaction({
+    hash: providerData?.hash,
+    onError(error) {
+      setDepositLoading(false)
+      toast.error(error.shortMessage)
+      console.log("Error", error)
+    },
+    onSuccess () {
+      refetchTokenABalance()
       setDepositLoading(false)
       toast.success("CliaimLP Success!")
     }
@@ -175,7 +222,7 @@ export default function useILOContract(tokenAddress) {
     account: address,
     args: ["0x"],
     onError(error) {
-      console.log("Error", error)
+      toast.error(error.shortMessage)
     }
   })
 
@@ -184,6 +231,7 @@ export default function useILOContract(tokenAddress) {
     abi: MUMBAI_YEX_ILO_EXAMPLE_ABI,
     functionName: "setRasingPaused",
     onError(error) {
+      toast.error(error.shortMessage)
       console.log("Error", error)
     },
     onSuccess() {
@@ -216,7 +264,6 @@ export default function useILOContract(tokenAddress) {
     functionName: "claimableLP",
     args: [address]
   })
-  console.log(claimableLP, "claimableLP")
 
   return {
     approveTokenAWrite,
@@ -241,7 +288,9 @@ export default function useILOContract(tokenAddress) {
     tokenAbalanceData,
     tokenBbalanceData,
     providerWithdraw,
-    allownedTokenToFTO
+    allownedTokenToFTO,
+    refetchTokenABalance,
+    refetchTokenBBalance
   }
 }
 
