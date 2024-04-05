@@ -113,6 +113,7 @@ export default function useILOContract(tokenAddress) {
       console.log("Error", error)
     },
     onSuccess () {
+      setDepositLoading(false)
       allownedTokenToFTORefetch()
       toast.success("Approve Success!")
     }
