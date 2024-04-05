@@ -81,9 +81,10 @@ export const ProjectDetail = ({ token }) => {
     try {
       if (needApprove) {
          await approveTokenAWrite()
+      } else {
+        await depositWrite()
       }
-      await depositWrite()
-      // await approveTokenAWrite()
+
     } catch (e) {
       toast.error(e?.reason)
     }
@@ -267,7 +268,7 @@ export const ProjectDetail = ({ token }) => {
                 onClick={deposit}
                 className=" cursor-pointer border-[4px solid var(--b-5-dce-1, rgba(181, 220, 225, 0.50))] flex w-[362px] h-[45px] justify-center items-center gap-2.5 border-[color:var(--b-5-dce-1,rgba(181,220,225,0.50))] [background:var(--b-5-dce-1,#B5DCE1)] px-6 py-3 rounded-md border-4 border-solid text-black text-center [font-family:Segoe_UI] text-base font-bold leading-4"
               >
-                Deposit
+                {needApprove ? 'Approve' : 'Deposit'} 
               </Button>
             ) : ftoState === 0 ? (
               <Button
