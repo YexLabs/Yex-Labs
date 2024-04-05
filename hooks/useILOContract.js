@@ -80,7 +80,7 @@ export default function useILOContract(tokenAddress) {
     }
   })
 
-  const { data: allownedTokenToFTO } = useContractRead({
+  const {  refetch: allownedTokenToFTORefetch, data: allownedTokenToFTO } = useContractRead({
     address: tokenA,
     abi: erc20ABI,
     functionName: "allowance",
@@ -113,7 +113,7 @@ export default function useILOContract(tokenAddress) {
       console.log("Error", error)
     },
     onSuccess () {
-      setDepositLoading(false)
+      allownedTokenToFTORefetch()
       toast.success("Approve Success!")
     }
   })
