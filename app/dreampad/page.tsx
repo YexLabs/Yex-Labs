@@ -1,6 +1,7 @@
 import dreampadPageStyles from './page.module.css';
 import LaunchToken from '../components/LaunchToken';
 import Token from '../components/Token';
+import { Copy } from '@/components/copy';
 
 export default function DreamPadPage() {
   const myTokens = [

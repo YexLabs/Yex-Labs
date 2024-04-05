@@ -3,6 +3,7 @@ import { useContractWrite } from "wagmi"
 import { Button } from "@/components/ui/button"
 import { USDT_FAUCET_ADDRESS } from "@/contracts/addresses"
 import { toast } from "react-toastify"
+import { Copy } from "../copy"
 
 const FAUCET_ABI = [
   {
@@ -35,14 +36,15 @@ export default function USDTFaucet() {
   }
 
   return (
-    <div className="w-[104px] cursor-pointer rounded-11xl flex flex-row items-center justify-center py-[3.9382238388061523px] px-[7.876447677612305px]">
+    <div className=" cursor-pointer rounded-11xl flex flex-row items-center justify-center py-[3.9382238388061523px] px-[7.876447677612305px]">
       <div
         className={`${
           isLoading ? "loading" : ""
-        }`}
+        } flex items-center `}
         onClick={handleFaucetClick}
       >
         {isLoading ? "Loading..." : "Get USDT Faucet"}
+        <Copy value={USDT_FAUCET_ADDRESS} />
       </div>
     </div>
   )
