@@ -1,41 +1,63 @@
 .outerContainer {
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.0);
-    padding: 0;
-    position: fixed;
-    top: 0px;
-    backdrop-filter: blur(30px) saturate(120%);
-    border-bottom: 1px solid var(--bg-secondary);
-    left: 0px;
-    right: 0px;
-    z-index: 100;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  padding: 0;
+  position: fixed;
+  top: 0px;
+  backdrop-filter: blur(30px) saturate(120%);
+  border-bottom: 1px solid var(--bg-secondary);
+  left: 0px;
+  right: 0px;
+  z-index: 100;
 }
 
 .menuItem {
-    margin-right: 16px;
+  margin-right: 16px;
 }
 
 .listIcon {
-    color: var(--text-primary);
-    width: 40px;
-    height: 40px;
-    margin-right: -10px;
+  color: var(--text-primary);
+  width: 40px;
+  height: 40px;
 }
 
 .mobileMenu {
-    display: none;
+  display: none;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
 }
 
 .menuButtons {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+}
+
+.mobileMenuPanel {
+  display: none;
+}
+
+.mobileMenuItem {
+  display: block;
+  margin: 14px 0;
+  text-decoration: none;
 }
 
 @media screen and (max-width: 550px) {
-    .menuButtons {
-        display: none;
-    }
-    .mobileMenu {
-        display: inherit;
-    }
+  .menuButtons {
+    display: none;
+  }
+  .mobileMenu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: -10px;
+  }
+
+  .mobileMenuPanel {
+    display: block;
+    padding-bottom: 12px;
+  }
 }

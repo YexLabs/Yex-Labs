@@ -1,13 +1,13 @@
-export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_TRACKING_ID;
+export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_TRACKING_ID
 
-export const pageview = url => {
+export const pageview = (url) => {
   // Only record in prod:
-  if (process.env.NODE_ENV === 'development') {
-    console.log('Skipping GA record pageview because in dev.');
-    return null;
+  if (process.env.NODE_ENV === "development") {
+    console.log("Skipping GA record pageview because in dev.")
+    return null
   }
   window.gtag("config", GA_TRACKING_ID, {
-    page_path: url,
+    page_path: url
   })
 }
 
