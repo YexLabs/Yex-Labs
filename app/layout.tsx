@@ -1,13 +1,27 @@
 import type { Metadata } from "next"
 import type React from "react"
-// import { Inter } from 'next/font/google';
-import { JetBrains_Mono as JetBrainsMono } from "next/font/google"
+import {
+  Inter_Tight as InterTight,
+  JetBrains_Mono as JetBrainsMono,
+  Newsreader
+} from "next/font/google"
 import "./reset.css"
 import "./globals.css"
 import GoogleAnalytics from "./components/GoogleAnalytics"
 
-// const inter = Inter({ subsets: ['latin'] })
-const jetbrainsMono = JetBrainsMono({ subsets: ["latin"] })
+const interTight = InterTight({
+  subsets: ["latin"],
+  variable: "--font-sans"
+})
+const newsreader = Newsreader({
+  subsets: ["latin"],
+  variable: "--font-display",
+  adjustFontFallback: false
+})
+const jetbrainsMono = JetBrainsMono({
+  subsets: ["latin"],
+  variable: "--font-mono"
+})
 
 export const metadata: Metadata = {
   title: "YexLabs",
@@ -22,10 +36,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={jetbrainsMono.className}>
+      <body
+        className={`${interTight.variable} ${newsreader.variable} ${jetbrainsMono.variable}`}
+      >
         <GoogleAnalytics />
-        <div style={{ height: "50px", width: "20px" }}></div>{" "}
-        {/* Spacer for NavBar (same height as navbar)*/}
         {children}
       </body>
     </html>

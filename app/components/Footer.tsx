@@ -1,83 +1,60 @@
 import footerStyles from "./Footer.module.css"
 import Link from "next/link"
-import Logo from "@/public/yexlabs-logo-v2.svg"
 
-const footerItems: any = {
-  // Target can be '_blank' to open new window or '_self'
-  Consulting: [
-    { displayName: "Services", link: "/#services", target: "_self" },
-    { displayName: "Contact", link: "/contact", target: "_self" }
-  ],
-  Updates: [
-    {
-      displayName: "Twitter",
-      link: "https://twitter.com/yex_labs",
-      target: "_blank"
-    },
-    {
-      displayName: "Medium",
-      link: "https://medium.com/@yexlabs",
-      target: "_blank"
-    }
-  ]
-}
+const year = new Date().getFullYear()
 
 export default function Footer() {
-  const year = new Date().getFullYear()
-
   return (
-    <div className="section" style={{ backgroundColor: "var(--bg-primary)" }}>
-      <div className={"sectionContainer " + footerStyles.container}>
-        <div className={footerStyles.leftCol}>
-          <Link href="/">
-            <Logo
-              style={{
-                width: "160px",
-                height: "auto",
-                color: "var(--text-secondary)"
-              }}
-            />
+    <footer className={footerStyles.footer}>
+      <div className={`sectionContainer ${footerStyles.container}`}>
+        <div className={footerStyles.brandCol}>
+          <Link href="/" className={footerStyles.brand}>
+            YexLabs<span>.</span>
           </Link>
-          <p
-            style={{
-              margin: "24px 0 18px 0",
-              fontWeight: "500",
-              lineHeight: 1.3,
-              fontSize: "14px"
-            }}
-          >
-            Technical cofounder support for AI automation, product systems, GTM
-            infrastructure, and selective onchain strategy.
+          <p>
+            AI consulting for small and mid-sized teams that need practical
+            product, automation, GTM, agent, and onchain systems without
+            enterprise timelines.
           </p>
-          <p style={{ fontSize: "10px", lineHeight: "16px", fontWeight: 400 }}>
-            ©YexLabs {year}.<br></br>
-            All rights reserved.
-          </p>
+          <Link href="/contact" className={footerStyles.footerCta}>
+            Start a project <span>→</span>
+          </Link>
         </div>
-        <div className={footerStyles.rightCol}>
-          {Object.keys(footerItems).map((section, i) => {
-            return (
-              <div key={i} className={footerStyles.section}>
-                <p style={{ color: "var(--text-primary)", fontWeight: 700 }}>
-                  {section}
-                </p>
-                {footerItems[section].map((item: any, i: number) => {
-                  return (
-                    <Link
-                      key={i}
-                      href={item.link}
-                      target={item.target}
-                      className={`button3 ${footerStyles.link}`}
-                    >
-                      {item.displayName}
-                    </Link>
-                  )
-                })}
-              </div>
-            )
-          })}
+
+        <div className={footerStyles.section}>
+          <h5>Services</h5>
+          <Link href="/#services">AI Product Design</Link>
+          <Link href="/#services">Internal AI Automation</Link>
+          <Link href="/#services">Scale Systems</Link>
+          <Link href="/#services">GTM Engine</Link>
+          <Link href="/#services">Custom Agents</Link>
+          <Link href="/#services">Stablecoins & RWA</Link>
+        </div>
+
+        <div className={footerStyles.section}>
+          <h5>Company</h5>
+          <Link href="/#approach">Approach</Link>
+          <Link href="/#clients">Selected Clients</Link>
+          <Link href="/contact">Contact</Link>
+          <Link href="https://medium.com/@yexlabs" target="_blank">
+            Insights
+          </Link>
+        </div>
+
+        <div className={footerStyles.section}>
+          <h5>Contact</h5>
+          <Link href="mailto:contact@yexlabs.xyz">contact@yexlabs.xyz</Link>
+          <span>Toronto · North America</span>
+          <Link href="https://twitter.com/yex_labs" target="_blank">
+            Twitter
+          </Link>
         </div>
       </div>
-    </div>
+
+      <div className={`sectionContainer ${footerStyles.bottom}`}>
+        <span>© {year} YexLabs Consulting. All rights reserved.</span>
+        <span>Built for measurable operating leverage.</span>
+      </div>
+    </footer>
   )
 }

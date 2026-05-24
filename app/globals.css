@@ -3,195 +3,165 @@
 @tailwind utilities;
 
 :root {
-  /* Colour Pallete */
-  --text-primary: #e5f7f9;
-  --text-secondary: #bce4e9;
-  --accent-primary: #4A58FC; /* rgb(74,88,252) */
-  --accent-secondary: #39c4c9; /* rgb(57,196,201) */
-  --accent-secondary-50: rgba(57,196,201,0.7);
-  --bg-primary: #101022;
-  --bg-secondary: #26252D;
-  --bg-secondary-55: rgba(38, 37, 45, 0.55);
-  --error: #f03838;
-  --warning: #d8b43c;
-  --success: #52D841;
-  --testing: #dadada;
+  --ink: #0e0e10;
+  --paper: #f6f3ec;
+  --paper-2: #efeae0;
+  --line-soft: rgba(15, 15, 17, 0.12);
+  --muted: #5a5a60;
+  --accent: #7e2b2f;
+  --accent-fg: #f6f3ec;
+  --section-max-width: 1240px;
+  --gutter: clamp(20px, 4vw, 56px);
+  --section-y: 104px;
+  --section-y-tight: 72px;
+  --radius: 8px;
 
-  --speed: 500ms;
-  --section-max-width: 1200px;
-  --b-5dce-1: rgba(181, 220, 225, 1);
+  /* Compatibility aliases for older components. */
+  --text-primary: var(--ink);
+  --text-secondary: var(--muted);
+  --accent-primary: var(--accent);
+  --accent-secondary: var(--accent);
+  --bg-primary: var(--paper);
+  --bg-secondary: var(--line-soft);
+  --bg-secondary-55: rgba(239, 234, 224, 0.75);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+[id] {
+  scroll-margin-top: 96px;
 }
 
 body {
-  background-color: var(--bg-primary) !important;
-  /* color: var(--text-primary); */
+  background: var(--paper);
+  color: var(--ink);
   min-height: 100vh;
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-.hidden {
-  opacity:0;
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
 }
 
 .section {
-  color: var(--text-primary);
-  padding: 80px 0;
-  width: 100wv;
+  color: var(--ink);
+  padding: var(--section-y) 0;
+  width: 100%;
+}
+
+.sectionTight {
+  padding: var(--section-y-tight) 0;
 }
 
 .sectionContainer {
   max-width: var(--section-max-width);
-  padding: 0 20px;
+  padding: 0 var(--gutter);
   margin: 0 auto;
 }
 
-h1 {
-  color: var(--text-primary);
-  font-size: 40px;
-  font-weight: 500;
-  margin-bottom: 10px;
-}
-
-h2 {
-  color: var(--text-primary);
-  font-size: 30px;
-  font-weight: 400;
-  margin-bottom: 10px;
-}
-
-h2 {
-  color: var(--text-primary);
-  font-size: 24px;
-  font-weight: 400;
-  margin-bottom: 6px;
+h1,
+h2,
+h3 {
+  color: var(--ink);
+  margin: 0;
 }
 
 p {
-  line-height: 1.5;
+  margin: 0;
+  line-height: 1.55;
 }
 
-/* Button 1: Primary button */
+.button1,
+.button3 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition:
+    background 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
 .button1 {
-  background-color: var(--text-secondary);
-  color: var(--bg-primary);
-  padding: 7px 17px;
-  border-radius: 6px;
-  border: 1.5px solid var(--text-secondary);
-  appearance: none;
-  font-size: 16px;
-  font-weight: 600;
-  box-shadow: 0px 8px 28px -6px rgba(24, 39, 75, 0.12),
-    0px 18px 88px -4px rgba(24, 39, 75, 0.14);
-  transition: all ease-in 0.01s;
-  cursor: pointer;
-  opacity: 1;
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  color: var(--paper);
+  padding: 14px 22px;
 }
 
 .button1:hover {
-  /* transform: scale(1.02);
-  opacity: 0.9; */
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  border: 1.5px solid var(--text-primary);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-fg);
 }
 
-.button1:disabled {
-  opacity: 0.9;
-}
-
-/* Button 3: terminal style plain button */
 .button3 {
-  color: var(--text-secondary);
-  line-height: 1;
-  padding: 3px 1px 2px 1px;
-  transition: all ease-in 0.01s;
+  border: 1px solid var(--line-soft);
+  color: var(--ink);
+  padding: 13px 20px;
 }
 
 .button3:hover {
-  color: var(--bg-primary);
-  background-color: var(--text-primary);
+  border-color: var(--ink);
+  background: rgba(15, 15, 17, 0.04);
+  color: var(--ink);
 }
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 11.2%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 47.4% 11.2%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 100% 50%;
-    --destructive-foreground: 210 40% 98%;
-
-    --ring: 215 20.2% 65.1%;
-
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 224 71% 4%;
-    --foreground: 213 31% 91%;
-
-    --muted: 223 47% 11%;
-    --muted-foreground: 215.4 16.3% 56.9%;
-
-    --accent: 216 34% 17%;
-    --accent-foreground: 210 40% 98%;
-
-    --popover: 224 71% 4%;
-    --popover-foreground: 215 20.2% 65.1%;
-
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
-
-    --card: 224 71% 4%;
-    --card-foreground: 213 31% 91%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 1.2%;
-
-    --secondary: 222.2 47.4% 11.2%;
-    --secondary-foreground: 210 40% 98%;
-
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-
-    --ring: 216 34% 17%;
-
-    --radius: 0.5rem;
-  }
+.eyebrowDot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin: -2px 10px 0 0;
+  vertical-align: middle;
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
+.hidden {
+  opacity: 0;
 }
 
-/* 去掉数字输入框的加减按钮 */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+@media only screen and (max-width: 760px) {
+  :root {
+    --section-y: 76px;
+    --section-y-tight: 52px;
+    --gutter: 20px;
+  }
 }

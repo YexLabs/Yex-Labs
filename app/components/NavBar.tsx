@@ -3,58 +3,44 @@
 import React from "react"
 import Link from "next/link"
 import navBarStyles from "./NavBar.module.css"
-import ListIcon from "../../public/list.svg"
-import Logo from "@/public/yexlabs-logo-v2.svg"
 
 const menuItems = [
-  {
-    text: "Services",
-    link: "/#services"
-  },
-  {
-    text: "Contact",
-    link: "/contact"
-  }
+  { text: "Services", link: "/#services" },
+  { text: "Clients", link: "/#clients" },
+  { text: "Approach", link: "/#approach" },
+  { text: "Contact", link: "/contact" }
 ]
 
-export default function NavBar({ hideLogo = false }: { hideLogo?: boolean }) {
+export default function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
 
   return (
-    <div className={navBarStyles.outerContainer}>
-      <div
-        className="sectionContainer"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          height: "50px"
-        }}
-      >
-        {hideLogo ? (
-          <div></div>
-        ) : (
-          <Link href="/" style={{ maxHeight: "44px" }}>
-            <Logo
-              style={{
-                width: "160px",
-                height: "auto",
-                color: "var(--text-secondary)"
-              }}
-            />
-          </Link>
-        )}
-        <div className={navBarStyles.menuButtons}>
+    <header className={navBarStyles.outerContainer}>
+      <div className={`sectionContainer ${navBarStyles.row}`}>
+        <Link href="/" className={navBarStyles.brand} aria-label="YexLabs home">
+          <span className={navBarStyles.brandMark}>Y</span>
+          <span>
+            YexLabs
+            <small>Consulting</small>
+          </span>
+        </Link>
+
+        <nav className={navBarStyles.menuButtons} aria-label="Primary">
           {menuItems.map((item) => (
             <Link
               key={item.text}
               href={item.link}
-              className={`button3 ${navBarStyles.menuItem}`}
+              className={navBarStyles.menuItem}
             >
               {item.text}
             </Link>
           ))}
-        </div>
+        </nav>
+
+        <Link href="/contact" className={navBarStyles.desktopCta}>
+          Book a consult <span>→</span>
+        </Link>
+
         <button
           type="button"
           className={navBarStyles.mobileMenu}
@@ -62,7 +48,9 @@ export default function NavBar({ hideLogo = false }: { hideLogo?: boolean }) {
           aria-expanded={isMobileMenuOpen}
           aria-label="Toggle navigation"
         >
-          <ListIcon className={navBarStyles.listIcon} />
+          <span />
+          <span />
+          <span />
         </button>
       </div>
       {isMobileMenuOpen ? (
@@ -71,7 +59,7 @@ export default function NavBar({ hideLogo = false }: { hideLogo?: boolean }) {
             <Link
               key={item.text}
               href={item.link}
-              className={`button3 ${navBarStyles.mobileMenuItem}`}
+              className={navBarStyles.mobileMenuItem}
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {item.text}
@@ -79,6 +67,6 @@ export default function NavBar({ hideLogo = false }: { hideLogo?: boolean }) {
           ))}
         </div>
       ) : null}
-    </div>
+    </header>
   )
 }
