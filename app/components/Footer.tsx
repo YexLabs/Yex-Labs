@@ -34,7 +34,7 @@ export default function Footer() {
         <div className={footerStyles.section}>
           <h5>Company</h5>
           <Link href="/#approach">Approach</Link>
-          <Link href="/#clients">Selected Clients</Link>
+          <Link href="/clients">Client Work</Link>
           <Link href="/contact">Contact</Link>
           <Link href="https://medium.com/@yexlabs" target="_blank">
             Insights

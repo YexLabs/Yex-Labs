@@ -1,7 +1,9 @@
+import Image from "next/image"
 import homepageStyles from "./page.module.css"
 import NavBar from "./components/NavBar"
 import Footer from "./components/Footer"
 import GAPageView from "./components/GAPageView"
+import { clients, type Client } from "./clientData"
 
 const services = [
   {
@@ -42,21 +44,35 @@ const services = [
   }
 ]
 
-const clients = [
-  { mark: "HP", name: "Honeypot Finance", work: "Research · smart contracts · AI workflow" },
-  { mark: "TD", name: "torodex.xyz", work: "Research · smart contracts · AI workflow" },
-  { mark: "LV", name: "launchvibes.tech", work: "Design client" },
-  { mark: "FL", name: "florus.ai", work: "Design client" },
-  { mark: "GC", name: "geocompanion", work: "Design client" },
-  { mark: "CD", name: "Canadao", work: "Operations" },
-  { mark: "1D", name: "1dao", work: "Operations" }
-]
+function ClientBrand({ client }: { client: Client }) {
+  return (
+    <>
+      {client.logo ? (
+        <Image
+          src={client.logo}
+          alt={`${client.name} logo`}
+          width={client.logoVariant === "wordmark" ? 114 : 60}
+          height={client.logoVariant === "wordmark" ? 30 : 60}
+          className={
+            client.logoVariant === "wordmark"
+              ? homepageStyles.clientWordmark
+              : client.logoVariant === "disc"
+                ? homepageStyles.clientDiscLogo
+              : undefined
+          }
+        />
+      ) : (
+        <span>{client.mark}</span>
+      )}
+    </>
+  )
+}
 
 const engagementModels = [
   {
     title: "Diagnostic",
-    cadence: "1 week · fixed scope",
-    price: "from $3.5k",
+    cadence: "Map the opportunity",
+    action: "Start with a consult",
     items: [
       "Workflow and data audit",
       "Opportunity map with ROI estimates",
@@ -65,8 +81,8 @@ const engagementModels = [
   },
   {
     title: "Sprint",
-    cadence: "3-8 weeks · fixed scope",
-    price: "from $12k",
+    cadence: "Build the first system",
+    action: "Define scope together",
     featured: true,
     items: [
       "Production-ready deployment",
@@ -76,8 +92,8 @@ const engagementModels = [
   },
   {
     title: "Embedded",
-    cadence: "Monthly retainer",
-    price: "from $6k / month",
+    cadence: "Scale with the team",
+    action: "Discuss fit by email",
     items: [
       "Technical cofounder support",
       "Roadmap ownership",
@@ -107,7 +123,7 @@ export default function Home() {
                 <a href="/contact" className="button1">
                   Book a diagnostic <span>→</span>
                 </a>
-                <a href="#clients" className="button3">
+                <a href="/clients" className="button3">
                   See client work
                 </a>
               </div>
@@ -144,20 +160,41 @@ export default function Home() {
         </section>
 
         <section className={homepageStyles.clientStripSection} id="clients">
-          <div className={`sectionContainer ${homepageStyles.clientStrip}`}>
-            <div className={homepageStyles.clientStripLabel}>
-              Selected clients · research · design · operations
-            </div>
-            {clients.map((client) => (
-              <div
-                key={client.name}
-                className={homepageStyles.clientLogo}
-                title={client.work}
-              >
-                <span>{client.mark}</span>
-                {client.name}
+          <div className={`sectionContainer ${homepageStyles.clientStripShell}`}>
+            <div className={homepageStyles.clientStripHeader}>
+              <div className={homepageStyles.clientStripLabel}>
+                Selected clients · 2023 — present
               </div>
-            ))}
+              <a href="/clients" className={homepageStyles.clientWorkLink}>
+                View client work <span>→</span>
+              </a>
+            </div>
+            <div className={homepageStyles.clientStrip}>
+              {clients.map((client) => {
+                return client.url ? (
+                  <a
+                    key={client.name}
+                    href={client.url}
+                    className={homepageStyles.clientLogo}
+                    title={client.name}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={client.name}
+                  >
+                    <ClientBrand client={client} />
+                  </a>
+                ) : (
+                  <div
+                    key={client.name}
+                    className={homepageStyles.clientLogo}
+                    title={client.name}
+                    aria-label={client.name}
+                  >
+                    <ClientBrand client={client} />
+                  </div>
+                )
+              })}
+            </div>
           </div>
         </section>
 
@@ -223,7 +260,13 @@ export default function Home() {
                     {model.title}
                   </p>
                   <h3>{model.cadence}</h3>
-                  <strong>{model.price}</strong>
+                  <a
+                    href={`mailto:contact@yexlabs.xyz?subject=${encodeURIComponent(
+                      `YexLabs consulting: ${model.title}`
+                    )}`}
+                  >
+                    {model.action} <span>→</span>
+                  </a>
                   <ul>
                     {model.items.map((item) => (
                       <li key={item}>{item}</li>

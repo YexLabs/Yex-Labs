@@ -6,7 +6,7 @@ import navBarStyles from "./NavBar.module.css"
 
 const menuItems = [
   { text: "Services", link: "/#services" },
-  { text: "Clients", link: "/#clients" },
+  { text: "Clients", link: "/clients" },
   { text: "Approach", link: "/#approach" },
   { text: "Contact", link: "/contact" }
 ]
