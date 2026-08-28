@@ -1,164 +1,222 @@
-.outerContainer {
-  width: 100%;
-  position: sticky;
-  top: 0;
+/*
+ * Floating glass pill, the way Cofounder carries navigation: a serif wordmark
+ * on the left, mono links, and one filled action on the right. The page is
+ * light throughout, so the pill stays light and only gains weight on scroll.
+ */
+
+.header {
+  position: fixed;
+  top: var(--nav-top);
   left: 0;
   right: 0;
-  z-index: 100;
-  background: rgba(246, 243, 236, 0.84);
-  backdrop-filter: blur(20px) saturate(140%);
-  -webkit-backdrop-filter: blur(20px) saturate(140%);
-  border-bottom: 1px solid var(--line-soft);
+  z-index: 60;
+  display: flex;
+  justify-content: center;
+  padding: 0 var(--gutter);
+  /* The strip either side of the pill must not swallow clicks on the page. */
+  pointer-events: none;
 }
 
-.row {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+.pill {
+  pointer-events: auto;
+  display: flex;
   align-items: center;
-  height: 72px;
-  gap: 24px;
+  gap: clamp(16px, 2.2vw, 30px);
+  width: 100%;
+  max-width: var(--max-width);
+  min-height: var(--nav-h);
+  padding: 0 8px 0 22px;
+  border-radius: var(--radius-pill);
 }
+
+/* ---- Brand ---- */
 
 .brand {
   display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--font-display), Georgia, serif;
-  font-size: 22px;
-  letter-spacing: -0.01em;
+  align-items: baseline;
+  gap: 12px;
+  flex: none;
+}
+
+.wordmark {
+  font-family: var(--font-pixel);
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.clock {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
   font-weight: 500;
-  width: fit-content;
-}
-
-.brandMark {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--ink);
-  color: var(--paper);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-sans), sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-}
-
-.brand small {
-  font-family: var(--font-sans), sans-serif;
-  color: var(--muted);
-  font-size: 10px;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  font-weight: 600;
-  margin-left: 10px;
+  opacity: 0.6;
+  white-space: nowrap;
 }
 
-.menuButtons {
+/* ---- Links ---- */
+
+.nav {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 30px;
+  gap: clamp(14px, 1.8vw, 26px);
+  margin-left: auto;
 }
 
-.menuItem {
-  color: var(--ink);
-  font-size: 14px;
-  font-weight: 500;
-  padding: 7px 0;
+.link {
   position: relative;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 6px 0;
+  opacity: 0.82;
+  transition: opacity 160ms ease;
 }
 
-.menuItem::after {
+.link::after {
   content: "";
   position: absolute;
   left: 0;
-  right: 100%;
+  right: 0;
   bottom: 0;
   height: 1px;
-  background: currentColor;
-  transition: right 220ms ease;
+  background: var(--signal);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 200ms ease;
 }
 
-.menuItem:hover::after {
-  right: 0;
+.link:hover {
+  opacity: 1;
 }
 
-.desktopCta {
-  justify-self: end;
+.link:hover::after {
+  transform: scaleX(1);
+}
+
+/* ---- CTA — nested pill, echoing the container ---- */
+
+.cta {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  border-radius: 999px;
-  background: var(--ink);
-  color: var(--paper);
-  padding: 12px 18px;
-  font-size: 14px;
+  flex: none;
+  border: 1px solid var(--signal);
+  border-radius: var(--radius-pill);
+  color: var(--signal-deep);
+  padding: 9px 16px;
+  font-size: var(--text-small);
   font-weight: 500;
   transition:
-    background 180ms ease,
-    color 180ms ease;
+    background 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease;
 }
 
-.desktopCta:hover {
-  background: var(--accent);
-  color: var(--accent-fg);
+.cta span {
+  transition: transform 180ms ease;
 }
 
-.mobileMenu {
+.cta:hover {
+  background: var(--signal-wash);
+  border-color: var(--signal-deep);
+}
+
+.cta:hover span {
+  transform: translateX(3px);
+}
+
+/* At the very top the pill floats almost weightlessly; once the page moves
+   under it, it firms up. That is the whole morph now — no colour flip. */
+.raised {
+  background: rgba(252, 252, 250, 0.86);
+  box-shadow: 0 1px 1px rgba(23, 23, 23, 0.04),
+    0 12px 34px rgba(23, 23, 23, 0.12);
+}
+
+/* ---- Mobile ---- */
+
+.burger {
   display: none;
-  justify-self: end;
-  appearance: none;
-  background: transparent;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 38px;
+  height: 38px;
+  padding: 0 8px;
+  margin-left: auto;
   border: 0;
-  padding: 8px;
+  background: none;
+  color: inherit;
   cursor: pointer;
 }
 
-.mobileMenu span {
+.burger span {
   display: block;
-  width: 22px;
-  height: 1.5px;
-  background: var(--ink);
-  margin: 5px 0;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transition: transform 220ms ease, opacity 220ms ease;
 }
 
-.mobileMenuPanel {
-  display: none;
+.burgerOpen span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
 }
 
-.mobileMenuItem {
-  display: block;
-  padding: 12px 0;
-  color: var(--ink);
-  font-size: 15px;
+.burgerOpen span:nth-child(2) {
+  opacity: 0;
+}
+
+.burgerOpen span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* The panel is its own floating glass card below the pill, not an extension
+   of it — a pill cannot grow a square drawer without looking broken. */
+.panel {
+  pointer-events: auto;
+  position: absolute;
+  top: calc(var(--nav-h) + 10px);
+  left: var(--gutter);
+  right: var(--gutter);
+  display: grid;
+  gap: 2px;
+  padding: 10px 20px 20px;
+  border-radius: var(--radius-lg);
+}
+
+.panelLink {
+  font-family: var(--font-mono);
+  font-size: 12px;
   font-weight: 500;
-  border-top: 1px solid var(--line-soft);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(11, 16, 20, 0.08);
 }
 
-@media screen and (max-width: 860px) {
-  .row {
-    grid-template-columns: 1fr auto;
-  }
+.panelCta {
+  margin-top: 16px;
+  justify-self: start;
+  border-radius: var(--radius-pill);
+}
 
-  .menuButtons,
-  .desktopCta {
+@media only screen and (max-width: 920px) {
+  .nav,
+  .cta,
+  .clock {
     display: none;
   }
 
-  .mobileMenu {
-    display: block;
+  .burger {
+    display: flex;
   }
 
-  .mobileMenuPanel {
-    display: block;
-    padding-bottom: 16px;
-  }
-}
-
-@media screen and (max-width: 520px) {
-  .brand small {
-    display: none;
+  .pill {
+    padding: 0 14px 0 20px;
   }
 }

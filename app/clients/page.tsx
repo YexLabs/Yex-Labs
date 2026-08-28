@@ -3,49 +3,46 @@ import Link from "next/link"
 import NavBar from "../components/NavBar"
 import Footer from "../components/Footer"
 import GAPageView from "../components/GAPageView"
+import SectionHead from "../components/SectionHead"
 import {
   caseStudies,
   clients,
   feedbackSources,
   type Client
 } from "../clientData"
-import clientStyles from "./page.module.css"
+import { clientsPage } from "../data/content"
+import styles from "./page.module.css"
 
 const caseStudyClientIds = new Set(caseStudies.map((study) => study.clientId))
-const logoOnlyClients = clients.filter((client) => !caseStudyClientIds.has(client.id))
+const logoOnlyClients = clients.filter(
+  (client) => !caseStudyClientIds.has(client.id)
+)
 
 function getClient(clientId: string) {
   return clients.find((client) => client.id === clientId)
 }
 
-function ClientBrand({
-  client,
-  showName = true
-}: {
-  client: Client
-  showName?: boolean
-}) {
+function ClientLogo({ client, size = 60 }: { client: Client; size?: number }) {
+  if (!client.logo) {
+    return <span className={styles.clientMark}>{client.mark}</span>
+  }
+
+  const isWordmark = client.logoVariant === "wordmark"
+
   return (
-    <>
-      {client.logo ? (
-        <Image
-          src={client.logo}
-          alt={`${client.name} logo`}
-          width={client.logoVariant === "wordmark" ? 114 : 60}
-          height={client.logoVariant === "wordmark" ? 30 : 60}
-          className={
-            client.logoVariant === "wordmark"
-              ? clientStyles.clientWordmark
-              : client.logoVariant === "disc"
-                ? clientStyles.clientDiscLogo
-                : undefined
-          }
-        />
-      ) : (
-        <span className={clientStyles.clientMark}>{client.mark}</span>
-      )}
-      {showName && client.logoVariant !== "wordmark" ? client.name : null}
-    </>
+    <Image
+      src={client.logo}
+      alt={`${client.name} logo`}
+      width={isWordmark ? 114 : size}
+      height={isWordmark ? 30 : size}
+      className={
+        isWordmark
+          ? styles.clientWordmark
+          : client.logoVariant === "disc"
+            ? styles.clientDiscLogo
+            : undefined
+      }
+    />
   )
 }
 
@@ -53,99 +50,109 @@ export default function ClientsPage() {
   return (
     <>
       <GAPageView />
-      <main className={clientStyles.main}>
+      <main>
         <NavBar />
 
-        <section className={`section ${clientStyles.hero}`}>
-          <div className={`sectionContainer ${clientStyles.heroGrid}`}>
+        <section className="sectionTight" aria-labelledby="clients-title">
+          <div className={`container ${styles.head}`}>
             <div>
-              <p className={clientStyles.eyebrow}>
-                <span className="eyebrowDot" />
-                Client work · 2023 — present
+              <p className="label">
+                <span className="labelTick" aria-hidden="true" />
+                {clientsPage.label}
               </p>
-              <h1>
-                Case studies across AI product, DeFi, protocol design, and GTM.
+              <h1 id="clients-title" className={styles.title}>
+                {clientsPage.title}
               </h1>
             </div>
-            <p>
-              YexLabs acts as a technical backbone for teams that need more than
-              a strategy deck. The work spans design prototypes, implementation,
-              research, smart contracts, partner strategy, and automation
-              systems.
+            <p className={styles.headLead}>{clientsPage.lead}</p>
+          </div>
+        </section>
+
+        <section className="sectionTight" aria-labelledby="roster-label">
+          <div className="container">
+            <p id="roster-label" className="label">
+              <span className="labelTick" aria-hidden="true" />
+              {clientsPage.roster.label}
             </p>
-          </div>
-        </section>
+            <div className={styles.logoGrid}>
+              {clients.map((client) => {
+                const inner = (
+                  <>
+                    <ClientLogo client={client} />
+                    {client.logoVariant !== "wordmark" ? client.name : null}
+                  </>
+                )
 
-        <section className={`sectionTight ${clientStyles.logoSection}`}>
-          <div className={`sectionContainer ${clientStyles.logoGrid}`}>
-            {clients.map((client) => {
-              const content = <ClientBrand client={client} />
-
-              return client.url ? (
-                <a
-                  key={client.id}
-                  href={client.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={clientStyles.logoCard}
-                >
-                  {content}
-                </a>
-              ) : (
-                <div key={client.id} className={clientStyles.logoCard}>
-                  {content}
-                </div>
-              )
-            })}
-          </div>
-        </section>
-
-        <section className={`section ${clientStyles.caseSection}`}>
-          <div className="sectionContainer">
-            <div className={clientStyles.sectionHead}>
-              <div>
-                <p className={clientStyles.eyebrow}>
-                  <span className="eyebrowDot" />
-                  Case studies
-                </p>
-                <h2>What we have done for client teams.</h2>
-              </div>
-              <p>
-                These are implementation-oriented summaries. They describe the
-                consulting scope and shipped work without presenting unapproved
-                customer quotes.
-              </p>
+                return client.url ? (
+                  <a
+                    key={client.id}
+                    href={client.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={styles.logoCard}
+                  >
+                    {inner}
+                  </a>
+                ) : (
+                  <div key={client.id} className={styles.logoCard}>
+                    {inner}
+                  </div>
+                )
+              })}
             </div>
+          </div>
+        </section>
 
-            <div className={clientStyles.caseList}>
+        <section className="section" aria-labelledby="cases-title">
+          <div className="container">
+            <SectionHead
+              id="cases-title"
+              label={clientsPage.cases.label}
+              title={clientsPage.cases.title}
+              lead={clientsPage.cases.lead}
+            />
+
+            <div className={styles.caseList}>
               {caseStudies.map((study) => {
                 const client = getClient(study.clientId)
+                if (!client) return null
 
-                if (!client) {
-                  return null
-                }
+                const brand = (
+                  <>
+                    <ClientLogo client={client} size={40} />
+                    {client.logoVariant !== "wordmark" ? (
+                      <span className={styles.caseName}>{client.name}</span>
+                    ) : null}
+                  </>
+                )
 
                 return (
-                  <article key={study.clientId} className={clientStyles.caseCard}>
-                    <div className={clientStyles.caseMeta}>
+                  <article key={study.clientId} className={styles.caseCard}>
+                    <div className={styles.caseMeta}>
                       {client.url ? (
-                        <a href={client.url} target="_blank" rel="noreferrer">
-                          <ClientBrand client={client} />
+                        <a
+                          href={client.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className={styles.caseBrand}
+                        >
+                          {brand}
                         </a>
                       ) : (
-                        <div>
-                          <ClientBrand client={client} />
-                        </div>
+                        <span className={styles.caseBrand}>{brand}</span>
                       )}
-                      <span>{study.label}</span>
+                      <span className={styles.caseLabel}>{study.label}</span>
                     </div>
-                    <div className={clientStyles.caseBody}>
-                      <div>
-                        <h3>{study.title}</h3>
-                        <p>{study.summary}</p>
-                      </div>
-                      <div className={clientStyles.delivered}>
-                        <p>What we delivered</p>
+
+                    <div>
+                      <h3 className={styles.caseTitle}>{study.title}</h3>
+                      <p className={styles.caseSummary}>{study.summary}</p>
+
+                      <div className={styles.delivered}>
+                        <p className={`label ${styles.deliveredLabel}`}>
+                          <span className="labelTick" aria-hidden="true" />
+                          {clientsPage.cases.deliveredLabel}
+                        </p>
                         <ul>
                           {study.delivered.map((item) => (
                             <li key={item}>{item}</li>
@@ -160,57 +167,66 @@ export default function ClientsPage() {
           </div>
         </section>
 
-        <section className={`section ${clientStyles.feedbackSection}`}>
-          <div className="sectionContainer">
-            <div className={clientStyles.sectionHead}>
-              <div>
-                <p className={clientStyles.eyebrow}>
-                  <span className="eyebrowDot" />
-                  Client feedback
-                </p>
-                <h2>Client feedback from shipped work.</h2>
-              </div>
-              <p>
-                These are directional testimonial summaries based on the work
-                context. Exact quotes can replace them after each source
-                approves final wording.
-              </p>
-            </div>
+        <section
+          className={`section ${styles.feedbackSection}`}
+          aria-labelledby="feedback-title"
+        >
+          <div className="container">
+            <SectionHead
+              id="feedback-title"
+              label={clientsPage.feedback.label}
+              title={clientsPage.feedback.title}
+              lead={clientsPage.feedback.lead}
+            />
 
-            <div className={clientStyles.feedbackGrid}>
-              {feedbackSources.map((source) => {
-                const client = getClient(source.clientId)
-
-                return (
-                  <article key={`${source.clientId}-${source.name}`}>
-                    <p>{client?.name ?? source.role}</p>
-                    <h3>{source.name}</h3>
-                    <span>{source.role}</span>
-                    <p>{source.summary}</p>
-                    {source.url ? (
-                      <a href={source.url} target="_blank" rel="noreferrer">
-                        View profile <span>→</span>
-                      </a>
-                    ) : null}
-                  </article>
-                )
-              })}
+            <div className={styles.feedbackGrid}>
+              {feedbackSources.map((source) => (
+                <article
+                  key={`${source.clientId}-${source.name}`}
+                  className={styles.feedbackCard}
+                >
+                  <p className="label">
+                    <span className="labelTick" aria-hidden="true" />
+                    {getClient(source.clientId)?.name ?? source.role}
+                  </p>
+                  <h3 className={styles.feedbackName}>{source.name}</h3>
+                  <p className={styles.feedbackRole}>{source.role}</p>
+                  <p className={styles.feedbackQuote}>{source.summary}</p>
+                  {source.url ? (
+                    <a
+                      href={source.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={`linkArrow ${styles.feedbackLink}`}
+                    >
+                      View profile <span data-arrow>→</span>
+                    </a>
+                  ) : null}
+                </article>
+              ))}
             </div>
           </div>
         </section>
 
-        <section className={`sectionTight ${clientStyles.rosterSection}`}>
-          <div className={`sectionContainer ${clientStyles.rosterBox}`}>
+        <section className="sectionTight" aria-labelledby="more-title">
+          <div className={`container ${styles.rosterBox}`}>
             <div>
-              <p className={clientStyles.eyebrow}>
-                <span className="eyebrowDot" />
-                Additional selected clients
+              <p className="label">
+                <span className="labelTick" aria-hidden="true" />
+                {clientsPage.more.label}
               </p>
-              <h2>Visible now, case details later.</h2>
+              <h2 id="more-title" className={styles.caseTitle}>
+                {clientsPage.more.title}
+              </h2>
             </div>
-            <div className={clientStyles.rosterList}>
+            <div className={styles.rosterList}>
               {logoOnlyClients.map((client) => {
-                const content = <ClientBrand client={client} />
+                const inner = (
+                  <>
+                    <ClientLogo client={client} size={26} />
+                    {client.logoVariant !== "wordmark" ? client.name : null}
+                  </>
+                )
 
                 return client.url ? (
                   <a
@@ -218,29 +234,42 @@ export default function ClientsPage() {
                     href={client.url}
                     target="_blank"
                     rel="noreferrer"
+                    className={styles.rosterItem}
                   >
-                    {content}
+                    {inner}
                   </a>
                 ) : (
-                  <div key={client.id}>{content}</div>
+                  <div key={client.id} className={styles.rosterItem}>
+                    {inner}
+                  </div>
                 )
               })}
             </div>
           </div>
         </section>
 
-        <section className={`sectionTight ${clientStyles.ctaSection}`}>
-          <div className={`sectionContainer ${clientStyles.ctaBox}`}>
-            <div>
-              <p className={clientStyles.eyebrow}>
-                <span className="eyebrowDot" />
-                Need this kind of support?
-              </p>
-              <h2>Bring us in where product, automation, and execution meet.</h2>
+        <section className="section" aria-labelledby="clients-cta-title">
+          <div className="container">
+            <div className={`onAccent atmospheric ${styles.ctaCard}`}>
+              <div>
+                <p className="label">
+                  <span className="labelTick" aria-hidden="true" />
+                  {clientsPage.cta.label}
+                </p>
+                <h2 id="clients-cta-title" className={styles.ctaTitle}>
+                  {clientsPage.cta.title}
+                </h2>
+              </div>
+              <div>
+                <p className={styles.ctaBody}>{clientsPage.cta.body}</p>
+                <Link
+                  href={clientsPage.cta.action.href}
+                  className={`action actionPrimary ${styles.ctaAction}`}
+                >
+                  {clientsPage.cta.action.label} <span data-arrow>→</span>
+                </Link>
+              </div>
             </div>
-            <Link href="/contact" className={clientStyles.ctaLink}>
-              Start a consulting request <span>→</span>
-            </Link>
           </div>
         </section>
 

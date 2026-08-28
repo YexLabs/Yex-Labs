@@ -1,0 +1,126 @@
+/*
+ * Full-bleed hero, built the way cofounder.co builds theirs: the imagery fills
+ * the section edge to edge and anchors right, the copy rides in an absolute
+ * overlay above it, and the header sits transparent on top.
+ *
+ * One deliberate divergence. Their headline is white because their artwork is a
+ * mid-tone blue sky. Ours is a high-key daylit interior with white walls, so
+ * white type would vanish — the copy stays near-black and a soft paper scrim
+ * rakes in from the left to guarantee it. Same structure, legible on our image.
+ */
+
+.hero {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  min-height: min(92vh, 900px);
+  padding-top: max(15vh, calc(var(--nav-h) + var(--nav-top) + 48px));
+  padding-bottom: clamp(40px, 6vw, 88px);
+  overflow: clip;
+  background: var(--paper-warm);
+}
+
+
+/* Paper raked in from the left.
+ *
+ * The copy column runs to roughly 65% of the width, so the scrim has to stay
+ * substantial that far across and only then fall away.
+ *
+ * Two rounds of this. First the curve was down to 0.18 by the end of the
+ * headline, which dropped its muted clause to 2.55:1. Then the hero was
+ * reshot with a calmer, deeper left third — which helped the solid type but
+ * HURT the muted grey, because mid-grey text over a mid-tone ground is the
+ * worst case: the text sits between the extremes rather than against one.
+ * Contrast fell to 3.30:1.
+ *
+ * So the scrim now holds 0.92 -> 0.82 across the whole copy column and only
+ * releases after it. Affordable precisely because the left third is calm now —
+ * there is no detail there worth revealing, and everything worth seeing lives
+ * in the right two thirds where the scrim is already gone.
+ */
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+      100deg,
+      rgba(251, 251, 248, 0.92) 0%,
+      rgba(251, 251, 248, 0.9) 34%,
+      rgba(251, 251, 248, 0.82) 58%,
+      rgba(251, 251, 248, 0.38) 74%,
+      rgba(251, 251, 248, 0) 90%
+    ),
+    linear-gradient(to top, rgba(251, 251, 248, 0.42), transparent 26%);
+}
+
+.inner {
+  position: relative;
+  z-index: 2;
+}
+
+.copy {
+  max-width: 720px;
+}
+
+.title {
+  margin-top: 20px;
+  max-width: 20ch;
+  font-size: var(--text-display);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.014em;
+}
+
+.lead {
+  max-width: 46ch;
+  margin-top: clamp(18px, 2vw, 26px);
+  font-size: var(--text-lead);
+  line-height: 1.5;
+  color: var(--text-soft);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: clamp(24px, 2.8vw, 34px);
+}
+
+.footnote {
+  max-width: 46ch;
+  margin-top: clamp(28px, 3.4vw, 44px);
+  padding-top: 16px;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+@media only screen and (max-width: 860px) {
+  .hero {
+    /* Room below the copy for a band of photograph. Without it the scrim has
+       nowhere to fall away to and the image is never seen. */
+    min-height: min(100svh, 820px);
+    padding-top: calc(var(--nav-h) + var(--nav-top) + 40px);
+    padding-bottom: clamp(180px, 34vw, 260px);
+  }
+
+
+  /* There is no room to rake sideways at this width, so it rakes down instead:
+     opaque under the copy, clearing through the lower third so the photograph
+     still reads. */
+  .scrim {
+    background: linear-gradient(
+      to bottom,
+      rgba(251, 251, 248, 0.95) 0%,
+      rgba(251, 251, 248, 0.92) 48%,
+      rgba(251, 251, 248, 0.55) 72%,
+      rgba(251, 251, 248, 0.06) 100%
+    );
+  }
+}

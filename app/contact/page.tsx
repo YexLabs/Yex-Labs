@@ -1,121 +1,145 @@
 import NavBar from "../components/NavBar"
 import Footer from "../components/Footer"
-import contactStyles from "./page.module.css"
+import GAPageView from "../components/GAPageView"
+import { contactPage, modulesSection } from "../data/content"
+import styles from "./page.module.css"
 
-const serviceOptions = [
-  "AI Product Design",
-  "Internal AI Automation",
-  "Scale Systems",
-  "GTM Engine",
-  "Custom Agents",
-  "Stablecoin adoption and onchain yield strategy",
-  "RWA and blockchain integration"
+const EMAIL = "contact@yexlabs.xyz"
+
+/* The intake list is derived from the modules so the two can never drift. */
+const intakeOptions = [
+  ...modulesSection.modules.map((module) => `${module.name} module`),
+  ...contactPage.intake.extraOptions
 ]
 
-const intakePrompts = [
-  "What are you trying to build or scale?",
-  "Which workflow, cost center, or GTM motion feels most constrained?",
-  "What systems should the automation connect to?",
-  "What would a strong 30-day outcome look like?"
-]
+const enquiryBody = encodeURIComponent(`Hi Yex Labs,
 
-export default function Contact() {
-  const subject = encodeURIComponent("YexLabs consulting request")
-  const body = encodeURIComponent(`Hi YexLabs,
-
-I want to discuss:
-- Service:
-- Company/stage:
-- Current bottleneck:
-- Ideal outcome:
-- Timeline:
+- Business and number of sites:
+- The part of the week that costs the most:
+- Systems currently in use:
+- What a good outcome looks like in 90 days:
 `)
 
+function mailto(subject: string) {
+  return `mailto:${EMAIL}?subject=${encodeURIComponent(
+    `Yex Labs — ${subject}`
+  )}&body=${enquiryBody}`
+}
+
+export default function Contact() {
   return (
-    <main className={contactStyles.main}>
-      <NavBar />
-      <section className={`section ${contactStyles.hero}`}>
-        <div className={`sectionContainer ${contactStyles.heroGrid}`}>
-          <div>
-            <p className={contactStyles.eyebrow}>
-              <span className="eyebrowDot" />
-              Start a conversation
-            </p>
-            <h1 className={contactStyles.title}>
-              Tell us where the <em>leverage</em> is hiding.
-            </h1>
-            <p className={contactStyles.lead}>
-              Share a few lines about the business, the workflow you are trying
-              to fix, and what a strong outcome would look like. We reply with a
-              practical next step.
-            </p>
-            <div className={contactStyles.contactFacts}>
-              <div>
-                <p>Email</p>
-                <a href="mailto:contact@yexlabs.xyz">contact@yexlabs.xyz</a>
+    <>
+      <GAPageView />
+      <main>
+        <NavBar />
+
+        <section className="sectionTight" aria-labelledby="contact-title">
+          <div className={`container ${styles.grid}`}>
+            <div>
+              <p className="label">
+                <span className="labelTick" aria-hidden="true" />
+                {contactPage.label}
+              </p>
+
+              <h1 id="contact-title" className={styles.title}>
+                {contactPage.titleLead} <em>{contactPage.titleEmphasis}</em>
+                {contactPage.titleTail}
+              </h1>
+
+              <p className={styles.lead}>{contactPage.lead}</p>
+
+              <dl className={styles.facts}>
+                {contactPage.facts.map((fact) => (
+                  <div key={fact.term} className={styles.fact}>
+                    <dt className="label">
+                      <span className="labelTick" aria-hidden="true" />
+                      {fact.term}
+                    </dt>
+                    <dd>
+                      {fact.href ? (
+                        <a href={fact.href} className={styles.factValue}>
+                          {fact.value}
+                        </a>
+                      ) : (
+                        <span className={styles.factValue}>{fact.value}</span>
+                      )}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+
+            <div
+              className={`onAccent ${styles.intake}`}
+              aria-labelledby="intake-title"
+            >
+              <p className="label">
+                <span className="labelTick" aria-hidden="true" />
+                {contactPage.intake.label}
+              </p>
+              <h2 id="intake-title" className={styles.intakeTitle}>
+                {contactPage.intake.title}
+              </h2>
+              <p className={styles.intakeBody}>{contactPage.intake.body}</p>
+
+              <div className={styles.options}>
+                {intakeOptions.map((option, index) => (
+                  <a
+                    key={option}
+                    className={styles.option}
+                    href={mailto(option)}
+                  >
+                    <span className={styles.optionIndex} aria-hidden="true">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className={styles.optionLabel}>{option}</span>
+                    <span className={styles.optionArrow} aria-hidden="true">
+                      →
+                    </span>
+                  </a>
+                ))}
               </div>
-              <div>
-                <p>Focus</p>
-                <span>SMB teams · startups · operators</span>
-              </div>
-              <div>
-                <p>Coverage</p>
-                <span>North America · remote-first</span>
-              </div>
+
+              <a
+                className={`action actionPrimary ${styles.emailAction}`}
+                href={mailto("Enquiry")}
+              >
+                {contactPage.intake.action} <span data-arrow>→</span>
+              </a>
             </div>
           </div>
+        </section>
 
-          <div className={contactStyles.intakePanel}>
-            <p className={contactStyles.panelLabel}>Consulting intake</p>
-            <h2>Choose the closest service area.</h2>
-            <p>
-              If the request spans multiple areas, describe the business goal
-              first. The service links open a pre-filled email brief.
-            </p>
-            <div className={contactStyles.serviceGrid}>
-              {serviceOptions.map((service) => (
-                <a
-                  key={service}
-                  className={contactStyles.serviceCard}
-                  href={`mailto:contact@yexlabs.xyz?subject=${encodeURIComponent(
-                    `YexLabs consulting: ${service}`
-                  )}&body=${body}`}
-                >
-                  {service}
-                  <span>→</span>
-                </a>
+        <section
+          className={`section ${styles.promptSection}`}
+          aria-labelledby="prompts-title"
+        >
+          <div className={`container ${styles.promptGrid}`}>
+            <div>
+              <p className="label">
+                <span className="labelTick" aria-hidden="true" />
+                {contactPage.prompts.label}
+              </p>
+              <h2 id="prompts-title" className={styles.promptTitle}>
+                {contactPage.prompts.title}
+              </h2>
+            </div>
+
+            <div className={styles.promptList}>
+              {contactPage.prompts.items.map((item, index) => (
+                <div key={item} className={styles.promptItem}>
+                  <span className={styles.promptNum}>
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span>{item}</span>
+                </div>
               ))}
             </div>
-            <a
-              className={`button1 ${contactStyles.emailButton}`}
-              href={`mailto:contact@yexlabs.xyz?subject=${subject}&body=${body}`}
-            >
-              Email YexLabs <span>→</span>
-            </a>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className={`sectionTight ${contactStyles.promptSection}`}>
-        <div className={`sectionContainer ${contactStyles.gridSection}`}>
-          <div>
-            <p className={contactStyles.eyebrow}>
-              <span className="eyebrowDot" />
-              What to include
-            </p>
-            <h2>A useful first message does not need to be long.</h2>
-          </div>
-          <div className={contactStyles.promptList}>
-            {intakePrompts.map((prompt) => (
-              <div key={prompt} className={contactStyles.promptItem}>
-                {prompt}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <Footer />
-    </main>
+        <Footer />
+      </main>
+    </>
   )
 }

@@ -1,0 +1,51 @@
+.head {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(28px, 5vw, 72px);
+  align-items: end;
+  padding-bottom: clamp(28px, 3.5vw, 44px);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: clamp(36px, 4.5vw, 64px);
+}
+
+.onAccent.head {
+  border-bottom-color: var(--rule-accent);
+}
+
+.stacked {
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+
+.title {
+  margin-top: 22px;
+  max-width: 17ch;
+  font-size: var(--text-h2);
+}
+
+.stacked .title {
+  max-width: 24ch;
+}
+
+.lead {
+  max-width: 46ch;
+  font-size: var(--text-lead);
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.onAccent .lead {
+  color: var(--on-accent-muted);
+}
+
+@media only screen and (max-width: 860px) {
+  .head {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .title,
+  .stacked .title {
+    max-width: 22ch;
+  }
+}

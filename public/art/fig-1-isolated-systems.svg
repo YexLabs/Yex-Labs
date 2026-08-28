@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img">
+  <title>Six isolated business systems, each recording on its own clock</title>
+  <desc>Six labelled boxes with no connections between them. Each carries an
+  activity light that blinks on its own interval, and the intervals are chosen
+  so they never fall into step with one another.</desc>
+
+  <style>
+    /* The whole point of Fig. 1 is that nothing here is coordinated. Each
+       system is alive and recording, but on its own clock — so the six
+       durations are mutually incommensurate and will not resynchronise. The
+       negative delays start each one mid-cycle so the diagram never shows a
+       moment of accidental unison, including on first paint. */
+    .tick { fill: #0b1014; opacity: 0; animation: blip linear infinite; }
+    .t1 { animation-duration: 3.7s; animation-delay: -0.4s; }
+    .t2 { animation-duration: 4.3s; animation-delay: -1.9s; }
+    .t3 { animation-duration: 5.1s; animation-delay: -0.7s; }
+    .t4 { animation-duration: 4.7s; animation-delay: -2.8s; }
+    .t5 { animation-duration: 6.1s; animation-delay: -3.4s; }
+    .t6 { animation-duration: 5.3s; animation-delay: -1.2s; }
+
+    @keyframes blip {
+      0%   { opacity: 0; }
+      4%   { opacity: 1; }
+      14%  { opacity: 0.12; }
+      20%  { opacity: 0; }
+      100% { opacity: 0; }
+    }
+
+    /* The page stylesheet cannot reach inside an SVG loaded as an image, so
+       the guard has to live here. */
+    @media (prefers-reduced-motion: reduce) {
+      .tick { animation: none; opacity: 0.35; }
+    }
+  </style>
+
+  <rect class="node" rx="4" width="230" height="120" x="95" y="120" stroke="#0b1014" stroke-width="2.8" fill="none"/>
+  <rect class="node" rx="4" width="230" height="120" x="505" y="64" stroke="#0b1014" stroke-width="2.8" fill="none"/>
+  <rect class="node" rx="4" width="230" height="120" x="915" y="150" stroke="#0b1014" stroke-width="2.8" fill="none"/>
+  <rect class="node" rx="4" width="230" height="120" x="95" y="640" stroke="#0b1014" stroke-width="2.8" fill="none"/>
+  <rect class="node" rx="4" width="230" height="120" x="520" y="720" stroke="#0b1014" stroke-width="2.8" fill="none"/>
+  <rect class="node" rx="4" width="230" height="120" x="915" y="615" stroke="#0b1014" stroke-width="2.8" fill="none"/>
+
+  <rect class="tick t1" x="291" y="134" width="12" height="12" rx="1"/>
+  <rect class="tick t2" x="701" y="78" width="12" height="12" rx="1"/>
+  <rect class="tick t3" x="1111" y="164" width="12" height="12" rx="1"/>
+  <rect class="tick t4" x="291" y="654" width="12" height="12" rx="1"/>
+  <rect class="tick t5" x="716" y="734" width="12" height="12" rx="1"/>
+  <rect class="tick t6" x="1111" y="629" width="12" height="12" rx="1"/>
+
+  <text x="210" y="188" text-anchor="middle" fill="#14181c" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="34" letter-spacing="4">TILL</text>
+  <text x="620" y="132" text-anchor="middle" fill="#14181c" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="34" letter-spacing="4">ROTA</text>
+  <text x="1030" y="218" text-anchor="middle" fill="#14181c" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="34" letter-spacing="4">INVOICES</text>
+  <text x="210" y="708" text-anchor="middle" fill="#14181c" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="34" letter-spacing="4">INBOX</text>
+  <text x="635" y="788" text-anchor="middle" fill="#14181c" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="34" letter-spacing="4">BOOKINGS</text>
+  <text x="1030" y="683" text-anchor="middle" fill="#14181c" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="34" letter-spacing="4">REVIEWS</text>
+</svg>

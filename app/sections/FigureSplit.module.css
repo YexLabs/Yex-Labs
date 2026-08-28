@@ -1,0 +1,110 @@
+/*
+ * The 6+6 argument layout, used for Fig. 1 (paper) and Fig. 2 (ink).
+ * Explanatory text on one side, line art in its plate on the other.
+ */
+
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 5vw, 80px);
+  align-items: center;
+}
+
+.diagram {
+  width: 100%;
+  height: auto;
+}
+
+/* Fig. 2 reverses so the two figures do not read as a repeated template. */
+.reversed .copy {
+  order: 2;
+}
+
+.title {
+  margin-top: 22px;
+  max-width: 15ch;
+  font-size: var(--text-h2);
+}
+
+.body {
+  display: grid;
+  gap: 16px;
+  margin-top: 26px;
+  max-width: 52ch;
+  font-size: var(--text-body);
+  line-height: 1.62;
+  color: var(--text-muted);
+}
+
+.onAccent .body {
+  color: var(--on-accent-muted);
+}
+
+/* ---- System chips (Fig. 1) ---- */
+
+.systems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 30px;
+  padding: 0;
+  list-style: none;
+}
+
+.systems li {
+  padding: 6px 11px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ---- Point list (Fig. 2) ---- */
+
+.points {
+  display: grid;
+  gap: 0;
+  margin: 32px 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule-accent);
+}
+
+.points li {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 12px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--rule-accent);
+  font-size: var(--text-small);
+  line-height: 1.5;
+  color: var(--on-accent-muted);
+}
+
+.points li::before {
+  content: "";
+  width: 14px;
+  height: 1px;
+  margin-top: 0.7em;
+  background: var(--signal);
+}
+
+@media only screen and (max-width: 900px) {
+  .split {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .reversed .copy {
+    order: 0;
+  }
+
+  .title {
+    max-width: 20ch;
+  }
+}

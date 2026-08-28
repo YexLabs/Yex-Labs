@@ -1,0 +1,55 @@
+{
+  "provenance": {
+    "statement": "These are AI-generated images produced with the Codex built-in image_gen tool for this project, not photographs of real businesses. They depict no real business, person, brand or place. The masters in public/art/generated/ are the source of truth."
+  },
+  "photos": [
+    {
+      "id": "A1",
+      "src": "public/art/generated/hero.png",
+      "out": "public/art/hero.jpg",
+      "width": 2400,
+      "height": 1350,
+      "subject": "A dim shop counter with a worn worktop, scale and shelves of stock."
+    },
+    {
+      "id": "A4",
+      "src": "public/art/generated/deployment.png",
+      "out": "public/art/deployment.jpg",
+      "width": 1600,
+      "height": 1200,
+      "subject": "A worker packing goods at a back-room workbench beside a laptop."
+    },
+    {
+      "id": "A5a",
+      "src": "public/art/generated/industry-a.png",
+      "out": "public/art/industry-a.jpg",
+      "width": 800,
+      "height": 800,
+      "subject": "A cafe bar with an espresso machine, glassware and a worker."
+    },
+    {
+      "id": "A5b",
+      "src": "public/art/generated/industry-b.png",
+      "out": "public/art/industry-b.jpg",
+      "width": 800,
+      "height": 800,
+      "subject": "A small barber reception with a chair, desk, magazines and grooming tools."
+    },
+    {
+      "id": "A5c",
+      "src": "public/art/generated/industry-c.png",
+      "out": "public/art/industry-c.jpg",
+      "width": 800,
+      "height": 800,
+      "subject": "A metalworking bench covered with hand tools beneath a workshop lamp."
+    },
+    {
+      "id": "A9",
+      "src": "public/art/generated/backdrop.png",
+      "out": "public/art/backdrop.jpg",
+      "width": 1920,
+      "height": 1080,
+      "subject": "A calm, evenly lit interior with no focal point, used as a washed-back section ground."
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img">
+  <title>Six business systems converging on a central company brain</title>
+  <desc>The same six boxes as Fig. 1, now wired to a bright central node.
+  Signals travel inward along every connector, and rings accelerate outward
+  from the centre like a portal opening.</desc>
+
+  <style>
+    /* HIERARCHY
+       Everything else on this figure is a white outline on blue. The brain is
+       the one filled, solid element — it reads as the brightest object in the
+       frame because it is the subject of the section. It was previously drawn
+       in #41a1cf on a #0b6f9e ground, which made the core of the argument the
+       faintest thing in it. */
+
+    .connector { stroke-opacity: 0.45; }
+
+    /* Signals inward. pathLength normalises all six lines to 100 units, so one
+       dash pattern and one keyframe drive connectors of six different lengths. */
+    .pulse {
+      stroke: #ffffff;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-dasharray: 9 91;
+      animation: inward 3.2s linear infinite;
+    }
+    .p1 { animation-delay: -0.1s; }
+    .p2 { animation-delay: -0.6s; }
+    .p3 { animation-delay: -1.1s; }
+    .p4 { animation-delay: -1.7s; }
+    .p5 { animation-delay: -2.2s; }
+    .p6 { animation-delay: -2.7s; }
+
+    @keyframes inward {
+      from { stroke-dashoffset: 100; }
+      to   { stroke-dashoffset: 0; }
+    }
+
+    /* THE PORTAL
+       Rings accelerate outward from the brain and dissolve. The easing is the
+       whole effect: cubic-bezier(0.16, 0.8, 0.3, 1) leaves slowly and then
+       runs away fast, which is what reads as acceleration rather than a
+       uniform ripple. Three rings on a shared cycle at thirds, so the centre
+       is never still.
+
+       transform-box: fill-box pins the scale origin to each ring's own centre.
+       Without it, SVG resolves transform-origin against the viewBox corner and
+       the rings fly off toward the top left. */
+    .ring {
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 2;
+      opacity: 0;
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: portal 2.8s cubic-bezier(0.16, 0.8, 0.3, 1) infinite;
+    }
+    .g2 { animation-delay: -0.93s; }
+    .g3 { animation-delay: -1.86s; }
+
+    @keyframes portal {
+      0%   { transform: scale(0.9);  opacity: 0; }
+      10%  { opacity: 0.6; }
+      55%  { opacity: 0.22; }
+      100% { transform: scale(3.15); opacity: 0; }
+    }
+
+    /* The brain answers the arriving signals. */
+    .brainPlate { animation: breathe 3.2s ease-in-out infinite; }
+    @keyframes breathe {
+      0%, 100% { fill-opacity: 0.92; }
+      45%      { fill-opacity: 1; }
+    }
+
+    .halo {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: halo 3.2s ease-in-out infinite;
+    }
+    @keyframes halo {
+      0%, 100% { opacity: 0.1;  transform: scale(1); }
+      45%      { opacity: 0.22; transform: scale(1.08); }
+    }
+
+    /* The page stylesheet cannot reach inside an SVG loaded as an image, so the
+       guard has to live here. */
+    @media (prefers-reduced-motion: reduce) {
+      .pulse { animation: none; stroke-dasharray: none; stroke-opacity: 0.6; stroke-width: 2.8; }
+      .ring, .halo { animation: none; opacity: 0.18; }
+      .brainPlate { animation: none; fill-opacity: 0.96; }
+      .connector { stroke-opacity: 0.6; }
+    }
+  </style>
+
+  <rect class="node" rx="4" width="230" height="120" x="95" y="120" stroke="#f4f5f2" stroke-opacity="0.5" stroke-width="2.8" fill="none"/>
+  <rect class="node" rx="4" width="230" height="120" x="505" y="64" stroke="#f4f5f2" stroke-opacity="0.5" stroke-width="2.8" fill="none"/>
+  <rect class="node" rx="4" width="230" height="120" x="915" y="150" stroke="#f4f5f2" stroke-opacity="0.5" stroke-width="2.8" fill="none"/>
+  <rect class="node" rx="4" width="230" height="120" x="95" y="640" stroke="#f4f5f2" stroke-opacity="0.5" stroke-width="2.8" fill="none"/>
+  <rect class="node" rx="4" width="230" height="120" x="520" y="720" stroke="#f4f5f2" stroke-opacity="0.5" stroke-width="2.8" fill="none"/>
+  <rect class="node" rx="4" width="230" height="120" x="915" y="615" stroke="#f4f5f2" stroke-opacity="0.5" stroke-width="2.8" fill="none"/>
+
+  <line class="connector" x1="296.67" y1="240.00" x2="520.56" y2="395.00" stroke="#ffffff" stroke-width="2.8"/>
+  <line class="connector" x1="616.32" y1="184.00" x2="603.37" y2="395.00" stroke="#ffffff" stroke-width="2.8"/>
+  <line class="connector" x1="922.50" y1="270.00" x2="698.54" y2="395.00" stroke="#ffffff" stroke-width="2.8"/>
+  <line class="connector" x1="303.60" y1="640.00" x2="514.20" y2="505.00" stroke="#ffffff" stroke-width="2.8"/>
+  <line class="connector" x1="628.64" y1="720.00" x2="605.83" y2="505.00" stroke="#ffffff" stroke-width="2.8"/>
+  <line class="connector" x1="915.33" y1="615.00" x2="705.11" y2="505.00" stroke="#ffffff" stroke-width="2.8"/>
+
+  <line class="pulse p1" pathLength="100" x1="296.67" y1="240.00" x2="520.56" y2="395.00"/>
+  <line class="pulse p2" pathLength="100" x1="616.32" y1="184.00" x2="603.37" y2="395.00"/>
+  <line class="pulse p3" pathLength="100" x1="922.50" y1="270.00" x2="698.54" y2="395.00"/>
+  <line class="pulse p4" pathLength="100" x1="303.60" y1="640.00" x2="514.20" y2="505.00"/>
+  <line class="pulse p5" pathLength="100" x1="628.64" y1="720.00" x2="605.83" y2="505.00"/>
+  <line class="pulse p6" pathLength="100" x1="915.33" y1="615.00" x2="705.11" y2="505.00"/>
+
+  <!-- Portal rings, sized to the brain and expanding past it. -->
+  <ellipse class="ring g1" cx="600" cy="450" rx="150" ry="72"/>
+  <ellipse class="ring g2" cx="600" cy="450" rx="150" ry="72"/>
+  <ellipse class="ring g3" cx="600" cy="450" rx="150" ry="72"/>
+
+  <!-- Halo, then the plate. The brain is the one solid object in the figure. -->
+  <ellipse class="halo" cx="600" cy="450" rx="190" ry="96" fill="#ffffff" opacity="0.14"/>
+  <rect class="brainPlate" x="475" y="395" width="250" height="110" rx="6" fill="#ffffff" fill-opacity="0.92"/>
+  <rect class="brain" x="475" y="395" width="250" height="110" rx="6" fill="none" stroke="#ffffff" stroke-width="2.8"/>
+
+  <text x="210" y="188" text-anchor="middle" fill="#f4f5f2" fill-opacity="0.7" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="34" letter-spacing="4">TILL</text>
+  <text x="620" y="132" text-anchor="middle" fill="#f4f5f2" fill-opacity="0.7" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="34" letter-spacing="4">ROTA</text>
+  <text x="1030" y="218" text-anchor="middle" fill="#f4f5f2" fill-opacity="0.7" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="34" letter-spacing="4">INVOICES</text>
+  <text x="210" y="708" text-anchor="middle" fill="#f4f5f2" fill-opacity="0.7" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="34" letter-spacing="4">INBOX</text>
+  <text x="635" y="788" text-anchor="middle" fill="#f4f5f2" fill-opacity="0.7" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="34" letter-spacing="4">BOOKINGS</text>
+  <text x="1030" y="683" text-anchor="middle" fill="#f4f5f2" fill-opacity="0.7" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="34" letter-spacing="4">REVIEWS</text>
+
+  <!-- Label in the surface blue, on the white plate: the only inverted type in
+       the figure, which is what makes the centre read as the subject. -->
+  <text x="600" y="461" text-anchor="middle" fill="#0b6f9e" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" letter-spacing="4" font-weight="500">BRAIN</text>
+</svg>

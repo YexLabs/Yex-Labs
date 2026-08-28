@@ -1,0 +1,58 @@
+/*
+ * The diagram card. Line art always sits inside this soft frame with a
+ * monospace caption beneath — the scientific-paper apparatus that keeps the
+ * whole site reading as a lab document rather than a brochure.
+ */
+
+.figure {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+}
+
+.plate {
+  padding: clamp(12px, 1.6vw, 20px);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-plate);
+  background: var(--paper-card);
+  box-shadow: 0 1px 8px rgba(11, 16, 20, 0.05);
+}
+
+/* On the ink card the plate becomes glass — there is a surface behind it for
+   the blur to act on, so it reads as a pane rather than a flat swatch. */
+.onAccent .plate {
+  border-color: var(--glass-accent-border);
+  background: rgba(244, 245, 242, 0.06);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 12px 32px rgba(0, 0, 0, 0.22);
+}
+
+.caption {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.onAccent .caption {
+  color: var(--on-accent-faint);
+}
+
+.rule {
+  flex: 1;
+  height: 1px;
+  min-width: 20px;
+  background: var(--rule);
+}
+
+.onAccent .rule {
+  background: var(--rule-accent);
+}

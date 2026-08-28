@@ -1,107 +1,103 @@
+/* The colophon. Reads like the last page of a book, not a sitemap. */
+
 .footer {
-  background: var(--ink);
-  color: var(--paper);
-  padding: 96px 0 32px;
-}
-
-.container {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr 1fr 1fr;
-  gap: 64px;
-}
-
-.brand {
-  display: inline-block;
-  color: var(--paper);
-  font-family: var(--font-display), Georgia, serif;
-  font-size: 32px;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-}
-
-.brand span {
-  color: var(--accent);
-}
-
-.brandCol p {
-  max-width: 430px;
-  margin: 18px 0 28px;
-  color: rgba(246, 243, 236, 0.72);
-  font-size: 15px;
-}
-
-.footerCta {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border-radius: 999px;
+  border-top: 1px solid var(--rule);
   background: var(--paper);
-  color: var(--ink);
-  padding: 13px 20px;
-  font-size: 14px;
+}
+
+.statement {
+  padding: clamp(48px, 6vw, 88px) 0 clamp(40px, 5vw, 64px);
+  border-bottom: 1px solid var(--rule);
+}
+
+.statementText {
+  max-width: 20ch;
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4vw, 54px);
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: -0.024em;
+  color: var(--text);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(3, minmax(0, 1fr));
+  gap: clamp(28px, 4vw, 56px);
+  padding: clamp(40px, 5vw, 64px) 0;
+}
+
+.brandCol {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+.wordmark {
+  font-family: var(--font-pixel);
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.blurb {
+  max-width: 34ch;
+  font-size: var(--text-small);
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.col {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.colHead {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
   font-weight: 500;
-}
-
-.footerCta:hover {
-  background: var(--accent);
-  color: var(--accent-fg);
-}
-
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.section h5 {
-  color: rgba(246, 243, 236, 0.55);
-  font-size: 11px;
-  font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  margin: 0 0 8px;
+  color: var(--text-faint);
+  margin-bottom: 2px;
 }
 
-.section a,
-.section span {
-  color: rgba(246, 243, 236, 0.84);
-  font-size: 15px;
+.col a,
+.col span {
+  font-size: var(--text-small);
+  color: var(--text-muted);
+  transition: color 160ms ease;
 }
 
-.section a:hover {
-  color: var(--paper);
+.col a:hover {
+  color: var(--signal-deep);
 }
 
 .bottom {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
-  gap: 24px;
-  margin-top: 72px;
-  padding-top: 32px;
-  border-top: 1px solid rgba(246, 243, 236, 0.14);
-  color: rgba(246, 243, 236, 0.55);
-  font-size: 12px;
+  gap: 12px;
+  padding: 22px 0 32px;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
 }
 
-@media screen and (max-width: 920px) {
-  .container {
+@media only screen and (max-width: 860px) {
+  .columns {
     grid-template-columns: 1fr 1fr;
-    gap: 48px;
-  }
-}
-
-@media screen and (max-width: 640px) {
-  .footer {
-    padding-top: 72px;
+    gap: 34px;
   }
 
-  .container {
-    grid-template-columns: 1fr;
-    gap: 36px;
-  }
-
-  .bottom {
-    flex-direction: column;
-    margin-top: 48px;
+  .brandCol {
+    grid-column: 1 / -1;
   }
 }

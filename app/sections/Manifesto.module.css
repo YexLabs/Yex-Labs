@@ -1,0 +1,37 @@
+.section {
+  border-bottom: 1px solid var(--rule);
+}
+
+.inner {
+  max-width: 1000px;
+}
+
+.mark {
+  width: 44px;
+  height: 1px;
+  background: var(--signal);
+  margin-bottom: clamp(32px, 4vw, 52px);
+}
+
+.line {
+  font-family: var(--font-display);
+  font-size: clamp(23px, 2.9vw, 40px);
+  font-weight: 400;
+  line-height: 1.24;
+  letter-spacing: -0.022em;
+  text-wrap: pretty;
+  color: var(--text);
+}
+
+.line + .line {
+  margin-top: 0.62em;
+}
+
+/* The turn. Given air above it and a signal rule so it lands on its own. */
+.close {
+  position: relative;
+  margin-top: 1.25em;
+  padding-top: 0.9em;
+  border-top: 1px solid var(--rule);
+  color: var(--signal-deep);
+}

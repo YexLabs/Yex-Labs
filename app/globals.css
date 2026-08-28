@@ -2,31 +2,130 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --ink: #0e0e10;
-  --paper: #f6f3ec;
-  --paper-2: #efeae0;
-  --line-soft: rgba(15, 15, 17, 0.12);
-  --muted: #5a5a60;
-  --accent: #7e2b2f;
-  --accent-fg: #f6f3ec;
-  --section-max-width: 1240px;
-  --gutter: clamp(20px, 4vw, 56px);
-  --section-y: 104px;
-  --section-y-tight: 72px;
-  --radius: 8px;
+/*
+ * Yex Labs design system — "field manual for local business intelligence".
+ * Warm editorial paper carrying a technical instrument panel.
+ *
+ * Rules of the system:
+ *   - Light canvas throughout. No near-black surfaces; the one saturated
+ *     accent panel is the only place the page stops being paper.
+ *   - Headings are never heavier than 400. Size and the serif do the work.
+ *   - Hierarchy comes from ALPHA on one ink colour, not from separate greys.
+ *   - Monospace is the label voice: 11px, uppercase, wide tracking, muted.
+ *   - Hairlines and fills, not shadows.
+ *   - Radius ladder: 8 buttons / 12 cards / 16 plates / 24 large / pill nav.
+ */
 
-  /* Compatibility aliases for older components. */
-  --text-primary: var(--ink);
-  --text-secondary: var(--muted);
-  --accent-primary: var(--accent);
-  --accent-secondary: var(--accent);
-  --bg-primary: var(--paper);
-  --bg-secondary: var(--line-soft);
-  --bg-secondary-55: rgba(239, 234, 224, 0.75);
+:root {
+  /* ---- Surfaces ---- */
+  --paper: #fbfbf8;
+  --paper-warm: #f5f5f2;
+  --paper-card: #ffffff;
+
+  /* The single saturated surface. Used once per page, as punctuation. */
+  --accent-surface: #0b6f9e;
+
+  /* The filled button stays near-black, not accent-coloured — a chromatic
+     fill would compete with the one saturated panel for attention. */
+  --button-solid: #171717;
+  --button-solid-hover: #2f2f2f;
+
+  /* ---- Text ----
+   * One ink, stepped by alpha. Hierarchy is opacity, not a palette of greys.
+   *
+   * The steps are set by CONTRAST, not by eye. Measured against --paper:
+   *   soft   0.72 -> 5.96:1   body copy
+   *   muted  0.64 -> 4.57:1   secondary copy and the two-tone headline tail
+   *   faint  0.62 -> 4.31:1   11px mono labels and captions
+   * All clear AA for normal text. An earlier 0.5 / 0.35 pair looked right and
+   * measured 3.08:1 and 2.09:1 — muted headline text visibly dropped out, and
+   * every small label was failing. A light page cannot carry tones that thin.
+   */
+  --text: #171717;
+  --text-soft: rgba(38, 35, 35, 0.72);
+  --text-muted: rgba(38, 35, 35, 0.64);
+  --text-faint: rgba(38, 35, 35, 0.62);
+  --on-accent: #ffffff;
+  --on-accent-muted: rgba(255, 255, 255, 0.75);
+  --on-accent-faint: rgba(255, 255, 255, 0.5);
+
+  /* ---- Rules ---- */
+  --rule: #e7e7e1;
+  --rule-strong: #d2d2ca;
+  --rule-accent: rgba(255, 255, 255, 0.22);
+  --rule-accent-strong: rgba(255, 255, 255, 0.4);
+
+  /* ---- Accent ----
+   * --signal is decorative on paper (2.8:1) and chromatic on ink (6.1:1).
+   * --signal-deep is the accessible text step on paper (5.4:1).
+   */
+  --signal: #41a1cf;
+  --signal-deep: #0b6f9e;
+  --signal-wash: rgba(65, 161, 207, 0.1);
+
+  /* ---- Type ---- */
+  --font-display: var(--font-lora), "Lora", Georgia, serif;
+  --font-ui: var(--font-sans), "Inter Tight", -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains), "JetBrains Mono", ui-monospace, monospace;
+  /* Wordmark only. One deliberate pixel moment — never body, never headings. */
+  --font-pixel: "Geist Pixel", var(--font-jetbrains), ui-monospace, monospace;
+
+  --text-display: clamp(40px, 5vw, 64px);
+  --text-h2: clamp(30px, 3.2vw, 44px);
+  --text-h3: clamp(21px, 1.9vw, 29px);
+  --text-lead: clamp(17px, 1.15vw, 20px);
+  --text-body: 16px;
+  --text-small: 14px;
+  --text-label: 11px;
+
+  /* ---- Layout ---- */
+  --max-width: 1120px;
+  --max-text: 68ch;
+  --gutter: clamp(20px, 4vw, 56px);
+  --section-y: clamp(64px, 6.5vw, 104px);
+  --section-y-tight: clamp(44px, 4.5vw, 72px);
+  --nav-h: 60px;
+  --nav-top: 14px;
+
+  /* ---- Radius ----
+   * Base unit 4px. Buttons 8, cards 12, plates 16, large surfaces 24, nav pill.
+   * Never mix 4px and 24px on the same surface.
+   */
+  --radius-sm: 4px;
+  --radius: 8px;
+  --radius-card: 12px;
+  --radius-plate: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+
+  /* ---- Glass ----
+   * Only used where there is something behind it worth blurring: the floating
+   * nav and panels sitting on the accent surface. Over flat paper a blur reads
+   * as nothing, so paper cards use fill + hairline instead.
+   */
+  --glass-blur: blur(20px) saturate(180%);
+  --glass-blur-heavy: blur(28px) saturate(160%);
+
+  --glass-light-bg: rgba(252, 252, 250, 0.72);
+  --glass-light-border: rgba(255, 255, 255, 0.7);
+  --glass-light-shine: rgba(255, 255, 255, 0.75);
+  --glass-light-shadow: 0 1px 1px rgba(11, 16, 20, 0.04),
+    0 10px 30px rgba(11, 16, 20, 0.1);
+
+  --glass-accent-bg: rgba(255, 255, 255, 0.12);
+  --glass-accent-border: rgba(255, 255, 255, 0.28);
+  --glass-accent-shine: rgba(255, 255, 255, 0.3);
+  --glass-accent-shadow: 0 2px 6px rgba(0, 0, 0, 0.12),
+    0 18px 48px rgba(0, 0, 0, 0.16);
+
+  /* Consumed only by app/components/CodeTextAnimations.tsx, which is not
+     imported by any page. Remove both together. */
+  --text-secondary: var(--text-muted);
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -34,18 +133,37 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
 [id] {
-  scroll-margin-top: 96px;
+  scroll-margin-top: calc(var(--nav-h) + var(--nav-top) + 24px);
 }
 
 body {
-  background: var(--paper);
-  color: var(--ink);
+  background-color: var(--paper);
+  /* Opaque paper-centred grain (~3% peak-to-peak, mean equals --paper so there is no tint); generated by scripts/gen-grain.mjs. */
+  background-image: url("/art/grain.png");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+  color: var(--text);
   min-height: 100vh;
-  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
-  font-size: 16px;
+  font-family: var(--font-ui);
+  font-size: var(--text-body);
+  font-weight: 450;
   line-height: 1.5;
+  letter-spacing: 0.01em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -58,8 +176,10 @@ a {
 
 button,
 input,
-textarea {
+textarea,
+select {
   font: inherit;
+  letter-spacing: inherit;
 }
 
 img,
@@ -68,8 +188,45 @@ svg {
   max-width: 100%;
 }
 
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  color: inherit;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-optical-sizing: auto;
+  line-height: 1.1;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+}
+
+/* Two-tone headline: the sentence starts solid and its continuation drops to
+   muted. Cofounder's signature — it gives a light page hierarchy without
+   reaching for weight or a second typeface. */
+.muted {
+  color: var(--text-muted);
+}
+
+.onAccent .muted {
+  color: var(--on-accent-muted);
+}
+
+:focus-visible {
+  outline: 2px solid var(--signal-deep);
+  outline-offset: 3px;
+}
+
+/* ------------------------------------------------------------------ *
+ * Layout primitives
+ * ------------------------------------------------------------------ */
+
 .section {
-  color: var(--ink);
   padding: var(--section-y) 0;
   width: 100%;
 }
@@ -78,90 +235,321 @@ svg {
   padding: var(--section-y-tight) 0;
 }
 
-.sectionContainer {
-  max-width: var(--section-max-width);
+.container {
+  max-width: var(--max-width);
   padding: 0 var(--gutter);
   margin: 0 auto;
+  width: 100%;
 }
 
-h1,
-h2,
-h3 {
-  color: var(--ink);
-  margin: 0;
+/* The one saturated surface on the page. Used exactly once, as punctuation —
+   the moment the canvas stops being paper. Everything else stays light. */
+.onAccent {
+  background: var(--accent-surface);
+  color: var(--on-accent);
 }
 
-p {
-  margin: 0;
-  line-height: 1.55;
+.onAccent h1,
+.onAccent h2,
+.onAccent h3 {
+  color: var(--on-accent);
 }
 
-.button1,
-.button3 {
+/* The atmospheric card — an inset accent plate on the paper canvas, with the
+   generous internal padding GIC gives its illustrated surfaces, so the colour
+   arrives as a framed panel rather than a full-bleed band. */
+.atmospheric {
+  padding: clamp(34px, 5vw, 88px);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 2px rgba(11, 16, 20, 0.06),
+    0 24px 60px rgba(11, 16, 20, 0.12);
+}
+
+/* ------------------------------------------------------------------ *
+ * Glass
+ *
+ * A pane is three things layered: a blurred translucent fill, a specular
+ * sheen raked across the top-left, and a bright inner hairline along the top
+ * edge that reads as the lit rim of a thick pane. The sheen is a pseudo
+ * element so it can sit above the fill but below content.
+ * ------------------------------------------------------------------ */
+
+/* The glass classes own their own text colour. Anything placed inside a pane
+   must not set `color` itself, or it will win on equal specificity and strand
+   dark text on the dark variant. */
+.glass {
+  position: relative;
+  isolation: isolate;
+  color: var(--text);
+  background: var(--glass-light-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-light-border);
+  box-shadow: var(--glass-light-shadow);
+  transition:
+    background 320ms cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 320ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 320ms cubic-bezier(0.4, 0, 0.2, 1),
+    color 320ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    155deg,
+    var(--glass-light-shine) 0%,
+    rgba(255, 255, 255, 0.12) 38%,
+    transparent 68%
+  );
+  opacity: 0.9;
+}
+
+/* The lit rim. Inset so it hugs the inside of the border. */
+.glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -1px 0 rgba(11, 16, 20, 0.05);
+}
+
+.glassAccent {
+  background: var(--glass-accent-bg);
+  -webkit-backdrop-filter: var(--glass-blur-heavy);
+  backdrop-filter: var(--glass-blur-heavy);
+  border-color: var(--glass-accent-border);
+  box-shadow: var(--glass-accent-shadow);
+  color: var(--on-accent);
+}
+
+.glassAccent::before {
+  background: linear-gradient(
+    155deg,
+    var(--glass-accent-shine) 0%,
+    rgba(255, 255, 255, 0.05) 40%,
+    transparent 70%
+  );
+  opacity: 1;
+}
+
+.glassAccent::after {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.16);
+}
+
+/* Backdrop-filter is what sells the effect; without it the panes would read
+   as flat translucent boxes over busy artwork. Opaque up the fills instead. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass {
+    background: rgba(251, 251, 248, 0.94);
+  }
+
+  .glassAccent {
+    background: rgba(11, 16, 20, 0.86);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * The label voice — monospace, uppercase, wide tracking.
+ * ------------------------------------------------------------------ */
+
+.label {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  line-height: 1.45;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.onAccent .label {
+  color: var(--on-accent-muted);
+}
+
+/* Sits on the first line's optical centre so a wrapped label still reads as
+   one unit rather than a rule floating beside a block of text. */
+.labelTick {
+  display: inline-block;
+  width: 14px;
+  height: 1px;
+  margin-top: 0.7em;
+  background: var(--signal);
+  flex: none;
+}
+
+/* ------------------------------------------------------------------ *
+ * Buttons — square, hairline, no shadow.
+ * ------------------------------------------------------------------ */
+
+.action {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  border-radius: 999px;
-  font-size: 15px;
+  border-radius: var(--radius);
+  padding: 13px 20px;
+  font-family: var(--font-ui);
+  font-size: var(--text-small);
   font-weight: 500;
+  letter-spacing: -0.005em;
   white-space: nowrap;
+  cursor: pointer;
   transition:
     background 180ms ease,
-    color 180ms ease,
     border-color 180ms ease,
-    transform 180ms ease;
+    color 180ms ease;
 }
 
-.button1 {
-  background: var(--ink);
-  border: 1px solid var(--ink);
-  color: var(--paper);
-  padding: 14px 22px;
+.action span[data-arrow] {
+  transition: transform 180ms ease;
 }
 
-.button1:hover {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--accent-fg);
+.action:hover span[data-arrow] {
+  transform: translateX(3px);
 }
 
-.button3 {
-  border: 1px solid var(--line-soft);
-  color: var(--ink);
-  padding: 13px 20px;
+/* Primary: outlined in signal blue. The chromatic border is the whole
+   identity of the button — no fill, no shadow. */
+.actionPrimary {
+  border: 1px solid var(--signal);
+  color: var(--signal-deep);
+  background: transparent;
 }
 
-.button3:hover {
-  border-color: var(--ink);
-  background: rgba(15, 15, 17, 0.04);
-  color: var(--ink);
+.actionPrimary:hover {
+  background: var(--signal-wash);
+  border-color: var(--signal-deep);
 }
 
-.eyebrowDot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  margin: -2px 10px 0 0;
-  vertical-align: middle;
+.onAccent .actionPrimary {
+  color: var(--signal);
+  border-color: var(--signal);
 }
 
-.hidden {
-  opacity: 0;
+.onAccent .actionPrimary:hover {
+  background: rgba(65, 161, 207, 0.16);
+}
+
+/* Secondary: neutral hairline. */
+.actionGhost {
+  border: 1px solid var(--rule-strong);
+  color: var(--text);
+  background: transparent;
+}
+
+.actionGhost:hover {
+  border-color: var(--text);
+}
+
+.onAccent .actionGhost {
+  border-color: var(--rule-accent-strong);
+  color: var(--on-accent);
+}
+
+.onAccent .actionGhost:hover {
+  border-color: var(--on-accent);
+}
+
+/* Filled: the one solid button in the system, and the page's primary action. */
+.actionSolid {
+  border: 1px solid var(--button-solid);
+  background: var(--button-solid);
+  color: #ffffff;
+}
+
+.actionSolid:hover {
+  background: var(--button-solid-hover);
+  border-color: var(--button-solid-hover);
+}
+
+.onAccent .actionSolid {
+  background: var(--on-accent);
+  border-color: var(--on-accent);
+  color: var(--accent-surface);
+}
+
+.onAccent .actionSolid:hover {
+  background: #ffffff;
+}
+
+/* ------------------------------------------------------------------ *
+ * Text link with a rising underline.
+ * ------------------------------------------------------------------ */
+
+.linkArrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--rule-strong);
+  font-size: var(--text-small);
+  font-weight: 500;
+  color: var(--text);
+  transition: border-color 180ms ease, color 180ms ease;
+}
+
+.linkArrow span[data-arrow] {
+  transition: transform 180ms ease;
+}
+
+.linkArrow:hover {
+  border-color: var(--signal);
+  color: var(--signal-deep);
+}
+
+.linkArrow:hover span[data-arrow] {
+  transform: translateX(3px);
+}
+
+.onAccent .linkArrow {
+  border-color: var(--rule-accent-strong);
+  color: var(--on-accent);
+}
+
+.onAccent .linkArrow:hover {
+  border-color: var(--signal);
+  color: var(--signal);
+}
+
+/* ------------------------------------------------------------------ *
+ * Lead paragraph
+ * ------------------------------------------------------------------ */
+
+.lead {
+  max-width: var(--max-text);
+  font-size: var(--text-lead);
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.onAccent .lead {
+  color: var(--on-accent-muted);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
-}
-
-@media only screen and (max-width: 760px) {
-  :root {
-    --section-y: 76px;
-    --section-y-tight: 52px;
-    --gutter: 20px;
-  }
 }

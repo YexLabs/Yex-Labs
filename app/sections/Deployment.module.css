@@ -1,0 +1,132 @@
+/*
+ * The steps column runs long and the picture column is short, which used to
+ * leave a large dead area at the lower left. Two fixes: the plate is cropped
+ * taller so it holds its column, and a washed-back backdrop gives the section
+ * a ground so the remaining space reads as air rather than absence.
+ */
+
+.section {
+  position: relative;
+  border-top: 1px solid var(--rule);
+  overflow: clip;
+}
+
+/* Held at 0.14 deliberately. Measured against --paper it leaves an effective
+   background of ~241, which keeps body copy above 5:1 — atmosphere must not
+   cost legibility. */
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.14;
+}
+
+/* Feathers the backdrop into the sections above and below so it has no edge. */
+.backdropFade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    var(--paper) 0%,
+    rgba(251, 251, 248, 0.55) 18%,
+    rgba(251, 251, 248, 0.55) 74%,
+    var(--paper) 100%
+  );
+}
+
+.inner {
+  position: relative;
+  z-index: 2;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: clamp(32px, 5vw, 80px);
+  align-items: start;
+}
+
+.plateCol {
+  position: sticky;
+  top: calc(var(--nav-h) + 40px);
+}
+
+/* Cropped taller than the source 4:3 so it fills the sticky column. Offset
+   right of centre to keep the working figure in frame. */
+.plate {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 5 / 6;
+  object-fit: cover;
+  object-position: 58% 50%;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-card);
+}
+
+.steps {
+  border-top: 1px solid var(--rule);
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: clamp(18px, 2.4vw, 32px);
+  padding: clamp(26px, 3vw, 38px) 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.n {
+  padding-top: 7px;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--signal-deep);
+}
+
+.name {
+  font-size: var(--text-h3);
+  letter-spacing: -0.024em;
+}
+
+/* Body copy takes --text-soft, not --text-muted. It is prose, not secondary
+   chrome, and muted would drop it to 4.4:1 over the backdrop. */
+.body {
+  margin-top: 12px;
+  max-width: 52ch;
+  font-size: var(--text-small);
+  line-height: 1.62;
+  color: var(--text-soft);
+}
+
+@media only screen and (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .plateCol {
+    position: static;
+  }
+
+  .plate {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media only screen and (max-width: 620px) {
+  .step {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .n {
+    padding-top: 0;
+  }
+}

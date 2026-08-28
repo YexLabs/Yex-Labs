@@ -1,0 +1,93 @@
+.head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 22px;
+}
+
+.rule {
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.cell {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: clamp(24px, 2.6vw, 34px) clamp(16px, 2vw, 26px);
+  border-right: 1px solid var(--rule);
+}
+
+.cell:first-child {
+  padding-left: 0;
+}
+
+.cell:last-child {
+  border-right: 0;
+  padding-right: 0;
+}
+
+.value {
+  font-family: var(--font-mono);
+  font-size: clamp(28px, 3.2vw, 44px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.unit {
+  font-size: var(--text-small);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.note {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+@media only screen and (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cell {
+    border-bottom: 1px solid var(--rule);
+    padding-left: 0;
+    padding-right: clamp(16px, 2vw, 26px);
+  }
+
+  .cell:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .cell:last-child {
+    border-bottom: 0;
+  }
+}
+
+@media only screen and (max-width: 560px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cell {
+    border-right: 0;
+  }
+}
